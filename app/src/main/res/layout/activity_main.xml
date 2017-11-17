@@ -99,7 +99,7 @@
             android:layout_weight=".5"
             android:gravity="center"
             android:background="@drawable/border"
-            android:text="@string/fa_thermometer_icon"
+            android:text="@string/fa_sun_icon"
             android:textSize="16dp" />
 
         <TextView
