@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/border"
-        android:src="@color/colorBlack" />
+        android:scaleType="fitCenter"
+        android:src="@drawable/dawson_logo" />
     <!--end image view-->
 
 
@@ -40,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight=".5"
             android:background="@drawable/border"
-            android:text="ClassCancelations(Rss)"
+            android:text="ClassCancelations(Rss) only one that has on click for @android:string/unknownName"
             android:textSize="20dp" />
 
         <TextView
