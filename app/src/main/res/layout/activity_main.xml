@@ -30,28 +30,32 @@
     <!--end team logo view-->
 
 
+    <!--start clickable text views-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
+
 
         <TextView
             android:id="@+id/tvClassCancellations"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
+            android:gravity="center"
             android:background="@drawable/border"
-            android:text="ClassCancelations(Rss) only one that has on click for @android:string/unknownName"
-            android:textSize="20dp" />
+            android:text="ClassCancelations(Rss) CLICkABLE "
+            android:textSize="16dp" />
 
         <TextView
-            android:id="@+id/find"
+            android:id="@+id/tvFindTeacherTV"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
+            android:gravity="center"
             android:background="@drawable/border"
             android:text="FindTeacher(FireBase)"
-            android:textSize="20dp" />
+            android:textSize="16dp" />
     </LinearLayout>
 
 
@@ -61,20 +65,24 @@
         android:layout_weight="1">
 
         <TextView
+            android:id="@+id/tvAddToCalendar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
+            android:gravity="center"
             android:background="@drawable/border"
-            android:text="ClassCancelations(Rss)"
-            android:textSize="20dp" />
+            android:text="Add To Calendar content provider)"
+            android:textSize="16dp" />
 
         <TextView
+            android:id="@+id/tvNotes"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
+            android:gravity="center"
             android:background="@drawable/border"
-            android:text="FindTeacher(FireBase)"
-            android:textSize="20dp"/>
+            android:text="Notes (sqlLite)"
+            android:textSize="16dp" />
     </LinearLayout>
 
 
@@ -82,22 +90,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight=".5"
-            android:background="@drawable/border"
-            android:text="ClassCancelations(Rss)"
-            android:textSize="20dp"
-            />
 
         <TextView
+            android:id="@+id/tvWeatherTV"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
+            android:gravity="center"
             android:background="@drawable/border"
-            android:text="FindTeacher(FireBase)"
-            android:textSize="20dp"/>
+            android:text="Weather Messaging (api)"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvAcademicCalendar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:text="Academic Calendar (web view)"
+            android:textSize="16dp" />
     </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+
+        <TextView
+            android:id="@+id/tvCurrentTemperature"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:text="Current Temperature"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+
 
 </LinearLayout>
