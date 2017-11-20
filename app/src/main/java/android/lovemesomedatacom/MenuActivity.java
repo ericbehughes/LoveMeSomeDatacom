@@ -54,7 +54,7 @@ public class MenuActivity extends AppCompatActivity {
         menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE, R.string.menu_item_about);
 
         return super.onCreateOptionsMenu(menu);
-        // not using showAsAction() so they do not show on the actionbar
+        prefs = getSharedPreferences(SharedPreferencesKey.MAINAPP.toString(), Context.MODE_PRIVATE);
 
     }
 

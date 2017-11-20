@@ -3,7 +3,7 @@ import android.content.SharedPreferences;
 
 
 enum SharedPreferencesKey {
-    
+
     FIRST_NAME("FIRST_NAME"),
     LAST_NAME("LAST_NAME"),
     EMAIL_ADDRESS("EMAIL_ADDRESS"),
