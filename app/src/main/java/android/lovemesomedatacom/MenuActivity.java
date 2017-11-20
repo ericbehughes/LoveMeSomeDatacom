@@ -35,6 +35,7 @@ public class MenuActivity extends AppCompatActivity {
     private static final int MENU_ABOUT = 0;
 
     private SharedPreferences prefs;
+
     int index;
     String key;
 
@@ -54,7 +55,7 @@ public class MenuActivity extends AppCompatActivity {
         menu.add(Menu.NONE, MENU_ABOUT, Menu.NONE, R.string.menu_item_about);
 
         return super.onCreateOptionsMenu(menu);
-        prefs = getSharedPreferences(SharedPreferencesKey.MAINAPP.toString(), Context.MODE_PRIVATE);
+        //prefs = getSharedPreferences(SharedPreferencesKey.MAINAPP.toString(), Context.MODE_PRIVATE);
 
     }
 
@@ -64,10 +65,10 @@ public class MenuActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case MENU_ABOUT:
 
-                Intent aboutIntent = new Intent(this, MainActivity.class);
+                Intent settingsIntent = new Intent(this, SettingsActivity.class);
 
-                Log.d(TAG, "Menu about click");
-                startActivity(aboutIntent);
+                Log.d(TAG, "Setttings click");
+                startActivity(settingsIntent);
                 return true;
 
 

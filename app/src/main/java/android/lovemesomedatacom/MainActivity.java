@@ -1,17 +1,22 @@
 package android.lovemesomedatacom;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends MenuActivity {
 
     private static final String TAG = "MainActivity";
 
+    private SharedPreferences prefs;
+    private String firstName;
 
     private TextView tvClassCancellations;
     private TextView tvFindTeacherTV;
@@ -54,6 +59,10 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV.setTypeface(font);
         tvAcademicCalendar.setTypeface(font);
         tvCurrentTemperature.setTypeface(font);
+        prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
+
+        firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
+        Toast.makeText(getApplicationContext(), "shared preferences first name" + firstName, Toast.LENGTH_SHORT).show();
 
     }
 

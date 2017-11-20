@@ -8,7 +8,8 @@ enum SharedPreferencesKey {
     LAST_NAME("LAST_NAME"),
     EMAIL_ADDRESS("EMAIL_ADDRESS"),
     PASSWWORD("PASSWORD"),
-    DATE_STAMP("DATE_STAMP");
+    DATE_STAMP("DATE_STAMP"),
+    MAIN_APP("MAIN_APP");
 
     private String key;
 
