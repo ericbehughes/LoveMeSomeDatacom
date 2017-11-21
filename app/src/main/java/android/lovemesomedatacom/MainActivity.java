@@ -58,11 +58,20 @@ public class MainActivity extends MenuActivity {
     }
 
 
+
+
     public void classCancellationClick(View view) {
 
         Intent aboutIntent = new Intent(this, ClassCancelationActivity.class);
 
         Log.d(TAG, "classCancellationClick");
         startActivity(aboutIntent);
+    }
+
+    public void doStuff(View view) {
+        Intent i = new Intent(this, WeatherActivity.class);
+
+        Log.d(TAG, "WeatherClick");
+        startActivity(i);
     }
 }

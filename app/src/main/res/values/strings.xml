@@ -24,8 +24,10 @@
     <string name="fa_sun_icon">&#xf185; Weather (api)</string>
     <string name="fa_grades_icon">&#xf19d; Academic Calendar</string>
     <string name="fa_thermometer_icon">&#xf2c7; Current Temperature</string>
-
-
+    <string name="connection_error">connection error</string>
+    <string name="xml_error">Cant parse xml</string>
+    <string name="page_title">Async test</string>
+    <string name="updated">UPDATED</string>
 
 
 </resources>
