@@ -79,6 +79,7 @@ public class MenuActivity extends AppCompatActivity {
     private void handleSetting(){
         Intent settingIntent = new Intent(this, SettingsActivity.class);
         Log.d(TAG, "Menu Settings Clicked");
+        startActivity(settingIntent);
     }
 
 
