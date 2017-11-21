@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,8 @@ public class MainActivity extends MenuActivity {
     private TextView tvWeatherTV;
     private TextView tvCurrentTemperature;
     private TextView tvAcademicCalendar;
+    private ImageView dawsonLogo;
+    private ImageView teamLogo;
 
     /**
      * Find the Views in the layout<br />
@@ -40,6 +46,8 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV = (TextView)findViewById( R.id.tvWeatherTV );
         tvAcademicCalendar = (TextView)findViewById( R.id.tvAcademicCalendar );
         tvCurrentTemperature = (TextView)findViewById( R.id.tvCurrentTemperature );
+        dawsonLogo = (ImageView)findViewById(R.id.dawsonLogo);
+        teamLogo = (ImageView)findViewById(R.id.teamLogo);
     }
 
 
@@ -64,6 +72,36 @@ public class MainActivity extends MenuActivity {
         firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
         Toast.makeText(getApplicationContext(), "shared preferences first name" + firstName, Toast.LENGTH_SHORT).show();
 
+        dawsonLogo.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent linkIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dawsoncollege.qc.ca/computer-science-technology/"));
+                startActivity(linkIntent);
+            }
+        });
+
+        teamLogo.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(i);
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        super.onOptionsItemSelected(item);
+        return true;
     }
 
 

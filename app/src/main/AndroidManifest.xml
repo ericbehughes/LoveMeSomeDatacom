@@ -25,7 +25,8 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".MenuActivity" />
+        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".AboutActivity"></activity>
         <activity android:name=".SettingsActivity"></activity>
     </application>
 
