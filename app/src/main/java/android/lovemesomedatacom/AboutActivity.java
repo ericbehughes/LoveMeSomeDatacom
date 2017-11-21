@@ -10,10 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-/**
- * Created by Rebeu on 2017-11-20.
- */
-
 public class AboutActivity extends MenuActivity {
 
     private static final String TAG = "About";
@@ -24,8 +20,8 @@ public class AboutActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
 
-        //If user is authenticated then call the LoadItems method here
-
+        //If user is authenticated then call the Find Views method here
+        findViews();
     }
 
     @Override
@@ -40,7 +36,11 @@ public class AboutActivity extends MenuActivity {
         return true;
     }
 
-    private void loadItems(){
+    /**
+     * The following will populate the views necessary and attach any
+     * listener if required.
+     */
+    private void findViews(){
 
         courseID = (TextView)findViewById(R.id.courseID);
         courseID.setOnClickListener(openURL);
@@ -53,6 +53,11 @@ public class AboutActivity extends MenuActivity {
         Log.d(TAG, "showDialog on Click Listener Added");
     }
 
+
+    /**
+     * The following defines a onClickListener, which is responsible for displaying
+     * a dialog containing the information about the team.
+     */
     private View.OnClickListener showDialog = new View.OnClickListener(){
 
         @Override
@@ -65,6 +70,10 @@ public class AboutActivity extends MenuActivity {
         }
     };
 
+    /**
+     * The following defines a onClickListener, which is responsible for redirecting
+     * to the Dawson College Computer Science page.
+     */
     private View.OnClickListener openURL = new View.OnClickListener() {
         @Override
         public void onClick(View view) {

@@ -52,18 +52,30 @@ public class MenuActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Helper method, which handles launching the intent related to the
+     * About Activity.
+     */
     private void handleAbout() {
         Intent aboutIntent = new Intent(this, AboutActivity.class);
         Log.d(TAG, "Menu About Clicked");
         startActivity(aboutIntent);
     }
 
+    /**
+     * Helper method, which handles launching the intent responsible
+     * for opening the Dawson Computer Science Web page.
+     */
     private void handleDawson() {
         Intent dawsonIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.dawsoncollege.qc.ca/computer-science-technology/"));
         Log.d(TAG, "Menu Dawson Clicked");
         startActivity(dawsonIntent);
     }
 
+    /**
+     * Helper method, which handles launching the intent related to the
+     * Setting Activity.
+     */
     private void handleSetting(){
         Intent settingIntent = new Intent(this, SettingsActivity.class);
         Log.d(TAG, "Menu Settings Clicked");
