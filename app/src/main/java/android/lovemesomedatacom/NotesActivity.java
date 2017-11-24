@@ -1,7 +1,9 @@
 package android.lovemesomedatacom;
 
+import android.app.VoiceInteractor;
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.lovemesomedatacom.db.NotesDBHelper;
@@ -9,14 +11,17 @@ import android.lovemesomedatacom.db.NotesTable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,7 +30,7 @@ public class NotesActivity extends MenuActivity {
     private static final String TAG = "NotesActivity";
     private NotesDBHelper mHelper;
     private ListView mNoteListView;
-    private ArrayAdapter<String> mAdapter;
+    private NotesAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,17 @@ public class NotesActivity extends MenuActivity {
 
         mHelper = new NotesDBHelper(this);
         mNoteListView = (ListView) findViewById(R.id.list_notes);
+        mNoteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+                // TODO Auto-generated method stub
+                Toast.makeText(getApplicationContext(),"Clicked",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         updateUI();
     }
@@ -85,40 +101,48 @@ public class NotesActivity extends MenuActivity {
         }
     }
 
-    public void deleteTask(View view) {
+    public void deleteNote(View view) {
         View parent = (View) view.getParent();
         TextView taskTextView = (TextView) parent.findViewById(R.id.note_title);
-        String task = String.valueOf(taskTextView.getText());
+        String note_title = String.valueOf(taskTextView.getText());
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(NotesTable.NotesEntry.TABLE,
                 NotesTable.NotesEntry.COL_NOTES_TITLE+ " = ?",
-                new String[]{task});
+                new String[]{note_title});
         db.close();
         updateUI();
     }
 
+    @Override
+    public VoiceInteractor getVoiceInteractor() {
+        return super.getVoiceInteractor();
+    }
+
     private void updateUI() {
-        ArrayList<String> taskList = new ArrayList<>();
+        ArrayList<String> notesList = new ArrayList<>();
         SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(NotesTable.NotesEntry.TABLE,
                 new String[]{NotesTable.NotesEntry._ID, NotesTable.NotesEntry.COL_NOTES_TITLE},
                 null, null, null, null, null);
         while (cursor.moveToNext()) {
             int idx = cursor.getColumnIndex(NotesTable.NotesEntry.COL_NOTES_TITLE);
-            taskList.add(cursor.getString(idx));
+            notesList.add(cursor.getString(idx));
         }
 
+
+
         if (mAdapter == null) {
-            mAdapter = new ArrayAdapter<>(this,
-                    R.layout.item_note,
-                    R.id.note_title,
-                    taskList);
+            mAdapter = new NotesAdapter(this, notesList);
             mNoteListView.setAdapter(mAdapter);
+
+
         } else {
-            mAdapter.clear();
-            mAdapter.addAll(taskList);
+            //mAdapter.clear();
+            mAdapter.addAll(notesList);
             mAdapter.notifyDataSetChanged();
         }
+
+
 
         cursor.close();
         db.close();
