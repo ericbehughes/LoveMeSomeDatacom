@@ -121,4 +121,11 @@ public class MainActivity extends MenuActivity {
         Log.d(TAG, "NetworkFactoryActivity");
         startActivity(i);
     }
+
+    public void showNotesClick(View view) {
+        Intent i = new Intent(this, NotesActivity.class);
+
+        Log.d(TAG, "NotesActivity");
+        startActivity(i);
+    }
 }
