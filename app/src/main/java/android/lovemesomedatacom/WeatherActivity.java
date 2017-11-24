@@ -30,84 +30,45 @@ public class WeatherActivity extends AppCompatActivity {
             "https://www.dawsoncollege.qc.ca/wp-content/external-includes/cancellations/feed.xml";
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather);
-        //IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-
-
-    }
-
-    public void parseXML(View view) {
-            loadPage();
-    }
-
-    private class  ManualTestAsync extends AsyncTask<String,Void,String> {
-
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_weather);
+            //IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
             try {
-                return loadXmlFromNetwork(urls[0]);
-            } catch (IOException e) {
-                return getResources().getString(R.string.connection_error);
+                loadXmlFromNetwork(URL);
             } catch (XmlPullParserException e) {
-                return getResources().getString(R.string.xml_error);
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }
 
-        @Override
-        protected void onPostExecute(String result) {
-            Log.d(TAG,result);
         }
 
 
-
-//        @Override
-//        protected void onProgressUpdate(Object[] values) {
-//            super.onProgressUpdate(values);
-//        }
-//
-//        @Override
-//        protected void onCancelled(Object o) {
-//            super.onCancelled(o);
-//        }
-
-//        @Override
-//        protected void onCancelled() {
-//            super.onCancelled();
-//        }
-
-    }
 
     private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
         InputStream stream = null;
-        StackOverflowXmlParser stackOverflowXmlParser = new StackOverflowXmlParser();
-        List<StackOverflowXmlParser.Entry> entries = null;
-        String title = null;
-        String url = null;
-        String summary = null;
-        Calendar rightNow = Calendar.getInstance();
-        DateFormat formatter = new SimpleDateFormat("MMM dd h:mmaa");
+        TestXMLParser stackOverflowXmlParser = new TestXMLParser();
+        //List<StackOverflowXmlParser.Entry> entries = null;
+        //String title = null;
+       // String url = null;
+        //String summary = null;
+        //Calendar rightNow = Calendar.getInstance();
+        //DateFormat formatter = new SimpleDateFormat("MMM dd h:mmaa");
 
         // Checks whether the user set the preference to include summary text
         //SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         //boolean pref = sharedPrefs.getBoolean("summaryPref", false);
 
-        StringBuilder htmlString = new StringBuilder();
-        htmlString.append("<h3>" + getResources().getString(R.string.page_title) + "</h3>");
-        htmlString.append("<em>" + getResources().getString(R.string.updated) + " " +
-                formatter.format(rightNow.getTime()) + "</em>");
+//        StringBuilder htmlString = new StringBuilder();
+//        htmlString.append("<h3>" + getResources().getString(R.string.page_title) + "</h3>");
+//        htmlString.append("<em>" + getResources().getString(R.string.updated) + " " +
+//                formatter.format(rightNow.getTime()) + "</em>");
 
         try {
             stream = downloadUrl(urlString);
-            entries = stackOverflowXmlParser.parse(stream);
+             stackOverflowXmlParser.parse(stream);
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
         } finally {
@@ -121,15 +82,16 @@ public class WeatherActivity extends AppCompatActivity {
         // This section processes the entries list to combine each entry with HTML markup.
         // Each entry is displayed in the UI as a link that optionally includes
         // a text summary.
-        for (StackOverflowXmlParser.Entry entry : entries) {
-            htmlString.append("<p><a href='");
-            htmlString.append(entry.link);
-            htmlString.append("'>" + entry.title + "</a></p>");
-            // If the user set the preference to include summary text,
-            // adds it to the display.
-
-        }
-        return htmlString.toString();
+//        for (StackOverflowXmlParser.Entry entry : entries) {
+//            htmlString.append("<p><a href='");
+//            htmlString.append(entry.link);
+//            htmlString.append("'>" + entry.title + "</a></p>");
+//            // If the user set the preference to include summary text,
+//            // adds it to the display.
+//
+//        }
+//        return htmlString.toString();
+        return "";
     }
 
     private InputStream downloadUrl(String urlString) throws IOException {

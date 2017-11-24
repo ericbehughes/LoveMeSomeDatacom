@@ -116,9 +116,9 @@ public class MainActivity extends MenuActivity {
     }
 
     public void doStuff(View view) {
-        Intent i = new Intent(this, WeatherActivity.class);
+        Intent i = new Intent(this, NetworkFactoryActivity.class);
 
-        Log.d(TAG, "WeatherClick");
+        Log.d(TAG, "NetworkFactoryActivity");
         startActivity(i);
     }
 }
