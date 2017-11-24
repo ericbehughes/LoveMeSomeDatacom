@@ -6,15 +6,24 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageException;
+import com.google.firebase.storage.StorageReference;
 
 /**
  * Created by 1331680 on 11/24/2017.
  */
 
 public class FindTeacherActivity extends MenuActivity {
+
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabaseRef;
+    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -34,15 +43,7 @@ public class FindTeacherActivity extends MenuActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                for(DataSnapshot ds : dataSnapshot.getChildren())
-                {
-                    Category img = ds.getValue(Category.class);
-                    categories.add(img);
-                    myAdapter.addElement(img);
-                }
 
-                lv.setAdapter(myAdapter);
-                lv.setOnItemClickListener(showCategoryContents);
             }
 
             @Override

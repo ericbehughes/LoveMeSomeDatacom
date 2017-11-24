@@ -1,5 +1,7 @@
 package android.lovemesomedatacom.entities;
 
+import java.util.Arrays;
+
 /**
  * Created by 1331680 on 11/24/2017.
  */
@@ -133,5 +135,23 @@ public class Teacher {
 
     public void setSectors(Sector[] sectors) {
         this.sectors = sectors;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", full_name='" + full_name + '\'' +
+                ", email='" + email + '\'' +
+                ", office='" + office + '\'' +
+                ", local='" + local + '\'' +
+                ", website='" + website + '\'' +
+                ", bio='" + bio + '\'' +
+                ", image='" + image + '\'' +
+                ", positions=" + Arrays.toString(positions) +
+                ", departments=" + Arrays.toString(departments) +
+                ", sectors=" + Arrays.toString(sectors) +
+                '}';
     }
 }
