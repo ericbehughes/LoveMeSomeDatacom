@@ -24,6 +24,7 @@
     <string name="fa_sun_icon">&#xf185; Weather (api)</string>
     <string name="fa_grades_icon">&#xf19d; Academic Calendar</string>
     <string name="fa_thermometer_icon">&#xf2c7; Current Temperature</string>
+    <string name="confirm_discard_string">Are you sure you want leave without saving?</string>
 
     <string name="about_message">Change this later, default About Message</string>
     <string name="course_id">420-518-DW MOBILE SOFTWARE DEVELOPMENT</string>
