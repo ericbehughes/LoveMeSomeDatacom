@@ -1,18 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:onClick="classCancellationClick"
     tools:context="android.lovemesomedatacom.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+
+
+    <!--start image view-->
+    <ImageView
+        android:id="@+id/dawsonLogo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/border"
+        android:scaleType="fitCenter"
+        android:src="@drawable/dawson_logo" />
+    <!--end image view-->
+
+
+    <!--start team logo view-->
+    <ImageView
+        android:id="@+id/teamLogo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/border"
+        android:src="@color/colorRed" />
+    <!--end team logo view-->
+
+
+    <!--start clickable text views-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+
+        <TextView
+            android:id="@+id/tvClassCancellations"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:background="@drawable/border"
+
+            android:text="@string/fa_calendar_icon"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvFindTeacherTV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="@string/fa_search_icon"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvAddToCalendar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:text="@string/fa_add_to_calendar_icon"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvNotes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:text="@string/fa_notes_icon"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvWeatherTV"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:text="@string/fa_sun_icon"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvAcademicCalendar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:text="@string/fa_grades_icon"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+
+        <TextView
+            android:id="@+id/tvCurrentTemperature"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:background="@drawable/border"
+            android:text="@string/fa_thermometer_icon"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
