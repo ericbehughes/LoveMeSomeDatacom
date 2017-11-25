@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,8 @@ import java.util.Calendar;
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
+    private static final String TAG = "TimePickerFragment";
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
@@ -39,8 +42,13 @@ public class TimePickerFragment extends DialogFragment
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
-        TextView tv1=(TextView) getActivity().findViewById(R.id.tvStartTimeValue);
-        tv1.setText(view.getHour() + view.getMinute());
+
+        //Log.d(TAG, "text view + " + tv1);
+        Log.d(TAG, "view.getHour + " + hourOfDay);
+        Log.d(TAG, "view.getMinute + " + minute);
+
+
+       // tv1.setText(hourOfDay + ":" + minute);
 
     }
 }

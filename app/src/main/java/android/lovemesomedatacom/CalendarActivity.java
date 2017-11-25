@@ -92,7 +92,10 @@ public class CalendarActivity extends AppCompatActivity {
 
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
+
+
         newFragment.show(getSupportFragmentManager(), "timePicker");
+        
     }
 
     public void addToCalendar(View view) {
