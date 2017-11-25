@@ -45,8 +45,6 @@ public class TeacherAdapter extends ArrayAdapter<Teacher>
         TextView tvName = (TextView) v.findViewById(R.id.teacher);
         tvName.setText(teachers.get(position).getFull_name());
 
-//        Log.d("CUSTOMADAPTER", "showImage: " + listImage.get(position).getImage());
-
         return v;
     }
 
