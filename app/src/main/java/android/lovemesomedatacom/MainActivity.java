@@ -128,4 +128,11 @@ public class MainActivity extends MenuActivity {
         Log.d(TAG, "NotesActivity");
         startActivity(i);
     }
+
+    public void addToCalendar(View view) {
+        Intent i = new Intent(this, CalendarActivity.class);
+
+        Log.d(TAG, "CalendarActivity");
+        startActivity(i);
+    }
 }

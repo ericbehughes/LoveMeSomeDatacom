@@ -73,6 +73,7 @@
             android:layout_height="match_parent"
             android:layout_weight=".5"
             android:gravity="center"
+            android:onClick="addToCalendar"
             android:background="@drawable/border"
             android:text="@string/fa_add_to_calendar_icon"
             android:textSize="16dp" />
