@@ -1,6 +1,7 @@
 package android.lovemesomedatacom.adapters;
 
 import android.app.Activity;
+import android.lovemesomedatacom.TeacherContactActivity;
 import android.lovemesomedatacom.entities.Teacher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,43 +14,26 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashSet;
 import java.util.List;
 
 import android.lovemesomedatacom.R;
 
-/**
- *
- * Custom adapter which will display the list view with an image followed by text.
- *
- * @author Alessandro Ciotola
- * @author Sebastian Ramirez
- * @version 2017/11/04
- *
- */
+
 public class TeacherAdapter extends ArrayAdapter<Teacher>
 {
     private Activity context;
     private int resource;
-    private List<Teacher> listImage;
+    private List<Teacher> teachers;
     private StorageReference mStorageRef;
 
-    public TeacherAdapter(Activity context, int resource, List<Teacher> objects, StorageReference mStorageRef)
+    public TeacherAdapter(Activity context, int resource, List<Teacher> teachers)
     {
-        super(context, resource, objects);
+        super(context, resource, teachers);
         this.context = context;
         this.resource = resource;
-        this.mStorageRef = mStorageRef;
-        listImage = objects;
     }
 
-    /**
-     * The getView method will get a View that displays the data at the specified position in the data set.
-     *
-     * @param position
-     * @param convertView
-     * @param parent
-     * @return
-     */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent)
     {
@@ -57,28 +41,11 @@ public class TeacherAdapter extends ArrayAdapter<Teacher>
 
         View v = inflater.inflate(resource, null);
 
-        //TextView tvName = (TextView) v.findViewById(R.id.catNames);
-        //ImageView img = (ImageView) v.findViewById(R.id.catImages);
+        TextView tvName = (TextView) v.findViewById(R.id.teacher);
 
-//        tvName.setText(listImage.get(position).getName());
-//        Glide.with(context)
-//                .using(new FirebaseImageLoader())
-//                .load(mStorageRef.child(listImage.get(position).getImage()))
-//                .into(img);
-//
 //        Log.d("CUSTOMADAPTER", "showImage: " + listImage.get(position).getImage());
 
         return v;
     }
 
-    /**
-     * The add element method will add an item to the list for the adapter to contain all items.
-     *
-     * @param element
-     */
-    public void addElement(Teacher element)
-    {
-        Log.d("CUSTOM_ADAPTER", "addElement: " + element.getFull_name());
-        listImage.add(element);
-    }
 }

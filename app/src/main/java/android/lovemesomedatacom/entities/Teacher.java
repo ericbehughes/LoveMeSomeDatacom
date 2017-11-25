@@ -1,5 +1,6 @@
 package android.lovemesomedatacom.entities;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,7 +8,10 @@ import java.util.List;
  * Created by 1331680 on 11/24/2017.
  */
 
-public class Teacher {
+public class Teacher implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
     private String first_name;
     private String last_name;
     private String full_name;
