@@ -5,10 +5,12 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -58,16 +60,11 @@ public class CalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         findViews();
-
-
-        /* create calndar object */
         final Calendar myCalendar = Calendar.getInstance();
-/* find textview*/
 
-/* and copy the fallowing code*/
         final DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // TODO Auto-generated method stub
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
@@ -75,14 +72,11 @@ public class CalendarActivity extends AppCompatActivity {
                 String myFormat = "dd/MMM/yyyy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
-                tvStartTimeValue.setText(sdf.format(myCalendar.getTime()));
+                tvDateValue.setText(sdf.format(myCalendar.getTime()));
 
             }
-
         };
-
-
-        tvStartTimeValue.setOnClickListener(new View.OnClickListener() {
+        tvDateValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new DatePickerDialog(CalendarActivity.this, datePickerListener, myCalendar
@@ -91,8 +85,44 @@ public class CalendarActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    public void addToCalendar(View view) {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(Intent.ACTION_INSERT);
+            intent.setType("vnd.android.cursor.item/event");
+
+            Calendar cal = Calendar.getInstance();
+            long startTime = cal.getTimeInMillis();
+            long endTime = cal.getTimeInMillis()  + 60 * 60 * 1000;
+
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+
+            intent.putExtra(CalendarContract.Events.TITLE, "Neel Birthday");
+            intent.putExtra(CalendarContract.Events.DESCRIPTION,  "This is a sample description");
+            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, "My Guest House");
+            intent.putExtra(CalendarContract.Events.RRULE, "FREQ=YEARLY");
+
+            startActivity(intent);
+
+            // get the event ID that is the last element in the Uri
+            //long eventID = Long.parseLong(uri.getLastPathSegment());
+            return;
+        }
+
+
+    }
 }
 
 

@@ -129,7 +129,7 @@ public class MainActivity extends MenuActivity {
         startActivity(i);
     }
 
-    public void addToCalendar(View view) {
+    public void showCalendarView(View view) {
         Intent i = new Intent(this, CalendarActivity.class);
 
         Log.d(TAG, "CalendarActivity");

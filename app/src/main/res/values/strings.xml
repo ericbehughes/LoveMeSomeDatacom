@@ -36,5 +36,8 @@
     <string name="member_names"> Rhai Hinds, Eric Hughes, Amin Manai, Sebastien Ramirez </string>
     <string name="note_details_string">sample note title</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
