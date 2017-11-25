@@ -1,5 +1,6 @@
 package android.lovemesomedatacom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +28,18 @@ public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "TimePickerFragment";
+    private OnCompleteListener mListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            this.mListener = (OnCompleteListener)context;
+        }
+        catch (final ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement OnCompleteListener");
+        }
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -46,9 +59,16 @@ public class TimePickerFragment extends DialogFragment
         //Log.d(TAG, "text view + " + tv1);
         Log.d(TAG, "view.getHour + " + hourOfDay);
         Log.d(TAG, "view.getMinute + " + minute);
-
+        String str = hourOfDay + ":" + minute;
+        this.mListener.onComplete(str);
 
        // tv1.setText(hourOfDay + ":" + minute);
 
+    }
+
+
+
+    public static interface OnCompleteListener {
+        public abstract void onComplete(String time);
     }
 }

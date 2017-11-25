@@ -8,11 +8,13 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,8 +25,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class CalendarActivity extends AppCompatActivity {
+public class CalendarActivity extends MenuActivity implements TimePickerFragment.OnCompleteListener  {
 
+    private static final String TAG = "Calendar Activity";
     Calendar beginTime = Calendar.getInstance();
 
     private TextView tvEventName;
@@ -35,6 +38,7 @@ public class CalendarActivity extends AppCompatActivity {
     private TextView tvEndTimeValue;
     private TextView tvDate;
     private TextView tvDateValue;
+    private int currentTimeElement;
 
 
     /**
@@ -91,9 +95,8 @@ public class CalendarActivity extends AppCompatActivity {
 
 
     public void showTimePickerDialog(View v) {
+        currentTimeElement = v.getId();
         DialogFragment newFragment = new TimePickerFragment();
-
-
         newFragment.show(getSupportFragmentManager(), "timePicker");
         
     }
@@ -125,6 +128,22 @@ public class CalendarActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    public void onComplete(String time) {
+        switch(currentTimeElement){
+
+            case R.id.tvStartTimeValue:
+                Log.d(TAG, "startTimeValue was clicked");
+                tvStartTimeValue.setText(time);
+                break;
+            case R.id.tvEndTimeValue:
+                Log.d(TAG, "endTImeValue was clicked");
+                tvEndTimeValue.setText(time);
+                break;
+
+        }
     }
 }
 
