@@ -119,14 +119,19 @@ public class NotesActivity extends MenuActivity {
     }
 
     private void updateUI() {
-        ArrayList<String> notesList = new ArrayList<>();
+        ArrayList<Note> notesList = new ArrayList<>();
         SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(NotesTable.NotesEntry.TABLE,
-                new String[]{NotesTable.NotesEntry._ID, NotesTable.NotesEntry.COL_NOTES_TITLE},
+                new String[]{NotesTable.NotesEntry._ID, NotesTable.NotesEntry.COL_NOTES_TITLE,
+                        NotesTable.NotesEntry.COL_NOTES_TEXT},
                 null, null, null, null, null);
         while (cursor.moveToNext()) {
             int idx = cursor.getColumnIndex(NotesTable.NotesEntry.COL_NOTES_TITLE);
-            notesList.add(cursor.getString(idx));
+            Note n = new Note();
+            n.setTitle(cursor.getString(idx));
+            idx = cursor.getColumnIndex(NotesTable.NotesEntry.COL_NOTES_TEXT);
+            n.setText(cursor.getString(idx));
+            notesList.add(n);
         }
 
 

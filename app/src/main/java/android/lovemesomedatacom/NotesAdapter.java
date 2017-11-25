@@ -26,10 +26,10 @@ public class NotesAdapter extends BaseAdapter {
     private static final String TAG = "NotesAdapter";
     private Context context;
     LayoutInflater inflater;
-    ArrayList<String> notes;
+    ArrayList<Note> notes;
 
 
-    public NotesAdapter(Activity mainActivity, ArrayList<String> notes) {
+    public NotesAdapter(Activity mainActivity, ArrayList<Note> notes) {
 
         this.context = mainActivity;
         this.notes = notes;
@@ -37,6 +37,8 @@ public class NotesAdapter extends BaseAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
+
+
 
     @Override
     public int getCount() {
@@ -53,13 +55,13 @@ public class NotesAdapter extends BaseAdapter {
         return i;
     }
 
-    public void addAll(ArrayList<String> list){
+    public void addAll(ArrayList<Note> list){
         this.notes = list;
     }
 
     private class ViewHolder {
-        TextView tv;
-        ImageView iv;
+        TextView tv1;
+        TextView tv2;
     }
 
     @Override
@@ -68,9 +70,13 @@ public class NotesAdapter extends BaseAdapter {
         View rowView;
         rowView = inflater.inflate(R.layout.item_note, null);
 
-        holder.tv = (TextView) rowView.findViewById(R.id.note_title);
-        holder.tv.setText(notes.get(position));
 
+        holder.tv1 = (TextView) rowView.findViewById(R.id.note_title);
+        holder.tv2 = (TextView) rowView.findViewById(R.id.note_text);
+
+
+        holder.tv1.setText(notes.get(position).getTitle());
+        holder.tv2.setText(notes.get(position).getText());
 
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +85,8 @@ public class NotesAdapter extends BaseAdapter {
                 Log.d("inside", "inside on click");
 
                 Intent i = new Intent(context, NoteDetailsActivity.class);
+                i.putExtra("noteTitle", notes.get(position).getTitle());
+                i.putExtra("noteText", notes.get(position).getText());
                 context.startActivity(i);
             }
         });
