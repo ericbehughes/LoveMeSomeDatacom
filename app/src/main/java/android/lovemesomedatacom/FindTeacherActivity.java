@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.lovemesomedatacom.adapters.TeacherAdapter;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.*;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,14 +41,17 @@ public class FindTeacherActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseRef;
     private TeacherAdapter teacherAdapter;
 
+    private String firstNameSearchText;
+    private String lastNameSearchText;
+
     //Views
     private SearchView firstNameSearchView;
     private SearchView lastNameSearchView;
     private RadioButton likeRadio;
     private Toast infoToast;
     private Set<Teacher> teacherSet;
-    private Query teachers;
-    private List<? extends Serializable> teacherList;
+    private Query teacherQuery;
+    private List<Teacher> teacherList;
     private ListView teacherListView;
 
     @Override
@@ -55,15 +61,27 @@ public class FindTeacherActivity extends AppCompatActivity {
 
         this.teacherList = new ArrayList<>();
 
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        this.mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
+        this.teacherQuery = mDatabaseRef.orderByChild("full_name");
+
 
         instantiateViews();
 
     }
 
-    private void fireChooseTeacherActivity(View view){
-        Intent intent = new Intent(FindTeacherActivity.this, ChooseTeacherActivity.class);
-        intent.putParcelableArrayListExtra();
+    @Override
+    protected void onStart(){
+        super.onStart();
+    }
+
+    private void fireChooseTeacherActivity() {
+        Intent chooseTeacherIntent = new Intent(FindTeacherActivity.this,
+                ChooseTeacherActivity.class);
+        chooseTeacherIntent.putExtra("TEST", "THIS IS A TEST");
+        chooseTeacherIntent.putParcelableArrayListExtra("TEACHERS", (ArrayList) this.teacherList);
+        Log.d(TAG, "THEACHER_LIST_COUNT: " + this.teacherList.size());
+        startActivity(chooseTeacherIntent);
     }
 
     private void instantiateViews() {
@@ -81,15 +99,14 @@ public class FindTeacherActivity extends AppCompatActivity {
         if (validateSearch(firstNameQuery, lastNameQuery)) {
             Log.d(TAG, "VALIDATION PASSED");
             boolean radioButton = likeRadio.isChecked();
-            executeQuery(radioButton,firstNameQuery, lastNameQuery);
+            executeQuery(radioButton, firstNameQuery, lastNameQuery);
         }
     }
 
 
     private void executeQuery(final boolean radioButton, final String firstName, final String lastName) {
         Log.d(TAG, "QUERY_EXACT INVOKED");
-        this.teachers = mDatabaseRef.orderByChild("full_name");
-        teachers.addListenerForSingleValueEvent(new ValueEventListener() {
+        teacherQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -120,6 +137,7 @@ public class FindTeacherActivity extends AppCompatActivity {
                         }
                     }
                 }
+                fireChooseTeacherActivity();
             }
 
             @Override
@@ -128,6 +146,7 @@ public class FindTeacherActivity extends AppCompatActivity {
                 Log.w("MAIN ACTIVITY", "Failed to read value.", error.toException());
             }
         });
+
     }
 
     private boolean validateSearch(String firstName, String lastName) {

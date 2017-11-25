@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,7 +38,8 @@ public class Teacher implements Parcelable {
     private List<String> sectors;
 
     public Teacher() {
-        this("", "", "", "", "", "", "", "", "", null, null, null);
+        this("", "", "", "", "", "", "", "", "", new ArrayList<String>(),
+                new ArrayList<String>(), new ArrayList<String>());
     }
 
     public Teacher(Parcel in){
