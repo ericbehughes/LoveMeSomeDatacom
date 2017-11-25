@@ -1,5 +1,8 @@
 package android.lovemesomedatacom.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -8,9 +11,17 @@ import java.util.List;
  * Created by 1331680 on 11/24/2017.
  */
 
-public class Teacher implements Serializable{
+public class Teacher implements Parcelable {
 
-    private static final long serialVersionUID = 1L;
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Teacher createFromParcel(Parcel in) {
+            return new Teacher(in);
+        }
+
+        public Teacher[] newArray(int size) {
+            return new Teacher[size];
+        }
+    };
 
     private String first_name;
     private String last_name;
@@ -27,6 +38,21 @@ public class Teacher implements Serializable{
 
     public Teacher() {
         this("", "", "", "", "", "", "", "", "", null, null, null);
+    }
+
+    public Teacher(Parcel in){
+        this.first_name = in.readString();
+        this.last_name = in.readString();
+        this.full_name = in.readString();
+        this.email = in.readString();
+        this.office = in.readString();
+        this.local = in.readString();
+        this.website = in.readString();
+        this.bio = in.readString();
+        this.image = in.readString();
+        this.positions = in.createStringArrayList();
+        this.departments = in.createStringArrayList();
+        this.sectors = in.createStringArrayList();
     }
 
     public Teacher(String first_name, String last_name, String full_name, String email, String office,
@@ -203,5 +229,26 @@ public class Teacher implements Serializable{
                 ", departments=" + departments +
                 ", sectors=" + sectors +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.first_name);
+        parcel.writeString(this.last_name);
+        parcel.writeString(this.full_name);
+        parcel.writeString(this.email);
+        parcel.writeString(this.office);
+        parcel.writeString(this.local);
+        parcel.writeString(this.website);
+        parcel.writeString(this.bio);
+        parcel.writeString(this.image);
+        parcel.writeStringList(this.positions);
+        parcel.writeStringList(this.departments);
+        parcel.writeStringList(this.sectors);
     }
 }
