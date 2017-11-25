@@ -27,7 +27,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.security.AlgorithmConstraints;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 1331680 on 11/24/2017.
@@ -49,7 +51,7 @@ public class FindTeacherActivity extends AppCompatActivity {
     private RadioButton likeRadio;
     private RadioButton exactRadio;
     private Toast infoToast;
-    private List<Teacher> teacherList;
+    private Set<Teacher> teacherSet;
     private ListView listView;
 
     @Override
@@ -57,7 +59,7 @@ public class FindTeacherActivity extends AppCompatActivity {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_teacher);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
-        this.teacherList = new ArrayList<>();
+        this.teacherSet = new HashSet<>();
         //this.teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list,teacherList mStorageRef);
         instantiateViews();
     }
@@ -73,32 +75,51 @@ public class FindTeacherActivity extends AppCompatActivity {
     }
 
     public void onSearch(View view) {
-        String firstNameQuery = this.firstNameSearchView.getQuery().toString();
+        String firstNameQuery = this.firstNameSearchView.getQuery().toString().toLowerCase();
         Log.d(TAG, "firstNameQuery: " + firstNameQuery);
-        String lastNameQuery = this.lastNameSearchView.getQuery().toString();
+        String lastNameQuery = this.lastNameSearchView.getQuery().toString().toLowerCase();
         Log.d(TAG, "lastNameQuery: " + lastNameQuery);
-        if(validateSearch(firstNameQuery, lastNameQuery)){
+        if (validateSearch(firstNameQuery, lastNameQuery)) {
             Log.d(TAG, "VALIDATION PASSED");
-            queryType(firstNameQuery, lastNameQuery);
+            boolean radioButton = likeRadio.isChecked();
+            executeQuery(radioButton,firstNameQuery, lastNameQuery);
         }
 
     }
 
 
-    private void queryExact(final String firstName, final String lastName) {
+    private void executeQuery(final boolean radioButton, final String firstName, final String lastName) {
         Log.d(TAG, "QUERY_EXACT INVOKED");
-        Query test = mDatabaseRef.orderByChild("full_name");
-        test.addValueEventListener(new ValueEventListener() {
+        Query teachers = mDatabaseRef.orderByChild("full_name");
+        teachers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Teacher teacher = ds.getValue(Teacher.class);
                     String[] fullName = teacher.getFull_name().split(" ");
-                    String teachersFirst = fullName[0];
-                    String teachersLast = fullName[1];
-                    if(teachersFirst.equalsIgnoreCase(firstName) || teachersLast.equalsIgnoreCase(lastName)){
-                        Log.d(TAG, "Teacher name: " + teacher.getFull_name());
-                        teacherList.add(teacher);
+                    String teachersFirst = fullName[0].toLowerCase();
+                    String teachersLast = fullName[1].toLowerCase();
+                    boolean firstNotEmpty = !firstName.isEmpty();
+                    boolean lastNotEmpty = !lastName.isEmpty();
+                    if (radioButton) {
+                        if (teachersFirst.startsWith(firstName) && firstNotEmpty) {
+                            Log.d(TAG, "Teacher name: " + teacher.getFull_name());
+                            teacherSet.add(teacher);
+                        }
+                        if (teachersLast.startsWith(lastName) && lastNotEmpty) {
+                            Log.d(TAG, "Teacher name: " + teacher.getFull_name());
+                            teacherSet.add(teacher);
+                        }
+
+                    } else {
+                        if (teachersFirst.equalsIgnoreCase(firstName) && firstNotEmpty) {
+                            Log.d(TAG, "Teacher name: " + teacher.getFull_name());
+                            teacherSet.add(teacher);
+                        }
+                        if (teachersLast.equalsIgnoreCase(lastName) && lastNotEmpty) {
+                            Log.d(TAG, "Teacher name: " + teacher.getFull_name());
+                            teacherSet.add(teacher);
+                        }
                     }
                 }
             }
@@ -109,15 +130,6 @@ public class FindTeacherActivity extends AppCompatActivity {
                 Log.w("MAIN ACTIVITY", "Failed to read value.", error.toException());
             }
         });
-    }
-
-    private Query queryType(String firstNameQuery, String lastNameQuery) {
-        Log.d(TAG, "QUERY_TYPE INVOKED");
-        if (likeRadio.isChecked()) {
-            Log.d(TAG, "LIKE_RADIO SELECTED");
-            queryExact(firstNameQuery, lastNameQuery);
-        }
-        return null;
     }
 
     private boolean validateSearch(String firstName, String lastName) {

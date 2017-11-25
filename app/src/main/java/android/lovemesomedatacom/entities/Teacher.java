@@ -21,13 +21,13 @@ public class Teacher {
     private List<String> departments;
     private List<String> sectors;
 
-    public Teacher(){
-        this("","","","","","","","","", null, null, null);
+    public Teacher() {
+        this("", "", "", "", "", "", "", "", "", null, null, null);
     }
 
     public Teacher(String first_name, String last_name, String full_name, String email, String office,
                    String local, String website, String bio, String image, List<String> positions,
-                   List<String> departments, List<String> sectors){
+                   List<String> departments, List<String> sectors) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.full_name = full_name;
@@ -136,6 +136,51 @@ public class Teacher {
 
     public void setSectors(List<String> sectors) {
         this.sectors = sectors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Teacher teacher = (Teacher) o;
+
+        if (first_name != null ? !first_name.equals(teacher.first_name) : teacher.first_name != null)
+            return false;
+        if (last_name != null ? !last_name.equals(teacher.last_name) : teacher.last_name != null)
+            return false;
+        if (full_name != null ? !full_name.equals(teacher.full_name) : teacher.full_name != null)
+            return false;
+        if (email != null ? !email.equals(teacher.email) : teacher.email != null) return false;
+        if (office != null ? !office.equals(teacher.office) : teacher.office != null) return false;
+        if (local != null ? !local.equals(teacher.local) : teacher.local != null) return false;
+        if (website != null ? !website.equals(teacher.website) : teacher.website != null)
+            return false;
+        if (bio != null ? !bio.equals(teacher.bio) : teacher.bio != null) return false;
+        if (image != null ? !image.equals(teacher.image) : teacher.image != null) return false;
+        if (positions != null ? !positions.equals(teacher.positions) : teacher.positions != null)
+            return false;
+        if (departments != null ? !departments.equals(teacher.departments) : teacher.departments != null)
+            return false;
+        return sectors != null ? sectors.equals(teacher.sectors) : teacher.sectors == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = first_name != null ? first_name.hashCode() : 0;
+        result = 31 * result + (last_name != null ? last_name.hashCode() : 0);
+        result = 31 * result + (full_name != null ? full_name.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (office != null ? office.hashCode() : 0);
+        result = 31 * result + (local != null ? local.hashCode() : 0);
+        result = 31 * result + (website != null ? website.hashCode() : 0);
+        result = 31 * result + (bio != null ? bio.hashCode() : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
+        result = 31 * result + (positions != null ? positions.hashCode() : 0);
+        result = 31 * result + (departments != null ? departments.hashCode() : 0);
+        result = 31 * result + (sectors != null ? sectors.hashCode() : 0);
+        return result;
     }
 
     @Override

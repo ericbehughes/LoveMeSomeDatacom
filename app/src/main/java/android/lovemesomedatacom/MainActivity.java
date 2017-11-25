@@ -46,8 +46,6 @@ public class MainActivity extends MenuActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
-
-
     /**
      * Find the Views in the layout<br />
      * <br />

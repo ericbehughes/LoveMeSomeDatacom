@@ -4,11 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:onClick="classCancellationClick"
+    android:orientation="vertical"
     tools:context="android.lovemesomedatacom.MainActivity">
-
-
 
 
     <!--start image view-->
@@ -44,8 +42,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
+            android:gravity="center"
 
             android:text="@string/fa_calendar_icon"
             android:textSize="16dp" />
@@ -57,8 +55,8 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
-            android:text="@string/fa_search_icon"
             android:onClick="findTeacherClick"
+            android:text="@string/fa_search_icon"
             android:textSize="16dp" />
     </LinearLayout>
 
@@ -73,8 +71,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
+            android:gravity="center"
             android:text="@string/fa_add_to_calendar_icon"
             android:textSize="16dp" />
 
@@ -83,8 +81,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
+            android:gravity="center"
             android:text="@string/fa_notes_icon"
             android:textSize="16dp" />
     </LinearLayout>
@@ -100,10 +98,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
-            android:text="@string/fa_sun_icon"
+            android:gravity="center"
             android:onClick="doStuff"
+            android:text="@string/fa_sun_icon"
             android:textSize="16dp" />
 
         <TextView
@@ -111,8 +109,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
+            android:gravity="center"
             android:text="@string/fa_grades_icon"
             android:textSize="16dp" />
     </LinearLayout>
@@ -129,12 +127,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
+            android:gravity="center"
             android:text="@string/fa_thermometer_icon"
             android:textSize="16dp" />
     </LinearLayout>
-
 
 
 </LinearLayout>
