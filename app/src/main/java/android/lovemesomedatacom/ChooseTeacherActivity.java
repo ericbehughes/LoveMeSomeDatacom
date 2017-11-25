@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,6 @@ public class ChooseTeacherActivity extends MenuActivity {
     private static final String TAG = "CHOOSE_TEACHER_ACTIVITY";
 
 
-    private Set<Teacher> teacherSet;
     private List<Teacher> teacherList;
     private TeacherAdapter myAdapter;
     private ListView teachersListView;
@@ -35,6 +35,7 @@ public class ChooseTeacherActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_choose_teacher);
+        this.teachersListView = findViewById(R.id.teacherList);
         this.intent = getIntent();
         this.teacherList = this.intent.getParcelableArrayListExtra("TEACHERS");
     }
@@ -42,10 +43,9 @@ public class ChooseTeacherActivity extends MenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        this.teacherSet = new HashSet<>(this.teacherList);
-        for(Teacher teacher: this.teacherSet){
-            Log.d(TAG, "Teacher: " + teacher.getFull_name());
-        }
-
+        Set<Teacher> teacherSet = new HashSet<>(this.teacherList);
+        List<Teacher> unique = new ArrayList<>(teacherSet);
+        TeacherAdapter teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list, unique);
+        teachersListView.setAdapter(teacherAdapter);
     }
 }
