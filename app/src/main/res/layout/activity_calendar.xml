@@ -38,7 +38,7 @@
                 android:layout_weight=".2"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Eric" />
+                android:text="Title" />
         </LinearLayout>
 
         <LinearLayout
