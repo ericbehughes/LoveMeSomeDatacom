@@ -1,57 +1,132 @@
 package android.lovemesomedatacom;
 
+import android.lovemesomedatacom.adapters.TeacherAdapter;
+import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.*;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageException;
-import com.google.firebase.storage.StorageReference;
+
+import java.security.AlgorithmConstraints;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 1331680 on 11/24/2017.
  */
 
-public class FindTeacherActivity extends MenuActivity {
+public class FindTeacherActivity extends AppCompatActivity {
 
-    private StorageReference mStorageRef;
+    private static final String TAG = "FindTeacherActivity";
+
+    //Firebase
     private DatabaseReference mDatabaseRef;
-    private FirebaseAuth mAuth;
+    private TeacherAdapter teacherAdapter;
 
+    //Views
+    private SearchView firstNameSearchView;
+    private SearchView lastNameSearchView;
+    private Button searchButton;
+    private RadioGroup radioSearchGroup;
+    private RadioButton likeRadio;
+    private RadioButton exactRadio;
+    private Toast infoToast;
+    private List<Teacher> teacherList;
+    private ListView listView;
 
     @Override
-    protected void onCreate(Bundle savedInstance){
+    protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        setContentView(R.layout.activity_teacher);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        this.teacherList = new ArrayList<>();
+        //this.teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list,teacherList mStorageRef);
+        instantiateViews();
+    }
 
-        //Reference to the storage
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-        //Reference to the auth dependency
-        mAuth = FirebaseAuth.getInstance();
-        //Initial and only authentication of the app, used to access the database
-        mAuth.signInWithEmailAndPassword("sramirezdawson2017@gmail.com", "catsLoveFood");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("categories");
+    private void instantiateViews() {
+        this.firstNameSearchView = findViewById(R.id.firstNameSearch);
+        this.lastNameSearchView = findViewById(R.id.lastNameSearch);
+        this.searchButton = findViewById(R.id.searchTeacherButton);
+        this.radioSearchGroup = findViewById(R.id.radioSearchGroup);
+        this.likeRadio = findViewById(R.id.likeRadio);
+        this.exactRadio = findViewById(R.id.exactRadio);
+        this.infoToast = new Toast(this);
+    }
 
-        //myAdapter = new CustomAdapter(this, R.layout.list_layout, imgList, mStorageRef);
-        mDatabaseRef.addValueEventListener(new ValueEventListener()
-        {
+    public void onSearch(View view) {
+        String firstNameQuery = this.firstNameSearchView.getQuery().toString();
+        Log.d(TAG, "firstNameQuery: " + firstNameQuery);
+        String lastNameQuery = this.lastNameSearchView.getQuery().toString();
+        Log.d(TAG, "lastNameQuery: " + lastNameQuery);
+        if(validateSearch(firstNameQuery, lastNameQuery)){
+            Log.d(TAG, "VALIDATION PASSED");
+            queryType(firstNameQuery, lastNameQuery);
+        }
+
+    }
+
+
+    private void queryExact(final String firstName, final String lastName) {
+        Log.d(TAG, "QUERY_EXACT INVOKED");
+        Query test = mDatabaseRef.orderByChild("full_name");
+        test.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Teacher teacher = ds.getValue(Teacher.class);
+                    String[] fullName = teacher.getFull_name().split(" ");
+                    String teachersFirst = fullName[0];
+                    String teachersLast = fullName[1];
+                    if(teachersFirst.equalsIgnoreCase(firstName) || teachersLast.equalsIgnoreCase(lastName)){
+                        Log.d(TAG, "Teacher name: " + teacher.getFull_name());
+                        teacherList.add(teacher);
+                    }
+                }
             }
 
             @Override
-            public void onCancelled(DatabaseError error)
-            {
+            public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Log.w("MAIN ACTIVITY", "Failed to read value.", error.toException());
             }
         });
+    }
+
+    private Query queryType(String firstNameQuery, String lastNameQuery) {
+        Log.d(TAG, "QUERY_TYPE INVOKED");
+        if (likeRadio.isChecked()) {
+            Log.d(TAG, "LIKE_RADIO SELECTED");
+            queryExact(firstNameQuery, lastNameQuery);
+        }
+        return null;
+    }
+
+    private boolean validateSearch(String firstName, String lastName) {
+        if (firstName.isEmpty() && lastName.isEmpty()) {
+            this.infoToast = Toast.makeText(this, "Please enter at least one search", Toast.LENGTH_LONG);
+            infoToast.show();
+            return false;
+        }
+        return true;
+
     }
 }

@@ -29,6 +29,7 @@
         <activity android:name=".WeatherActivity"></activity>
         <activity android:name=".AboutActivity"></activity>
         <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".FindTeacherActivity"></activity>
     </application>
 
 </manifest>

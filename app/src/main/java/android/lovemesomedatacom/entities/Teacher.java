@@ -1,6 +1,7 @@
 package android.lovemesomedatacom.entities;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by 1331680 on 11/24/2017.
@@ -16,17 +17,17 @@ public class Teacher {
     private String website;
     private String bio;
     private String image;
-    private Position[] positions;
-    private Department[] departments;
-    private Sector[] sectors;
+    private List<String> positions;
+    private List<String> departments;
+    private List<String> sectors;
 
     public Teacher(){
         this("","","","","","","","","", null, null, null);
     }
 
     public Teacher(String first_name, String last_name, String full_name, String email, String office,
-                   String local, String website, String bio, String image, Position[] positions,
-                   Department[] departments, Sector[] sectors){
+                   String local, String website, String bio, String image, List<String> positions,
+                   List<String> departments, List<String> sectors){
         this.first_name = first_name;
         this.last_name = last_name;
         this.full_name = full_name;
@@ -113,27 +114,27 @@ public class Teacher {
         this.image = image;
     }
 
-    public Position[] getPositions() {
+    public List<String> getPositions() {
         return positions;
     }
 
-    public void setPositions(Position[] positions) {
+    public void setPositions(List<String> positions) {
         this.positions = positions;
     }
 
-    public Department[] getDepartments() {
+    public List<String> getDepartments() {
         return departments;
     }
 
-    public void setDepartments(Department[] departments) {
+    public void setDepartments(List<String> departments) {
         this.departments = departments;
     }
 
-    public Sector[] getSectors() {
+    public List<String> getSectors() {
         return sectors;
     }
 
-    public void setSectors(Sector[] sectors) {
+    public void setSectors(List<String> sectors) {
         this.sectors = sectors;
     }
 
@@ -149,9 +150,9 @@ public class Teacher {
                 ", website='" + website + '\'' +
                 ", bio='" + bio + '\'' +
                 ", image='" + image + '\'' +
-                ", positions=" + Arrays.toString(positions) +
-                ", departments=" + Arrays.toString(departments) +
-                ", sectors=" + Arrays.toString(sectors) +
+                ", positions=" + positions +
+                ", departments=" + departments +
+                ", sectors=" + sectors +
                 '}';
     }
 }

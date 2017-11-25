@@ -58,6 +58,7 @@
             android:background="@drawable/border"
             android:gravity="center"
             android:text="@string/fa_search_icon"
+            android:onClick="findTeacherClick"
             android:textSize="16dp" />
     </LinearLayout>
 
