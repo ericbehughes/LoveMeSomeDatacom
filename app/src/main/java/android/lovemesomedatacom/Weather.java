@@ -1,5 +1,5 @@
 package android.lovemesomedatacom;
 
 public class Weather {
-    public String temperature, pressure, humidity;
+    public String temperature, pressure, humidity, latitude, longitude;
 }

@@ -28,7 +28,7 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
     }
 
     @Override
-    protected ArrayList doInBackground(ArrayList<Weather>... list) {
+    protected ArrayList doInBackground(ArrayList<Weather>... params) {
         try {
             URL url = new URL(this.url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -45,9 +45,9 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
             myParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             myParser.setInput(inputStream, null);
 
-            ArrayList<Weather> result = parseXML(myParser);
+            ArrayList<Weather> list = parseXML(myParser);
             inputStream.close();
-            return result;
+            return list;
 
         }
         catch(Exception e){
@@ -57,12 +57,9 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Weather> result){
+    protected void onPostExecute(ArrayList<Weather> list){
         Log.d(TAG, "OnPostExecute invoked");
-        for(Weather weather : result){
-            Log.d(TAG, weather.temperature + "DEGREE");
-        }
-        activity.callBackData(result);
+        activity.callBackData(list);
     }
 
     public ArrayList<Weather> parseXML(XmlPullParser myParser) {
@@ -77,19 +74,21 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
                 switch(event){
                     case XmlPullParser.START_TAG:
                         name = myParser.getName();
-
                         if(name.equals("time")){
                             current = new Weather();
                             list.add(current);
-                        } else if (current != null){
-                            if(name.equals("temperature")){
-                                current.temperature = myParser.nextText();
+                        } else if (current != null) {
+                            if (name.equals("temperature")) {
+                                current.temperature = myParser.getAttributeValue(null,"value") + " " +
+                                        myParser.getAttributeValue(null, "unit");
                             }
-                            if(name.equals("pressure")){
-                                current.pressure = myParser.nextText();
+                            if (name.equals("pressure")) {
+                                current.pressure = myParser.getAttributeValue(null,"value") + " " +
+                                        myParser.getAttributeValue(null, "unit");
                             }
-                            if(name.equals("humidity")){
-                                current.humidity = myParser.nextText();
+                            if (name.equals("humidity")) {
+                                current.humidity = myParser.getAttributeValue(null,"value") + " " +
+                                        myParser.getAttributeValue(null, "unit");
                             }
                         }
 

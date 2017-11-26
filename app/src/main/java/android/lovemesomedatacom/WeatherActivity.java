@@ -67,9 +67,9 @@ public class WeatherActivity extends MenuActivity {
     public void callBackData(ArrayList<Weather> result) {
         StringBuilder builder = new StringBuilder();
         for(Weather weather : result){
-            builder.append(weather.temperature)
-                    .append("\n").append(weather.pressure)
-                    .append("\n").append(weather.humidity).append("\n\n");
+            builder.append("Temperature: " + weather.temperature)
+                    .append("\n").append("Pressure: " +weather.pressure)
+                    .append("\n").append("Humidity: " + weather.humidity).append("\n\n");
         }
         temperature.setText(builder.toString());
     }
