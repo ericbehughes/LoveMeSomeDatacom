@@ -81,6 +81,15 @@ public class MainActivity extends MenuActivity {
             }
         });
 
+        tvWeatherTV.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, WeatherActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     @Override
