@@ -1,7 +1,7 @@
 package android.lovemesomedatacom;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,16 +11,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
 
 public class WeatherActivity extends MenuActivity {
 
     private static final String TAG = "WeatherActivity";
-    private static final String URL = "api.openweathermap.org/data/2.5/forecast?q=";
+    private static final String URL = "http://api.openweathermap.org/data/2.5/forecast?q=";
     EditText input;
     Spinner spinner;
     Button weatherBtn;
@@ -28,6 +24,7 @@ public class WeatherActivity extends MenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "OnCreate Invoked");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         findViews();
@@ -49,7 +46,8 @@ public class WeatherActivity extends MenuActivity {
                 String city = input.getText().toString();
                 String iso = spinner.getSelectedItem().toString();
                 String query = URL + city + "," + iso + "&mode=xml&appid=080b8de151ba3865a7b5e255f448f10f";
-                new WeatherActivityTask(WeatherActivity.this ,query).execute();
+                Log.d(TAG, query);
+                new WeatherActivityTask(WeatherActivity.this , query).execute();
             }
         });
     }
@@ -66,7 +64,13 @@ public class WeatherActivity extends MenuActivity {
         return true;
     }
 
-    public void callBackData(String[] result) {
-        temperature.setText((Float.parseFloat(result[0]) - 273) + "Degree");
+    public void callBackData(ArrayList<Weather> result) {
+        StringBuilder builder = new StringBuilder();
+        for(Weather weather : result){
+            builder.append(weather.temperature)
+                    .append("\n").append(weather.pressure)
+                    .append("\n").append(weather.humidity).append("\n\n");
+        }
+        temperature.setText(builder.toString());
     }
 }

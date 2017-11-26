@@ -1,15 +1,18 @@
 package android.lovemesomedatacom;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class WeatherActivityTask extends AsyncTask<String[], Void, String[]> {
+public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, ArrayList<Weather>> {
 
+    private static final String TAG = "WeatherActivityTask";
     private WeatherActivity activity;
     private String url;
     private XmlPullParserFactory xmlFactoryObject;
@@ -25,7 +28,7 @@ public class WeatherActivityTask extends AsyncTask<String[], Void, String[]> {
     }
 
     @Override
-    protected String[] doInBackground(String[]... strings) {
+    protected ArrayList doInBackground(ArrayList<Weather>... list) {
         try {
             URL url = new URL(this.url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -42,7 +45,7 @@ public class WeatherActivityTask extends AsyncTask<String[], Void, String[]> {
             myParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             myParser.setInput(inputStream, null);
 
-            String[] result = parseXML(myParser);
+            ArrayList<Weather> result = parseXML(myParser);
             inputStream.close();
             return result;
 
@@ -54,36 +57,48 @@ public class WeatherActivityTask extends AsyncTask<String[], Void, String[]> {
     }
 
     @Override
-    protected void onPostExecute(String[] result){
+    protected void onPostExecute(ArrayList<Weather> result){
+        Log.d(TAG, "OnPostExecute invoked");
+        for(Weather weather : result){
+            Log.d(TAG, weather.temperature + "DEGREE");
+        }
         activity.callBackData(result);
     }
 
-    public String[] parseXML(XmlPullParser myParser) {
-        String text = null;
+    public ArrayList<Weather> parseXML(XmlPullParser myParser) {
+        ArrayList<Weather> list = new ArrayList<>();
+        Weather current = null;
         int event;
-        String[] result = new String[10];
 
         try{
             event = myParser.getEventType();
             while(event != XmlPullParser.END_DOCUMENT){
-
+                String name = null;
                 switch(event){
                     case XmlPullParser.START_TAG:
-                        break;
-                    case XmlPullParser.TEXT:
-                        text = myParser.getText();
-                        break;
-                    case XmlPullParser.END_TAG:
-                        String name = myParser.getName();
-                        if(name.equals("temperature")){
-                            result[0] = myParser.getAttributeValue(null,"value");
+                        name = myParser.getName();
+
+                        if(name.equals("time")){
+                            current = new Weather();
+                            list.add(current);
+                        } else if (current != null){
+                            if(name.equals("temperature")){
+                                current.temperature = myParser.nextText();
+                            }
+                            if(name.equals("pressure")){
+                                current.pressure = myParser.nextText();
+                            }
+                            if(name.equals("humidity")){
+                                current.humidity = myParser.nextText();
+                            }
                         }
-                        //Continue for other tags...
+
                         break;
                 }
+
                 event = myParser.next();
             }
-            return result;
+            return list;
         }
         catch(Exception e){
             return null;
