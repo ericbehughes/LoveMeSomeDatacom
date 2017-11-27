@@ -38,8 +38,6 @@ public class NotesAdapter extends BaseAdapter {
 
     }
 
-
-
     @Override
     public int getCount() {
         return notes.size();

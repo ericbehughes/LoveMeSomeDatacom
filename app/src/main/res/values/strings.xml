@@ -29,7 +29,7 @@
     <string name="xml_error">Cant parse xml</string>
     <string name="page_title">Async test</string>
     <string name="updated">UPDATED</string>
-    <string name="confirm_discard_string">Are you sure you want leave without saving?</string>
+
 
     <string name="about_message">Change this later, default About Message</string>
     <string name="course_id">420-518-DW MOBILE SOFTWARE DEVELOPMENT</string>
@@ -38,6 +38,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirm_discard_string">You sure you want to discard?</string>
+    <string name="discard_pop_up_dialog">All of your settings won\'t be saved</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email_address">Email</string>
+    <string name="password">Password</string>
+    <string name="date_last_updated">Date Last Modified</string>
 
 
 </resources>

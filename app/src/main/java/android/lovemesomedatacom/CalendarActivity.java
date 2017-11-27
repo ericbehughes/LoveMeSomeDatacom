@@ -112,12 +112,12 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
             long endTime = cal.getTimeInMillis()  + 60 * 60 * 1000;
 
 
-            // have to convert string 16:43 into milliseconds 
-            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, tvStartTimeValue.getText());
-            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,tvEndTimeValue.getText());
+            // have to convert string 16:43 into milliseconds
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime);
             intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
 
-            intent.putExtra(CalendarContract.Events.TITLE, tvEventName.getText());
+            intent.putExtra(CalendarContract.Events.TITLE, "Event title goes here");
             intent.putExtra(CalendarContract.Events.DESCRIPTION,  "Event Description");
             intent.putExtra(CalendarContract.Events.EVENT_LOCATION, "Location");
             intent.putExtra(CalendarContract.Events.RRULE, "FREQ=YEARLY");

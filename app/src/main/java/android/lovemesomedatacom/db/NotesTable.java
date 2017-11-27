@@ -4,6 +4,11 @@ import android.provider.BaseColumns;
 
 /**
  * Created by ehugh on 11/24/2017.
+ *
+ * alot of this code comes from the tutorial by Aldo Ziflaj
+ * https://www.sitepoint.com/starting-android-development-creating-todo-app/
+ *
+ *
  */
 
 public class NotesTable {
