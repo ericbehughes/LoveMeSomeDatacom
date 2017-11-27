@@ -39,20 +39,14 @@ public class FindTeacherActivity extends AppCompatActivity {
 
     //Firebase
     private DatabaseReference mDatabaseRef;
-    private TeacherAdapter teacherAdapter;
-
-    private String firstNameSearchText;
-    private String lastNameSearchText;
 
     //Views
     private SearchView firstNameSearchView;
     private SearchView lastNameSearchView;
     private RadioButton likeRadio;
     private Toast infoToast;
-    private Set<Teacher> teacherSet;
     private Query teacherQuery;
     private List<Teacher> teacherList;
-    private ListView teacherListView;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -70,18 +64,33 @@ public class FindTeacherActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-    }
+    private void fireActivity() {
+        int results = this.teacherList.size();
+        switch (results){
+            case 0:
+                this.infoToast = Toast.makeText(this, "No results found!", Toast.LENGTH_LONG);
+                break;
+            case 1:
+                fireTeacherContactActivity();
+                break;
+            default:
+                fireChooseTeacherActivity();
+                break;
+        }
 
-    private void fireChooseTeacherActivity() {
+    }
+    private void fireChooseTeacherActivity(){
         Intent chooseTeacherIntent = new Intent(FindTeacherActivity.this,
                 ChooseTeacherActivity.class);
-        chooseTeacherIntent.putExtra("TEST", "THIS IS A TEST");
         chooseTeacherIntent.putParcelableArrayListExtra("TEACHERS", (ArrayList) this.teacherList);
-        Log.d(TAG, "THEACHER_LIST_COUNT: " + this.teacherList.size());
         startActivity(chooseTeacherIntent);
+    }
+
+    private void fireTeacherContactActivity(){
+        Intent teacherContentIntent = new Intent(FindTeacherActivity.this,
+                TeacherContactActivity.class);
+        teacherContentIntent.putExtra("TEACHER", this.teacherList.get(0));
+        startActivity(teacherContentIntent);
     }
 
     private void instantiateViews() {
@@ -137,7 +146,7 @@ public class FindTeacherActivity extends AppCompatActivity {
                         }
                     }
                 }
-                fireChooseTeacherActivity();
+                fireActivity();
             }
 
             @Override

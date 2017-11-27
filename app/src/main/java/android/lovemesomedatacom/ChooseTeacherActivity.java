@@ -7,6 +7,8 @@ import android.lovemesomedatacom.adapters.TeacherAdapter;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class ChooseTeacherActivity extends MenuActivity {
 
 
     private List<Teacher> teacherList;
-    private TeacherAdapter myAdapter;
+    private List<Teacher> uniqueTeachers;
     private ListView teachersListView;
     private Intent intent;
 
@@ -44,8 +46,27 @@ public class ChooseTeacherActivity extends MenuActivity {
     protected void onResume() {
         super.onResume();
         Set<Teacher> teacherSet = new HashSet<>(this.teacherList);
-        List<Teacher> unique = new ArrayList<>(teacherSet);
-        TeacherAdapter teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list, unique);
-        teachersListView.setAdapter(teacherAdapter);
+        this.uniqueTeachers = new ArrayList<>(teacherSet);
+        TeacherAdapter teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list, this.uniqueTeachers);
+        this.teachersListView.setAdapter(teacherAdapter);
+        this.teachersListView.setOnItemClickListener(fireTeacherContactActivity);
+
     }
+
+    public AdapterView.OnItemClickListener fireTeacherContactActivity = new AdapterView.OnItemClickListener()
+    {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+        {
+
+            Intent intent = new Intent(ChooseTeacherActivity.this, TeacherContactActivity.class);
+            for(int i = 0; i < uniqueTeachers.size(); i++)
+            {
+                if (position == i)
+                {
+                    intent.putExtra("CLICKED_TEACHER", uniqueTeachers.get(i));
+                    startActivity(intent);
+                }
+            }
+        }
+    };
 }
