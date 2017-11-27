@@ -1,14 +1,20 @@
 package android.lovemesomedatacom;
 
 import android.os.AsyncTask;
+import android.text.format.DateUtils;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 
 public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, ArrayList<Weather>> {
 
@@ -16,6 +22,7 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
     private WeatherActivity activity;
     private String url;
     private XmlPullParserFactory xmlFactoryObject;
+    private double uv, lat, lng;
 
     public WeatherActivityTask(WeatherActivity activity, String url){
         this.activity = activity;
@@ -59,12 +66,16 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
     @Override
     protected void onPostExecute(ArrayList<Weather> list){
         Log.d(TAG, "OnPostExecute invoked");
-        activity.callBackData(list);
+        activity.callBackData(list, uv);
     }
 
     public ArrayList<Weather> parseXML(XmlPullParser myParser) {
         ArrayList<Weather> list = new ArrayList<>();
+        Date currentTime = roundToNextHour();
+        String[] formattedTime = currentTime.toString().split(" ");
+        Log.d(TAG, formattedTime[3]);
         Weather current = null;
+        boolean trigger = false;
         int event;
 
         try{
@@ -74,9 +85,25 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
                 switch(event){
                     case XmlPullParser.START_TAG:
                         name = myParser.getName();
+
+                        if(name.equals("location")){
+                            trigger = true;
+                        } else if (trigger == true){
+                            if(name.equals("location")){
+                                lat = Double.parseDouble(myParser.getAttributeValue(null, "latitude"));
+                                lng = Double.parseDouble(myParser.getAttributeValue(null, "longitude"));
+                                trigger = false;
+                            }
+                        }
+
                         if(name.equals("time")){
-                            current = new Weather();
-                            list.add(current);
+                            String[] formatted = myParser.getAttributeValue(null, "from").split("T");
+                            if(formatted[1].equals(formattedTime[3])){
+                                current = new Weather();
+                                list.add(current);
+                                current.start = myParser.getAttributeValue(null, "from");
+                                current.end = myParser.getAttributeValue(null, "to");
+                            }
                         } else if (current != null) {
                             if (name.equals("temperature")) {
                                 current.temperature = myParser.getAttributeValue(null,"value") + " " +
@@ -103,4 +130,56 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
             return null;
         }
     }
+
+    private Date roundToNextHour() {
+        Calendar c = new GregorianCalendar();
+        c.setTime(Calendar.getInstance().getTime());
+        int hour = c.get(Calendar.HOUR);
+        switch(hour){
+            case 1:
+            case 2:
+            case 3:
+                c.set(Calendar.HOUR, 3);
+                break;
+            case 4:
+            case 5:
+            case 6:
+                c.set(Calendar.HOUR, 6);
+                break;
+            case 7:
+            case 8:
+            case 9:
+                c.set(Calendar.HOUR, 9);
+                break;
+            case 10:
+            case 11:
+            case 12:
+                c.set(Calendar.HOUR, 12);
+                break;
+            case 13:
+            case 14:
+            case 15:
+                c.set(Calendar.HOUR, 15);
+                break;
+            case 16:
+            case 17:
+            case 18:
+                c.set(Calendar.HOUR, 18);
+                break;
+            case 19:
+            case 20:
+            case 21:
+                c.set(Calendar.HOUR, 21);
+                break;
+            case 22:
+            case 23:
+            case 0:
+                c.set(Calendar.HOUR, 0);
+                break;
+        }
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        return c.getTime();
+    }
+
 }

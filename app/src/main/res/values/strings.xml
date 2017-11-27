@@ -28,6 +28,7 @@
     <string name="about_message">Change this later, default About Message</string>
     <string name="course_id">420-518-DW MOBILE SOFTWARE DEVELOPMENT</string>
     <string name="member_names"> Rhai Hinds, Eric Hughes, Amin Manai, Sebastien Ramirez </string>
+    <string name="weatherButton">Generate Weather</string>
 
     <string-array name="iso_array">
         <item>CA</item>

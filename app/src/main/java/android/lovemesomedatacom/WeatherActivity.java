@@ -33,6 +33,7 @@ public class WeatherActivity extends MenuActivity {
 
     private void findViews(){
         input = (EditText)findViewById(R.id.inputCity);
+        input.setText("Montreal");
         temperature = (TextView)findViewById(R.id.temperature);
         spinner = (Spinner)findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -64,10 +65,11 @@ public class WeatherActivity extends MenuActivity {
         return true;
     }
 
-    public void callBackData(ArrayList<Weather> result) {
+    public void callBackData(ArrayList<Weather> result, double uv) {
         StringBuilder builder = new StringBuilder();
         for(Weather weather : result){
-            builder.append("Temperature: " + weather.temperature)
+            builder.append(weather.start + " " + weather.end).append("\n")
+                    .append("Temperature: " + weather.temperature)
                     .append("\n").append("Pressure: " +weather.pressure)
                     .append("\n").append("Humidity: " + weather.humidity).append("\n\n");
         }
