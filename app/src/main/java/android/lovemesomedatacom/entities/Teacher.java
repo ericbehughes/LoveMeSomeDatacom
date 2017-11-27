@@ -2,17 +2,15 @@ package android.lovemesomedatacom.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.io.Serializable;
+import android.support.annotation.NonNull;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by 1331680 on 11/24/2017.
  */
 
-public class Teacher implements Parcelable {
+public class Teacher implements Parcelable, Comparable<Teacher> {
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public Teacher createFromParcel(Parcel in) {
@@ -42,7 +40,7 @@ public class Teacher implements Parcelable {
                 new ArrayList<String>(), new ArrayList<String>());
     }
 
-    public Teacher(Parcel in){
+    public Teacher(Parcel in) {
         this.first_name = in.readString();
         this.last_name = in.readString();
         this.full_name = in.readString();
@@ -252,5 +250,10 @@ public class Teacher implements Parcelable {
         parcel.writeStringList(this.positions);
         parcel.writeStringList(this.departments);
         parcel.writeStringList(this.sectors);
+    }
+
+    @Override
+    public int compareTo(@NonNull Teacher teacher) {
+        return this.full_name.compareToIgnoreCase(teacher.getFull_name());
     }
 }

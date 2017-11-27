@@ -1,33 +1,22 @@
 package android.lovemesomedatacom;
 
 import android.content.Intent;
-import android.lovemesomedatacom.adapters.TeacherAdapter;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.*;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by 1331680 on 11/24/2017.
@@ -80,7 +69,6 @@ public class FindTeacherActivity extends AppCompatActivity {
                 break;
         }
 
-
     }
 
     private void fireChooseTeacherActivity() {
@@ -114,7 +102,7 @@ public class FindTeacherActivity extends AppCompatActivity {
 
 
     private void executeQuery(final String firstName, final String lastName) {
-        Log.d(TAG, "QUERY_EXACT INVOKED");
+        Log.d(TAG, "QUERY_INVOKED");
         this.teacherList.clear();
         teacherQuery.addValueEventListener(new ValueEventListener() {
             @Override

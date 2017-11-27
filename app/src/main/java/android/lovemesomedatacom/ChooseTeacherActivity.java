@@ -1,17 +1,15 @@
 package android.lovemesomedatacom;
 
 import android.content.Intent;
-import android.lovemesomedatacom.MenuActivity;
-import android.lovemesomedatacom.R;
 import android.lovemesomedatacom.adapters.TeacherAdapter;
 import android.lovemesomedatacom.entities.Teacher;
+import android.lovemesomedatacom.entities.TeacherNameComparator;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,6 +43,7 @@ public class ChooseTeacherActivity extends MenuActivity {
         super.onResume();
         Set<Teacher> teacherSet = new HashSet<>(this.teacherList);
         this.uniqueTeachers = new ArrayList<>(teacherSet);
+        Collections.sort(this.uniqueTeachers, new TeacherNameComparator());
         TeacherAdapter teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list, this.uniqueTeachers);
         this.teachersListView.setAdapter(teacherAdapter);
         this.teachersListView.setOnItemClickListener(fireTeacherContactActivity);
