@@ -2,8 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_add_task"
+        android:id="@+id/action_save_settings"
         android:icon="@android:drawable/ic_menu_save"
+        android:iconTint="@color/colorWhite"
         android:title="Add Task"
         app:showAsAction="always" />
 </menu>

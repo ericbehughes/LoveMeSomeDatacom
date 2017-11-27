@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,13 +18,14 @@ import java.util.Calendar;
 
 public class SettingsActivity extends MenuActivity {
 
+    private static final String TAG = "SettingsActivity";
     private SharedPreferences prefs;
     private String firstName;
     private String lastName;
     private String password;
     private String email;
     private String timeStamp;
-    private boolean isDiscard;
+    private boolean isSaved;
 
     private TextView tvFirstName;
     private EditText etFirstName;
@@ -33,6 +37,7 @@ public class SettingsActivity extends MenuActivity {
     private EditText etPassword;
     private TextView tvTimeStamp;
     private TextView etTimeStamp;
+
 
 
     /**
@@ -58,7 +63,9 @@ public class SettingsActivity extends MenuActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_settings);
         // load views to be used
-        isDiscard = false;
+
+        isSaved = true;
+        Log.d(TAG, "Calendar.getInstance.getTime.ToString()" + Calendar.getInstance().getTime().toString());
         findViews();
 
         /**
@@ -74,7 +81,9 @@ public class SettingsActivity extends MenuActivity {
             etEmail.setText(email);
             password = prefs.getString(SharedPreferencesKey.PASSWWORD.toString(), "");
             etPassword.setText(password);
+            Log.d(TAG, "Calendar.getInstance.getTime.ToString()" + Calendar.getInstance().getTime().toString());
             timeStamp = prefs.getString(SharedPreferencesKey.DATE_STAMP.toString(), Calendar.getInstance().getTime().toString());
+            Log.d(TAG, "Timestamp from shared preferences" + timeStamp);
             etTimeStamp.setText(timeStamp);
         }
     }
@@ -88,7 +97,7 @@ public class SettingsActivity extends MenuActivity {
         password = etPassword.getText().toString();
         timeStamp = etTimeStamp.getText().toString();
         SharedPreferences.Editor editor = prefs.edit();
-        if (!isDiscard){
+        if (isSaved){
             // save users info to shared preferences
             editor.putString(SharedPreferencesKey.FIRST_NAME.toString(), firstName);
             editor.putString(SharedPreferencesKey.LAST_NAME.toString(), lastName);
@@ -104,29 +113,97 @@ public class SettingsActivity extends MenuActivity {
 
 
     /**
+     * overriden to add + button the toolbar
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    /**
+     * custom button in the menu bar and creates a small dialog for the user
+     * to enter a note.
+     *
+     * inserts into the DB and calls updateUI once again
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_save_settings:
+                isSaved = true;
+                firstName = etFirstName.getText().toString();
+                lastName = etLastName.getText().toString();
+                email= etEmail.getText().toString();
+                password = etPassword.getText().toString();
+                timeStamp = Calendar.getInstance().getTime().toString();
+                etTimeStamp.setText(timeStamp);
+                break;
+
+
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+
+    /**
      * custom back button alert dialog that turns isDiscard to true or false
      * before shared preferences are saved
      */
     @Override
     public void onBackPressed()
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.discard_pop_up_dialog)
-                .setTitle(R.string.confirm_discard_string);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int id) {
-            isDiscard = true;
+        isSaved = isSettingsChanged();
+        if(!isSaved){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.discard_pop_up_dialog)
+                    .setTitle(R.string.confirm_discard_string);
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    SettingsActivity.this.finish();
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }else{
             SettingsActivity.this.finish();
         }
-    });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
 
+
+    }
+
+    private boolean isSettingsChanged(){
+        if (!firstName.equalsIgnoreCase(etFirstName.getText().toString())){
+            return false;
+        }
+        else if (!lastName.equalsIgnoreCase(etLastName.getText().toString())){
+            return false;
+        }
+        else if (!email.equalsIgnoreCase(etEmail.getText().toString())){
+            return false;
+        }
+        else if (!password.equalsIgnoreCase(etPassword.getText().toString())){
+            return false;
+        }
+        else if (!timeStamp.equalsIgnoreCase(etTimeStamp.getText().toString())){
+            return false;
+        }
+        return true;
     }
 
 }
