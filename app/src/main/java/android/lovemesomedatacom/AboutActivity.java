@@ -19,9 +19,9 @@ public class AboutActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-
         //If user is authenticated then call the Find Views method here
         findViews();
+        this.setTitle(R.string.about_activity_title);
     }
 
     @Override

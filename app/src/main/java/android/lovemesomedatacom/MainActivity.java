@@ -109,6 +109,15 @@ public class MainActivity extends MenuActivity {
             }
         });
 
+        tvWeatherTV.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, WeatherActivity.class);
+                startActivity(i);
+            }
+        });
+
 
     }
 
@@ -173,6 +182,13 @@ public class MainActivity extends MenuActivity {
         Intent i = new Intent(this, CalendarActivity.class);
 
         Log.d(TAG, "CalendarActivity");
+        startActivity(i);
+    }
+
+    public void showAcademicCalendarClick(View view) {
+
+        Intent i = new Intent(this, AcademicCalendar.class);
+        Log.d(TAG, "AcademicCalendarActivity");
         startActivity(i);
     }
 }
