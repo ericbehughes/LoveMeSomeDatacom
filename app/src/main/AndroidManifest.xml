@@ -28,7 +28,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".AboutActivity"></activity>
+        <activity android:name=".AboutActivity" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".WeatherActivity" />
         <activity android:name=".AboutActivity" />
@@ -37,7 +37,8 @@
         <activity android:name=".NetworkFactoryActivity" />
         <activity android:name=".NotesActivity" />
         <activity android:name=".NoteDetailsActivity" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".AcademicCalendar"></activity>
     </application>
 
 </manifest>

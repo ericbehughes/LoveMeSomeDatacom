@@ -17,10 +17,10 @@
     <string name="menu_item_about">About</string>
 
 
-    <string name="fa_search_icon">&#xf002; Find my Teacher (firebase)</string>
+    <string name="fa_search_icon">&#xf002; Find my Teacher</string>
     <string name="fa_calendar_icon">&#xf073; Calendar Cancellations</string>
     <string name="fa_add_to_calendar_icon">&#xf271; Add To Calendar</string>
-    <string name="fa_notes_icon">&#xf040; Notes (sql lite)</string>
+    <string name="fa_notes_icon">&#xf040; Notes</string>
     <string name="fa_sun_icon">&#xf185; Weather (api)</string>
     <string name="fa_grades_icon">&#xf19d; Academic Calendar</string>
     <string name="fa_thermometer_icon">&#xf2c7; Current Temperature</string>
@@ -52,6 +52,9 @@
     <string name="email_address">Email</string>
     <string name="password">Password</string>
     <string name="date_last_updated">Date Last Modified</string>
+    <string name="Fall">Fall</string>
+    <string name="Winter">Winter</string>
+    <string name="Year">Year</string>
 
 
 </resources>
