@@ -55,35 +55,31 @@ public class CoursesAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView tv1;
-        TextView tv2;
     }
 
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
         CoursesAdapter.ViewHolder holder = new CoursesAdapter.ViewHolder();
         View rowView;
-        rowView = inflater.inflate(R.layout.fragment_course_cancelation_detail, null);
+        rowView = inflater.inflate(R.layout.class_cancelation_list_item, null);
 
 
-        holder.tv1 = (TextView) rowView.findViewById(R.id.tvTitle);
-        holder.tv2 = (TextView) rowView.findViewById(R.id.tvDetails);
-
+        holder.tv1 = (TextView) rowView.findViewById(R.id.course_name);
 
         holder.tv1.setText(courses.get(position).toString());
-        holder.tv2.setText(courses.get(position).cancellationDetails());
 
-        rowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Log.d("inside", "inside on click");
-
-                Intent i = new Intent(context, ClassCancelationDetailFragment.class);
-                i.putExtra("course", courses.get(position).toString());
-                i.putExtra("courseDetails", courses.get(position).cancellationDetails());
-                context.startActivity(i);
-            }
-        });
+//        rowView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Log.d("inside", "inside on click");
+//
+//                Intent i = new Intent(context, ClassCancelationDetailFragment.class);
+//                i.putExtra("course", courses.get(position).toString());
+//                i.putExtra("courseDetails", courses.get(position).cancellationDetails());
+//                context.startActivity(i);
+//            }
+//        });
 
         return rowView;
     }

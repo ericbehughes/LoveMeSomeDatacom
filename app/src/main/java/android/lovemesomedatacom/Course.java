@@ -1,5 +1,8 @@
 package android.lovemesomedatacom;
 
+import android.text.Html;
+import android.text.Spanned;
+
 /**
  * Created by 1513733 on 11/24/2017.
  */
@@ -44,22 +47,17 @@ public class Course {
         this.dateCancelled = dateCancelled;
     }
 
-    public String getDescription() {
-        return description;
+    public Spanned getDescription() {
+        return Html.fromHtml(description);
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public String cancellationDetails(){
-        return "Course Number: "+this.title+"\nCourse Name: "+this.courseName+"\nTeacher: "+this.teacherName+
-                "\nDescription: "+this.description+"\nDate Cancelled: "+this.dateCancelled;
-    }
-
     @Override
     public String toString(){
-        return "Course: "+this.courseName+"\n Date Cancelled: "+this.dateCancelled;
+        return this.courseName+"\n\t"+this.teacherName;
     }
 
 

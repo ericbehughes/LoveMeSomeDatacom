@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 
 public class ClassCancelationDetailFragment extends Fragment {
-    int position = 0;
+    String title = "";
+    String details = "";
     TextView tvTitle;
     TextView tvDetails;
 
@@ -22,12 +23,13 @@ public class ClassCancelationDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*if(savedInstanceState == null){
+        if(savedInstanceState == null){
             // Get back arguments
             if(getArguments() != null) {
-                position = getArguments().getInt("position", 0);
+                title = getArguments().getString("course_name", "");
+                details = getArguments().getString("course_description", "");
             }
-        }*/
+        }
     }
 
     @Override
@@ -44,13 +46,13 @@ public class ClassCancelationDetailFragment extends Fragment {
         tvDetails = (TextView) view.findViewById(R.id.tvDetails);
 
         // update view
-        tvTitle.setText(ClassCancelationModel.courses[position].toString());
-        tvDetails.setText(ClassCancelationModel.courses[position].cancellationDetails());
+        tvTitle.setText(title);
+        tvDetails.setText(details);
     }
 
     // Activity is calling this to update view on Fragment
     public void updateView(int position){
-        tvTitle.setText(ClassCancelationModel.courses[position].toString());
-        tvDetails.setText(ClassCancelationModel.courses[position].cancellationDetails());
+        tvTitle.setText(title);
+        tvDetails.setText(details);
     }
 }

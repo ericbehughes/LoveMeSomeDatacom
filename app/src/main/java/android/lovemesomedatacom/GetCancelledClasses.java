@@ -22,7 +22,7 @@ import java.util.List;
 
 public class GetCancelledClasses extends AsyncTask<String, Void,ArrayList<Course>>  {
 
-        private  ClassCancelationsFragment activity;
+        private ClassCancelationsFragment activity;
         private String url;
         private XmlPullParserFactory xmlFactoryObject;
         private ProgressDialog pDialog;
@@ -38,7 +38,6 @@ public class GetCancelledClasses extends AsyncTask<String, Void,ArrayList<Course
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            coursesAdapter = activity.getAdapter();
 //            pDialog = new ProgressDialog(activity);
 //            pDialog.setTitle("Get from xml");
 //            pDialog.setMessage("Loading");

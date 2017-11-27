@@ -1,6 +1,7 @@
 package android.lovemesomedatacom;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,10 +32,6 @@ public class ClassCancelationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        itemsAdapter = new ArrayAdapter<String>(getContext(),
-//                android.R.layout.simple_list_item_1, cancelationMenu);
-
-        //itemsAdapter = new ArrayAdapter<>(getActivity(), simple_list_item_1, courses);
     }
 
     @Override
@@ -58,13 +55,13 @@ public class ClassCancelationsFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         ListView lvItems = (ListView) view.findViewById(R.id.lvItems);
-        lvItems.setAdapter(itemsAdapter);
+        lvItems.setAdapter(coursesAdapter);
 
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                listener.onClassCancellationSelected(position); // (3) Communicate with Activity using Listener
+                Course selectedCourse = (Course) coursesAdapter.getItem(position);
+                listener.onClassCancellationSelected(selectedCourse); // (3) Communicate with Activity using Listener
             }
         });
     }
@@ -86,7 +83,7 @@ public class ClassCancelationsFragment extends Fragment {
     // The onAttach method is called when the Fragment instance is associated with an Activity.
     // This does not mean the Activity is fully initialized.
     @Override
-    public void onAttach(Activity context) {
+    public void onAttach(Context context) {
         super.onAttach(context);
         //Toast.makeText(this, "Called By Fragment A: position - ", Toast.LENGTH_SHORT).show();
         Toast.makeText(context, "ClassCancelationsFragment on Attach", Toast.LENGTH_LONG);
@@ -104,17 +101,14 @@ public class ClassCancelationsFragment extends Fragment {
     // Define the events that the fragment will use to communicate
     public interface OnItemSelectedListener {
         // This can be any number of events to be sent to the activity
-        void onClassCancellationSelected(int position);
+
+        void onClassCancellationSelected(Course courseSelected);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toast.makeText(getActivity(), "ClassCancelationsFragment onActivityCreated", Toast.LENGTH_LONG);
-    }
-
-    public CoursesAdapter getAdapter(){
-        return this.coursesAdapter;
     }
 
 

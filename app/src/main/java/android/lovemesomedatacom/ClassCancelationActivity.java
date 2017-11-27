@@ -18,9 +18,6 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_cancellation);
 
-        //new GetCancelledClasses(this,url).execute();
-        //new ClassCancelationModel(courses);
-
         ClassCancelationsFragment firstFragment;
         FragmentTransaction ft =
                 getSupportFragmentManager().beginTransaction();// begin  FragmentTransaction
@@ -65,16 +62,15 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
     }
 
     @Override
-    public void onClassCancellationSelected(int position) {
-        Toast.makeText(this, "Called By Fragment A: position - "+ position, Toast.LENGTH_SHORT).show();
+    public void onClassCancellationSelected(Course courseSelected) {
 
         // Load Pizza Detail Fragment
         ClassCancelationDetailFragment secondFragment = new ClassCancelationDetailFragment();
 
         Bundle args = new Bundle();
-        args.putInt("position", position);
+        args.putString("course_name", courseSelected.getCourseName());
+        args.putString("course_description",courseSelected.getDescription().toString());
         secondFragment.setArguments(args);          // (1) Communicate with Fragment using Bundle
-
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             getSupportFragmentManager()
