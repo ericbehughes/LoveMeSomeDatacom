@@ -9,17 +9,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 1331680 on 11/24/2017.
+ * The FindTeacherActivity is responsible for querying the Firebase database and retrieving
+ * a list of teachers according to input taken from the user. It will fire the ChooseTeacherActivity
+ * if the query returns more than one teacher, TeacherContactActivity if only one teacher is found
+ * or display an appropriate message if no teachers are found.
+ *
+ * @author Sebastian Ramirez
  */
 
 public class FindTeacherActivity extends AppCompatActivity {
@@ -37,22 +44,48 @@ public class FindTeacherActivity extends AppCompatActivity {
     private Query teacherQuery;
     private List<Teacher> teacherList;
 
+    /**
+     * The onCreate is fired when the Activity is started. It takes a Bundle as parameter in order
+     * to preserve data between activities or when the viewport changes. It inflates the specified layout
+     * resource and several attributes required by public and private methods that need initialization.
+     * onCreate will also initialize all the views that need to be changed through code by invoking
+     * the instantiateViews method.
+     *
+     * @param savedInstance
+     */
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_teacher);
 
+        //Initialization of the Teacher's list attribute required by the ValueEventListener of the Query
         this.teacherList = new ArrayList<>();
-
+        //Root reference to the Firebase Database
         this.mDatabaseRef = FirebaseDatabase.getInstance().getReference();
-
+        //Query that will sort the items in the database by full_name, this is done for faster
+        //querying since the dataset is indexed by full_name
         this.teacherQuery = mDatabaseRef.orderByChild("full_name");
-
-
+        //Instantiation of the views
         instantiateViews();
-
     }
 
+    /**
+     * The instantiateViews method is a simple method that will instantiate all the views that need
+     * to be accessed and/or changed by the activity and its methods.
+     */
+    private void instantiateViews() {
+        this.firstNameSearchView = findViewById(R.id.firstNameSearch);
+        this.lastNameSearchView = findViewById(R.id.lastNameSearch);
+        this.likeRadio = findViewById(R.id.likeRadio);
+        this.infoToast = new Toast(this);
+    }
+
+    /**
+     * The fireActivity method will check for the number of items retrieved and stored by the
+     * EventListener. If no items are found, it will display a Toast informing the user that no
+     * items were found. If exactly 1 item was found, it will fire the TeacherContactActivity.
+     * If more than 1 items are found, it will fire the ChooseTeacherActivity.
+     */
     private void fireActivity() {
         int results = this.teacherList.size();
         Log.d(TAG, "TEACHER_LIST_SIZE: " + results);
@@ -71,6 +104,11 @@ public class FindTeacherActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * The fireChooseTeacherActivity method takes care of the initialization of the intent that will fire
+     * the ChooseTeacherActivity. It will pass a list of Teacher objects that implement the
+     * Parcelable interface as an extra.
+     */
     private void fireChooseTeacherActivity() {
         Intent chooseTeacherIntent = new Intent(FindTeacherActivity.this,
                 ChooseTeacherActivity.class);
@@ -78,6 +116,11 @@ public class FindTeacherActivity extends AppCompatActivity {
         startActivity(chooseTeacherIntent);
     }
 
+    /**
+     * The fireTeacherContactActivity method takes care of the initialization of the intent that will fire
+     * the TeacherContactActivity. It will pass a single Teacher object that implement the
+     * Parcelable interface as an extra.
+     */
     private void fireTeacherContactActivity() {
         Intent teacherContentIntent = new Intent(FindTeacherActivity.this,
                 TeacherContactActivity.class);
@@ -85,13 +128,13 @@ public class FindTeacherActivity extends AppCompatActivity {
         startActivity(teacherContentIntent);
     }
 
-    private void instantiateViews() {
-        this.firstNameSearchView = findViewById(R.id.firstNameSearch);
-        this.lastNameSearchView = findViewById(R.id.lastNameSearch);
-        this.likeRadio = findViewById(R.id.likeRadio);
-        this.infoToast = new Toast(this);
-    }
-
+    /**
+     * The onSearch method is fired whenever the user presses the search button on this activity.
+     * It gets the text from both of the SearchViews and passes it to the validateSearch method.
+     * It takes as parameter the view that invoked the method.
+     *
+     * @param view
+     */
     public void onSearch(View view) {
         String firstNameQuery = this.firstNameSearchView.getQuery().toString().toLowerCase();
         Log.d(TAG, "firstNameQuery: " + firstNameQuery);
@@ -100,7 +143,35 @@ public class FindTeacherActivity extends AppCompatActivity {
         validateSearch(firstNameQuery, lastNameQuery);
     }
 
+    /**
+     * The validateSearch method takes as input the text from the SearchViews and validates that
+     * at checks if both of them are empty or not. If both are empty, it will display a Toast
+     * asking the user to enter at least one search inquiry. If at least one is not empty, it will
+     * call the executeQuery method.
+     *
+     * @param firstName
+     * @param lastName
+     */
+    private void validateSearch(String firstName, String lastName) {
+        if (firstName.isEmpty() && lastName.isEmpty()) {
+            this.infoToast = Toast.makeText(this, "Please enter at least one search", Toast.LENGTH_LONG);
+            infoToast.show();
+        } else {
+            executeQuery(firstName, lastName);
+        }
 
+    }
+
+    /**
+     * The executeQuery method will add a ValueEventListener to the Query. Before performing a search
+     * on the Query, it will delete all previous items in the Teacher's list in order to not display
+     * past items not particular to the new search. The ValueEventListener will search through the
+     * Query and retrieve every element as a DataSnapshot and filter the results by calling the
+     * filterResults method for every item.
+     *
+     * @param firstName
+     * @param lastName
+     */
     private void executeQuery(final String firstName, final String lastName) {
         Log.d(TAG, "QUERY_INVOKED");
         this.teacherList.clear();
@@ -122,6 +193,22 @@ public class FindTeacherActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * The filterResults method will take as paramenter the input specified by the user, as well
+     * as a DataSnapshot object containing a single item from the Query. It converts the DataSnapshot
+     * object to a Teacher object, made possible by an appropriate written Teacher object. It converts
+     * the teacher's firstName and lastName to lower case for easier filtering of results. If the
+     * activity's RadioButton that specifies searching for similar results is checked, it will filter
+     * the results appropiately, checking if the teacher's first and last name start with what the user
+     * specified. If the activity's RadioButton is not checked, it means the search for exact results
+     * RadioButton is checked, the method will check if the teacher's first and last name match exactly
+     * the user input. When the teacher's name matches one of the conditions, it is added to the
+     * teacher's list.
+     *
+     * @param firstName
+     * @param lastName
+     * @param ds
+     */
     private void filterResults(String firstName, String lastName, DataSnapshot ds) {
         Teacher teacher = ds.getValue(Teacher.class);
         String teachersFirst = teacher.getFirst_name().toLowerCase();
@@ -153,13 +240,4 @@ public class FindTeacherActivity extends AppCompatActivity {
         }
     }
 
-    private void validateSearch(String firstName, String lastName) {
-        if (firstName.isEmpty() && lastName.isEmpty()) {
-            this.infoToast = Toast.makeText(this, "Please enter at least one search", Toast.LENGTH_LONG);
-            infoToast.show();
-        } else {
-            executeQuery(firstName, lastName);
-        }
-
-    }
 }
