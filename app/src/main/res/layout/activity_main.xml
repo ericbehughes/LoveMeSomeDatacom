@@ -89,8 +89,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:onClick="showCalendarView"
+            android:gravity="center"
             android:background="@drawable/border"
+            android:onClick="showCalendarView"
             android:text="@string/fa_add_to_calendar_icon"
             android:textSize="16dp" />
 
@@ -101,8 +102,8 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
-            android:text="@string/fa_notes_icon"
             android:onClick="showNotesClick"
+            android:text="@string/fa_notes_icon"
             android:textSize="16dp" />
     </LinearLayout>
 
