@@ -8,6 +8,7 @@ import android.lovemesomedatacom.db.NotesDBHelper;
 import android.lovemesomedatacom.db.NotesTable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,13 +29,14 @@ public class NotesActivity extends MenuActivity {
     private ListView mNoteListView;
     private NotesAdapter mAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
         mHelper = new NotesDBHelper(this);
         mNoteListView = (ListView) findViewById(R.id.list_notes);
-
+        this.setTitle(R.string.notes_activity_title);
         updateUI();
     }
 
@@ -137,10 +139,6 @@ public class NotesActivity extends MenuActivity {
             n.setTitle(cursor.getString(idx));
             idx = cursor.getColumnIndex(NotesTable.NotesEntry.COL_NOTES_TEXT);
             String text = cursor.getString(idx);
-            if (text.length() > 40){
-                text = text.substring(0, 40) + "...";
-            }
-
             n.setText(text);
             notesList.add(n);
         }

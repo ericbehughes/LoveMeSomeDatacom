@@ -63,6 +63,7 @@ public class SettingsActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_settings);
+        this.setTitle(R.string.settings_calendar_activity_title);
         // load views to be used
 
         isSaved = true;

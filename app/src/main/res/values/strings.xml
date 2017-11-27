@@ -70,6 +70,15 @@
     <string name="teacher_website">"Website: "</string>
     <string name="teacher_bio">"Bio: "</string>
 
+    <!--titles for each screen-->
+    <string name="notes_activity_title">Notes</string>
+    <string name="calendar_cancel_activity_title">Calendar Cancelations</string>
+    <string name="find_my_teacher_activity_title">Find My Teacher</string>
+    <string name="add_to_calendar_activity_title">Add To Calendar</string>
+    <string name="weather_activity_title">Weather</string>
+    <string name="academic_calendar_activity_title">Academic Calendar</string>
+    <string name="settings_calendar_activity_title">Settings</string>
+    <string name="about_activity_title">About</string>
 
 
 </resources>

@@ -29,6 +29,7 @@ public class AcademicCalendar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_academic_calendar);
         findViews();
+        this.setTitle(R.string.academic_calendar_activity_title);
 
 
         /**

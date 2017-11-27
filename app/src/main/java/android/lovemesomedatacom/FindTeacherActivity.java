@@ -52,7 +52,7 @@ public class FindTeacherActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_teacher);
-
+        this.setTitle(R.string.find_my_teacher_activity_title);
         this.teacherList = new ArrayList<>();
 
         this.mDatabaseRef = FirebaseDatabase.getInstance().getReference();
