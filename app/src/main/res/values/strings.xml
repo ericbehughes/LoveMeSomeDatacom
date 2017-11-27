@@ -58,5 +58,18 @@
     <string name="submit">Submit</string>
     <string name="delete_button">Delete</string>
 
+    <!--Teacher module related strings-->
+    <string name="search_teacher">Search</string>
+    <string name="radio_like">Search for similar results</string>
+    <string name="radio_exact">Search for exact results</string>
+    <string name="from">from: </string>
+    <string name="teacher_name">"Name: "</string>
+    <string name="teacher_email">"Email: "</string>
+    <string name="teacher_office">"Office: "</string>
+    <string name="teacher_local">"Local: "</string>
+    <string name="teacher_website">"Website: "</string>
+    <string name="teacher_bio">"Bio: "</string>
+
+
 
 </resources>
