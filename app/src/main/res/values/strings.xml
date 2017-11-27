@@ -21,7 +21,7 @@
     <string name="fa_calendar_icon">&#xf073; Calendar Cancellations</string>
     <string name="fa_add_to_calendar_icon">&#xf271; Add To Calendar</string>
     <string name="fa_notes_icon">&#xf040; Notes</string>
-    <string name="fa_sun_icon">&#xf185; Weather (api)</string>
+    <string name="fa_sun_icon">&#xf185; Weather</string>
     <string name="fa_grades_icon">&#xf19d; Academic Calendar</string>
     <string name="fa_thermometer_icon">&#xf2c7; Current Temperature</string>
 

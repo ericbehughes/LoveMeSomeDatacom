@@ -33,7 +33,7 @@ import java.util.Set;
  * Created by 1331680 on 11/24/2017.
  */
 
-public class FindTeacherActivity extends AppCompatActivity {
+public class FindTeacherActivity extends MenuActivity {
 
     private static final String TAG = "FIND_TEACHER_ACTIVITY";
 
