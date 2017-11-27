@@ -11,12 +11,16 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
 
     private final static String url = "https://www.dawsoncollege.qc.ca/wp-content/external-includes/cancellations/feed.xml";
     private final String TAG = "ClassCancelActivity";
+    private Course[] courses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_cancellation);
+
         new GetCancelledClasses(this,url).execute();
+        //new ClassCancelationModel(courses);
+
         ClassCancelationsFragment firstFragment;
         FragmentTransaction ft =
                 getSupportFragmentManager().beginTransaction();// begin  FragmentTransaction
@@ -92,6 +96,7 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
 
     public void callBackData(Course[] result){
         if(result != null){
+            courses = result;
             for(Course r:result){
                 if(r!=null){
                     Log.d(TAG,"callBackData Method: "+r.toString());

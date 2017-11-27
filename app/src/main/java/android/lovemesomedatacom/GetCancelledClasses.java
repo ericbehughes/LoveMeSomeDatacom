@@ -70,12 +70,11 @@ public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
 
         public Course[] parseXML(XmlPullParser myParser) {
 
-            int event;
+            //int event;
             //String text = null;
             Course[] result = new Course[50];
 
             try {
-                int counter = 0;
                 int itemC = 0;
                 int eventType = myParser.getEventType();
                 while (eventType != XmlPullParser.END_DOCUMENT) {
@@ -108,7 +107,6 @@ public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
                                         course.setDateCancelled(text);
                                     }
                                 }
-                                counter++;
                                 if(eventType == XmlPullParser.END_TAG){
                                     if(name == null){
                                         name = "";
@@ -162,6 +160,7 @@ public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
         protected void onPostExecute(Course[] result){
             //call back data to main thread
             pDialog.dismiss();
-            activity.callBackData(result);
+            new ClassCancelationModel(result);
+            //activity.callBackData(result);
         }
 }

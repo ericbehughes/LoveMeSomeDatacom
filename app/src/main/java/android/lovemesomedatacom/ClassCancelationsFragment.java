@@ -15,19 +15,19 @@ import android.widget.Toast;
 
 import static android.R.layout.simple_expandable_list_item_1;
 import static android.R.layout.simple_list_item_1;
-import static android.lovemesomedatacom.ClassCancelationModel.cancelationMenu;
+import static android.lovemesomedatacom.ClassCancelationModel.courses;
 import static java.security.AccessController.getContext;
 
 
 public class ClassCancelationsFragment extends Fragment {
-    ArrayAdapter<String> itemsAdapter;
+    ArrayAdapter<Course> itemsAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        itemsAdapter = new ArrayAdapter<String>(getContext(),
 //                android.R.layout.simple_list_item_1, cancelationMenu);
-        itemsAdapter = new ArrayAdapter<>(getActivity(), simple_list_item_1, cancelationMenu);
+        itemsAdapter = new ArrayAdapter<>(getActivity(), simple_list_item_1, courses);
     }
 
     @Override

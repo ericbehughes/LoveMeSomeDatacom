@@ -52,5 +52,16 @@ public class Course {
         this.description = description;
     }
 
+    public String cancellationDetails(){
+        return "Course Number: "+this.title+"\nCourse Name: "+this.courseName+"\nTeacher: "+this.teacherName+
+                "\nDescription: "+this.description+"\nDate Cancelled: "+this.dateCancelled;
+    }
+
+    @Override
+    public String toString(){
+        return "Course: "+this.courseName+"\n Date Cancelled: "+this.dateCancelled;
+    }
+
+
 
 }

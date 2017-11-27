@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:onClick="classCancellationClick"
     tools:context="android.lovemesomedatacom.MainActivity">
 
 
@@ -44,9 +43,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
-
+            android:gravity="center"
+            android:onClick="classCancellationClick"
             android:text="@string/fa_calendar_icon"
             android:textSize="16dp" />
 

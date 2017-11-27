@@ -43,13 +43,13 @@ public class ClassCancelationDetailFragment extends Fragment {
         tvDetails = (TextView) view.findViewById(R.id.tvDetails);
 
         // update view
-        tvTitle.setText(ClassCancelationModel.cancelationMenu[position]);
-        tvDetails.setText(ClassCancelationModel.cancelationMenu[position]);
+        tvTitle.setText(ClassCancelationModel.courses[position].toString());
+        tvDetails.setText(ClassCancelationModel.courses[position].cancellationDetails());
     }
 
     // Activity is calling this to update view on Fragment
     public void updateView(int position){
-        tvTitle.setText(ClassCancelationModel.cancelationMenu[position]);
-        tvDetails.setText(ClassCancelationModel.cancelationMenu[position]);
+        tvTitle.setText(ClassCancelationModel.courses[position].toString());
+        tvDetails.setText(ClassCancelationModel.courses[position].cancellationDetails());
     }
 }
