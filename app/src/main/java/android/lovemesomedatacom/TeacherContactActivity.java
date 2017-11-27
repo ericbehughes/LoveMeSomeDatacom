@@ -2,8 +2,10 @@ package android.lovemesomedatacom;
 
 import android.content.Intent;
 import android.lovemesomedatacom.entities.Teacher;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +15,9 @@ import android.widget.TextView;
  */
 
 public class TeacherContactActivity extends MenuActivity {
+    private final String TAG = "TEACHER_CONTACT_ACT";
+    private final String DAWSON_NUMBER = "(514) 931 8731";
+
     private TextView fullName, email, office, local, website, bio;
     private TextView[] departments, positions, sectors;
     private Intent intent;
@@ -28,8 +33,8 @@ public class TeacherContactActivity extends MenuActivity {
     }
 
     @Override
-    protected void onStart(){
-        super.onStart();
+    protected void onResume(){
+        super.onResume();
         setViews();
     }
 
@@ -37,27 +42,41 @@ public class TeacherContactActivity extends MenuActivity {
         this.fullName = findViewById(R.id.full_name);
         this.email = findViewById(R.id.email);
         this.office = findViewById(R.id.office);
-        this.local = findViewById(R.id.website);
+        this.local = findViewById(R.id.local);
         this.website = findViewById(R.id.website);
         this.bio = findViewById(R.id.bio);
     }
 
     private void setViews() {
         Teacher teacher = this.intent.getParcelableExtra("TEACHER");
-        this.fullName.setText(teacher.getFull_name());
+        this.fullName.setText("Name: "+ teacher.getFull_name());
         String formattedEmail = Html.fromHtml(teacher.getEmail()).toString();
-        this.email.setText(formattedEmail);
-        this.office.setText(teacher.getOffice());
-        this.local.setText(teacher.getLocal());
-        this.website.setText(teacher.getWebsite());
-        this.bio.setText(teacher.getBio());
+        this.email.setText("Email: " + formattedEmail);
+        this.office.setText("Office: " + teacher.getOffice());
+        this.local.setText("Local" + teacher.getLocal());
+        this.website.setText("Website: " + teacher.getWebsite());
+        this.bio.setText("Bio: " + teacher.getBio());
 
     }
     public void launchEmailIntent(View view){
-
+        TextView email = (TextView) view;
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        String[] recipients = {email.getText().toString()};
+        intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.from)+getString(R.string.app_name));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
     public void launchPhoneIntent(View view){
-
+        Log.d(TAG, "PHONE INTENT INVOKED");
+        TextView local = (TextView) view;
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel://" + DAWSON_NUMBER+","+local.getText()));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
 }
