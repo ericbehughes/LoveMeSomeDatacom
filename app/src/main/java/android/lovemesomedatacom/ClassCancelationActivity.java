@@ -8,10 +8,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class ClassCancelationActivity extends AppCompatActivity  implements ClassCancelationsFragment.OnItemSelectedListener {
-
-    private final static String url = "https://www.dawsoncollege.qc.ca/wp-content/external-includes/cancellations/feed.xml";
+    
     private final String TAG = "ClassCancelActivity";
-    private Course[] courses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
