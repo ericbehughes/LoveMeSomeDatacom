@@ -1,157 +1,84 @@
 package android.lovemesomedatacom;
 
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import java.util.Calendar;
-import android.webkit.WebView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
-import org.xmlpull.v1.XmlPullParserException;
-import android.lovemesomedatacom.StackOverflowXmlParser;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 
-public class WeatherActivity extends AppCompatActivity {
+public class WeatherActivity extends MenuActivity {
 
-    private String TAG = "WeatherActivity";
-    private static final String URL =
-            "https://www.dawsoncollege.qc.ca/wp-content/external-includes/cancellations/feed.xml";
-
+    private static final String TAG = "WeatherActivity";
+    private static final String ForecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=";
+    EditText input;
+    ImageView image;
+    Spinner spinner;
+    Button weatherBtn;
+    TextView temperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "OnCreate Invoked");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
-        //IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-
+        findViews();
 
     }
 
-    public void parseXML(View view) {
-            loadPage();
-    }
-
-    private class  ManualTestAsync extends AsyncTask<String,Void,String> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-            try {
-                return loadXmlFromNetwork(urls[0]);
-            } catch (IOException e) {
-                return getResources().getString(R.string.connection_error);
-            } catch (XmlPullParserException e) {
-                return getResources().getString(R.string.xml_error);
+    private void findViews(){
+        input = (EditText)findViewById(R.id.inputCity);
+        input.setText("Montreal");
+        image = (ImageView)findViewById(R.id.weatherIcon);
+        temperature = (TextView)findViewById(R.id.temperature);
+        spinner = (Spinner)findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.iso_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        weatherBtn = (Button)findViewById(R.id.weatherBtn);
+        weatherBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String city = input.getText().toString();
+                String iso = spinner.getSelectedItem().toString();
+                String forecastQuery = ForecastURL + city + "," + iso + "&mode=xml&appid=080b8de151ba3865a7b5e255f448f10f";
+                Log.d(TAG, forecastQuery);
+                new WeatherActivityTask(WeatherActivity.this , forecastQuery).execute();
             }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.d(TAG,result);
-        }
-
-
-
-//        @Override
-//        protected void onProgressUpdate(Object[] values) {
-//            super.onProgressUpdate(values);
-//        }
-//
-//        @Override
-//        protected void onCancelled(Object o) {
-//            super.onCancelled(o);
-//        }
-
-//        @Override
-//        protected void onCancelled() {
-//            super.onCancelled();
-//        }
-
+        });
     }
 
-    private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
-        InputStream stream = null;
-        StackOverflowXmlParser stackOverflowXmlParser = new StackOverflowXmlParser();
-        List<StackOverflowXmlParser.Entry> entries = null;
-        String title = null;
-        String url = null;
-        String summary = null;
-        Calendar rightNow = Calendar.getInstance();
-        DateFormat formatter = new SimpleDateFormat("MMM dd h:mmaa");
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+        return true;
+    }
 
-        // Checks whether the user set the preference to include summary text
-        //SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //boolean pref = sharedPrefs.getBoolean("summaryPref", false);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        super.onOptionsItemSelected(item);
+        return true;
+    }
 
-        StringBuilder htmlString = new StringBuilder();
-        htmlString.append("<h3>" + getResources().getString(R.string.page_title) + "</h3>");
-        htmlString.append("<em>" + getResources().getString(R.string.updated) + " " +
-                formatter.format(rightNow.getTime()) + "</em>");
-
-        try {
-            stream = downloadUrl(urlString);
-            entries = stackOverflowXmlParser.parse(stream);
-            // Makes sure that the InputStream is closed after the app is
-            // finished using it.
-        } finally {
-            if (stream != null) {
-                stream.close();
-            }
+    public void displayForecast(ArrayList<Weather> result, String uv) {
+        StringBuilder builder = new StringBuilder();
+        for(Weather weather : result){
+            builder.append(weather.start + " " + weather.end).append("\n")
+                    .append("Temperature: " + weather.temperature)
+                    .append("\n").append("Pressure: " +weather.pressure)
+                    .append("\n").append("Humidity: " + weather.humidity).append("\n\n");
+            temperature.setText(temperature.getText() + builder.toString());
+            builder = new StringBuilder();
         }
-
-        // StackOverflowXmlParser returns a List (called "entries") of Entry objects.
-        // Each Entry object represents a single post in the XML feed.
-        // This section processes the entries list to combine each entry with HTML markup.
-        // Each entry is displayed in the UI as a link that optionally includes
-        // a text summary.
-        for (StackOverflowXmlParser.Entry entry : entries) {
-            htmlString.append("<p><a href='");
-            htmlString.append(entry.link);
-            htmlString.append("'>" + entry.title + "</a></p>");
-            // If the user set the preference to include summary text,
-            // adds it to the display.
-
-        }
-        return htmlString.toString();
+        temperature.setText(temperature.getText() + "UV INDEX: " + uv);
     }
 
-    private InputStream downloadUrl(String urlString) throws IOException {
-        URL url = new URL(urlString);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(10000 /* milliseconds */);
-        conn.setConnectTimeout(15000 /* milliseconds */);
-        conn.setRequestMethod("GET");
-        conn.setDoInput(true);
-        // Starts the query
-        conn.connect();
-        InputStream stream = conn.getInputStream();
-        return stream;
-    }
-
-    // Uses AsyncTask subclass to download the XML feed from stackoverflow.com.
-    // This avoids UI lock up. To prevent network operations from
-    // causing a delay that results in a poor user experience, always perform
-    // network operations on a separate thread from the UI.
-    private void loadPage() {
-
-            new ManualTestAsync().execute(URL);
-
-    }
 }

@@ -53,15 +53,15 @@ public class MainActivity extends MenuActivity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        tvClassCancellations = (TextView) findViewById(R.id.tvClassCancellations);
-        tvFindTeacherTV = (TextView) findViewById(R.id.tvFindTeacherTV);
-        tvAddToCalendar = (TextView) findViewById(R.id.tvAddToCalendar);
-        tvNotes = (TextView) findViewById(R.id.tvNotes);
-        tvWeatherTV = (TextView) findViewById(R.id.tvWeatherTV);
-        tvAcademicCalendar = (TextView) findViewById(R.id.tvAcademicCalendar);
-        tvCurrentTemperature = (TextView) findViewById(R.id.tvCurrentTemperature);
-        dawsonLogo = (ImageView) findViewById(R.id.dawsonLogo);
-        teamLogo = (ImageView) findViewById(R.id.teamLogo);
+        tvClassCancellations = (TextView)findViewById( R.id.tvClassCancellations );
+        tvFindTeacherTV = (TextView)findViewById( R.id.tvFindTeacherTV );
+        tvAddToCalendar = (TextView)findViewById( R.id.tvAddToCalendar );
+        tvNotes = (TextView)findViewById( R.id.tvNotes );
+        tvWeatherTV = (TextView)findViewById( R.id.tvWeatherTV );
+        tvAcademicCalendar = (TextView)findViewById( R.id.tvAcademicCalendar );
+        tvCurrentTemperature = (TextView)findViewById( R.id.tvCurrentTemperature );
+        dawsonLogo = (ImageView)findViewById(R.id.imgDawsonLogo);
+        teamLogo = (ImageView)findViewById(R.id.imgTeamLogo);
     }
 
 
@@ -89,7 +89,7 @@ public class MainActivity extends MenuActivity {
         prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
 
         firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
-        Toast.makeText(getApplicationContext(), "shared preferences first name" + firstName, Toast.LENGTH_SHORT).show();
+
 
         dawsonLogo.setOnClickListener(new View.OnClickListener() {
 
@@ -156,9 +156,23 @@ public class MainActivity extends MenuActivity {
     }
 
     public void doStuff(View view) {
-        Intent i = new Intent(this, WeatherActivity.class);
+        Intent i = new Intent(this, NetworkFactoryActivity.class);
 
-        Log.d(TAG, "WeatherClick");
+        Log.d(TAG, "NetworkFactoryActivity");
+        startActivity(i);
+    }
+
+    public void showNotesClick(View view) {
+        Intent i = new Intent(this, NotesActivity.class);
+
+        Log.d(TAG, "NotesActivity");
+        startActivity(i);
+    }
+
+    public void showCalendarView(View view) {
+        Intent i = new Intent(this, CalendarActivity.class);
+
+        Log.d(TAG, "CalendarActivity");
         startActivity(i);
     }
 }
