@@ -25,7 +25,6 @@ public class ClassCancelationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 //        itemsAdapter = new ArrayAdapter<String>(getContext(),
 //                android.R.layout.simple_list_item_1, cancelationMenu);
         itemsAdapter = new ArrayAdapter<>(getActivity(), simple_list_item_1, cancelationMenu);
