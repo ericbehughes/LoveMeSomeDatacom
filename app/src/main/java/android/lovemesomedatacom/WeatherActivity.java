@@ -30,6 +30,7 @@ public class WeatherActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather);
         findViews();
+        this.setTitle(R.string.weather_activity_title);
 
     }
 

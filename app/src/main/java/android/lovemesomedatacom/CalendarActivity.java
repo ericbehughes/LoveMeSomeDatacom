@@ -64,6 +64,7 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         findViews();
+        this.setTitle(R.string.add_to_calendar_activity_title);
         final Calendar myCalendar = Calendar.getInstance();
 
         final DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {

@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class ClassCancelationActivity extends AppCompatActivity  implements ClassCancelationsFragment.OnItemSelectedListener {
-    
+
     private final String TAG = "ClassCancelActivity";
 
     @Override

@@ -2,15 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v7.widget.SearchView
         android:id="@+id/firstNameSearch"
         android:layout_width="match_parent"
+        app:queryHint="@string/first_name"
         android:layout_height="wrap_content" />
 
     <android.support.v7.widget.SearchView
         android:id="@+id/lastNameSearch"
+        app:queryHint="@string/last_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -18,7 +21,9 @@
         android:id="@+id/searchTeacherButton"
         style="?android:textAppearanceSmall"
         android:layout_width="match_parent"
+        android:textColor="@color/colorWhite"
         android:layout_height="wrap_content"
+        android:background="@color/colorRed"
         android:layout_marginTop="16dp"
         android:onClick="onSearch"
         android:text="@string/search_teacher"

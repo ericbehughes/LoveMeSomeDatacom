@@ -17,11 +17,11 @@
     <string name="menu_item_about">About</string>
 
 
-    <string name="fa_search_icon">&#xf002; Find my Teacher (firebase)</string>
+    <string name="fa_search_icon">&#xf002; Find my Teacher</string>
     <string name="fa_calendar_icon">&#xf073; Calendar Cancellations</string>
     <string name="fa_add_to_calendar_icon">&#xf271; Add To Calendar</string>
-    <string name="fa_notes_icon">&#xf040; Notes (sql lite)</string>
-    <string name="fa_sun_icon">&#xf185; Weather (api)</string>
+    <string name="fa_notes_icon">&#xf040; Notes</string>
+    <string name="fa_sun_icon">&#xf185; Weather</string>
     <string name="fa_grades_icon">&#xf19d; Academic Calendar</string>
     <string name="fa_thermometer_icon">&#xf2c7; Current Temperature</string>
 
@@ -52,6 +52,11 @@
     <string name="email_address">Email</string>
     <string name="password">Password</string>
     <string name="date_last_updated">Date Last Modified</string>
+    <string name="Fall">Fall</string>
+    <string name="Winter">Winter</string>
+    <string name="Year">Year</string>
+    <string name="submit">Submit</string>
+    <string name="delete_button">Delete</string>
 
     <!--Teacher module related strings-->
     <string name="search_teacher">Search</string>
@@ -65,6 +70,15 @@
     <string name="teacher_website">"Website: "</string>
     <string name="teacher_bio">"Bio: "</string>
 
+    <!--titles for each screen-->
+    <string name="notes_activity_title">Notes</string>
+    <string name="calendar_cancel_activity_title">Calendar Cancelations</string>
+    <string name="find_my_teacher_activity_title">Find My Teacher</string>
+    <string name="add_to_calendar_activity_title">Add To Calendar</string>
+    <string name="weather_activity_title">Weather</string>
+    <string name="academic_calendar_activity_title">Academic Calendar</string>
+    <string name="settings_calendar_activity_title">Settings</string>
+    <string name="about_activity_title">About</string>
 
 
 </resources>

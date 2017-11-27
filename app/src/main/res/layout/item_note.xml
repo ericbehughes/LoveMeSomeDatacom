@@ -11,7 +11,7 @@
     android:id="@+id/note_title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Hello"
+    android:text="@string/page_title"
     android:textSize="18sp" />
 
 
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="11dp"
             android:layout_weight=".8"
-            android:text="Some sample text that is very long to test the sizing of the list item "
+            android:text="@string/date_last_updated"
             android:textSize="15sp" />
 
         <Button
@@ -38,9 +38,9 @@
             android:background="@color/colorRed"
             android:gravity="center"
             android:onClick="deleteNote"
-            android:text="Delete"
+            android:textColor="@color/colorWhite"
+            android:text="@string/delete_button" />
 
-            android:textColor="@color/colorWhite" />
 
     </LinearLayout>
 
