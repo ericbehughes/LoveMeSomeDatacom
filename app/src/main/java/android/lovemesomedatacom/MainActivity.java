@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,11 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends MenuActivity {
 
@@ -38,6 +32,8 @@ public class MainActivity extends MenuActivity {
     private TextView tvAcademicCalendar;
     private ImageView dawsonLogo;
     private ImageView teamLogo;
+
+    private GPSManager gps;
 
     //Firebase
     private static final String FIREBASE_USER = "test1@example.com";
@@ -76,6 +72,7 @@ public class MainActivity extends MenuActivity {
 
         // load views to be used
         findViews();
+        getUserLocation();
 
         // load icons for each text view
         Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
@@ -190,5 +187,21 @@ public class MainActivity extends MenuActivity {
         Intent i = new Intent(this, AcademicCalendar.class);
         Log.d(TAG, "AcademicCalendarActivity");
         startActivity(i);
+    }
+
+    public void getUserLocation() {
+        Log.d(TAG, "Getting User Location...");
+        gps = new GPSManager(MainActivity.this);
+
+        if(gps.locationEnabled()){
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+
+            Toast.makeText(getApplicationContext(), "Your location is : " + latitude + " " + longitude, Toast.LENGTH_LONG).show();
+
+        } else {
+            gps.requestLocation();
+        }
     }
 }
