@@ -1,6 +1,8 @@
 package android.lovemesomedatacom;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends MenuActivity {
 
     private static final String TAG = "MainActivity";
 
+    private SharedPreferences prefs;
+    private String firstName;
 
     private TextView tvClassCancellations;
     private TextView tvFindTeacherTV;
@@ -41,8 +46,8 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV = (TextView)findViewById( R.id.tvWeatherTV );
         tvAcademicCalendar = (TextView)findViewById( R.id.tvAcademicCalendar );
         tvCurrentTemperature = (TextView)findViewById( R.id.tvCurrentTemperature );
-        dawsonLogo = (ImageView)findViewById(R.id.dawsonLogo);
-        teamLogo = (ImageView)findViewById(R.id.teamLogo);
+        dawsonLogo = (ImageView)findViewById(R.id.imgDawsonLogo);
+        teamLogo = (ImageView)findViewById(R.id.imgTeamLogo);
     }
 
 
@@ -62,6 +67,10 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV.setTypeface(font);
         tvAcademicCalendar.setTypeface(font);
         tvCurrentTemperature.setTypeface(font);
+        prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
+
+        firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
+
 
         dawsonLogo.setOnClickListener(new View.OnClickListener() {
 
@@ -92,18 +101,6 @@ public class MainActivity extends MenuActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        super.onCreateOptionsMenu(menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        super.onOptionsItemSelected(item);
-        return true;
-    }
-
 
     public void classCancellationClick(View view) {
 
@@ -111,5 +108,26 @@ public class MainActivity extends MenuActivity {
 
         Log.d(TAG, "classCancellationClick");
         startActivity(aboutIntent);
+    }
+
+    public void doStuff(View view) {
+        Intent i = new Intent(this, NetworkFactoryActivity.class);
+
+        Log.d(TAG, "NetworkFactoryActivity");
+        startActivity(i);
+    }
+
+    public void showNotesClick(View view) {
+        Intent i = new Intent(this, NotesActivity.class);
+
+        Log.d(TAG, "NotesActivity");
+        startActivity(i);
+    }
+
+    public void showCalendarView(View view) {
+        Intent i = new Intent(this, CalendarActivity.class);
+
+        Log.d(TAG, "CalendarActivity");
+        startActivity(i);
     }
 }
