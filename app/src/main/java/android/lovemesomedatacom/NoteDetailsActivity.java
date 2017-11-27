@@ -17,8 +17,8 @@ public class NoteDetailsActivity extends AppCompatActivity {
      * (http://www.buzzingandroid.com/tools/android-layout-finder)
      */
     private void findViews() {
-        tvNoteDetailsTitle = (TextView)findViewById( R.id.tvNoteDetailsTitle );
-        tvNoteDetailsText = (TextView)findViewById( R.id.tvNoteDetailsText );
+        tvNoteDetailsTitle = (TextView)findViewById( R.id.etNoteDetailsTitle );
+        tvNoteDetailsText = (TextView)findViewById( R.id.etNoteDetailsText );
     }
 
 

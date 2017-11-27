@@ -46,8 +46,8 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV = (TextView)findViewById( R.id.tvWeatherTV );
         tvAcademicCalendar = (TextView)findViewById( R.id.tvAcademicCalendar );
         tvCurrentTemperature = (TextView)findViewById( R.id.tvCurrentTemperature );
-        dawsonLogo = (ImageView)findViewById(R.id.dawsonLogo);
-        teamLogo = (ImageView)findViewById(R.id.teamLogo);
+        dawsonLogo = (ImageView)findViewById(R.id.imgDawsonLogo);
+        teamLogo = (ImageView)findViewById(R.id.imgTeamLogo);
     }
 
 
@@ -70,7 +70,7 @@ public class MainActivity extends MenuActivity {
         prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
 
         firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
-        Toast.makeText(getApplicationContext(), "shared preferences first name" + firstName, Toast.LENGTH_SHORT).show();
+
 
         dawsonLogo.setOnClickListener(new View.OnClickListener() {
 
@@ -91,20 +91,6 @@ public class MainActivity extends MenuActivity {
         });
 
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        super.onCreateOptionsMenu(menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        super.onOptionsItemSelected(item);
-        return true;
-    }
-
-
 
 
     public void classCancellationClick(View view) {

@@ -1,6 +1,7 @@
 package android.lovemesomedatacom;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SettingsActivity extends AppCompatActivity {
+
+import java.util.Calendar;
+
+public class SettingsActivity extends MenuActivity {
 
     private SharedPreferences prefs;
     private String firstName;
@@ -28,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView tvPassword;
     private EditText etPassword;
     private TextView tvTimeStamp;
-    private EditText etTimeStamp;
+    private TextView etTimeStamp;
 
 
     private void findViews() {
@@ -41,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
         tvPassword = (TextView)findViewById( R.id.tvPassword );
         etPassword = (EditText)findViewById( R.id.etPassword );
         tvTimeStamp = (TextView)findViewById( R.id.tvTimeStamp );
-        etTimeStamp = (EditText)findViewById( R.id.etTimeStamp );
+        etTimeStamp = (TextView)findViewById( R.id.etTimeStampValue );
     }
 
 
@@ -52,20 +56,35 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         // load views to be used
         findViews();
+
         prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
-
-        firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
-
-        Toast.makeText(getApplicationContext(), "shared preferences first name" + firstName, Toast.LENGTH_SHORT).show();
+        if (prefs != null){
+            firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "");
+            etFirstName.setText(firstName);
+            lastName = prefs.getString(SharedPreferencesKey.LAST_NAME.toString(), "");
+            etLastName.setText(lastName);
+            email = prefs.getString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), "");
+            etEmail.setText(email);
+            password = prefs.getString(SharedPreferencesKey.PASSWWORD.toString(), "");
+            etPassword.setText(password);
+            timeStamp = prefs.getString(SharedPreferencesKey.DATE_STAMP.toString(), Calendar.getInstance().getTime().toString());
+            etTimeStamp.setText(timeStamp);
+        }
     }
-
-
     @Override
     protected void onStop() {
         super.onStop();
-        SharedPreferences.Editor editor = prefs.edit();
         firstName = etFirstName.getText().toString();
+        lastName = etLastName.getText().toString();
+        email= etEmail.getText().toString();
+        password = etPassword.getText().toString();
+        timeStamp = etTimeStamp.getText().toString();
+        SharedPreferences.Editor editor = prefs.edit();
         editor.putString(SharedPreferencesKey.FIRST_NAME.toString(), firstName);
+        editor.putString(SharedPreferencesKey.LAST_NAME.toString(), lastName);
+        editor.putString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), email);
+        editor.putString(SharedPreferencesKey.PASSWWORD.toString(), password);
+        editor.putString(SharedPreferencesKey.DATE_STAMP.toString(), timeStamp);
 
         editor.commit();
 
@@ -79,8 +98,20 @@ public class SettingsActivity extends AppCompatActivity {
         //super.onBackPressed();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Some Sample Text")
+        builder.setMessage(R.string.discard_pop_up_dialog)
                 .setTitle(R.string.confirm_discard_string);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+            SettingsActivity.this.finish();
+        }
+    });
+
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
         AlertDialog dialog = builder.create();
         dialog.show();
 

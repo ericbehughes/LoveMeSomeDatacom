@@ -5,38 +5,35 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
-android:onClick="classCancellationClick"
 tools:context="android.lovemesomedatacom.NoteDetailsActivity">
 
-
-
-
-<!--start clickable text views-->
+    <!--start clickable text views-->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
+    android:background="@drawable/border"
     android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/tvNoteDetailsTitle"
+    <EditText
+        android:id="@+id/etNoteDetailsTitle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".15"
+        android:layout_weight=".1"
         android:gravity="center"
         android:background="@drawable/border"
 
         android:text="@string/note_details_string"
         android:textSize="16dp" />
 
-    <TextView
-        android:id="@+id/tvNoteDetailsText"
+    <EditText
+        android:id="@+id/etNoteDetailsText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".5"
+        android:layout_weight=".4"
         android:background="@drawable/border"
-        android:gravity="center"
+        android:gravity="left"
         android:text="@string/note_details_string"
         android:textSize="16dp" />
 </LinearLayout>
