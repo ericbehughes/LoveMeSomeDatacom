@@ -49,13 +49,13 @@ public class TeacherContactActivity extends MenuActivity {
 
     private void setViews() {
         Teacher teacher = this.intent.getParcelableExtra("TEACHER");
-        this.fullName.setText("Name: "+ teacher.getFull_name());
+        this.fullName.setText(getString(R.string.teacher_name)+ teacher.getFull_name());
         String formattedEmail = Html.fromHtml(teacher.getEmail()).toString();
-        this.email.setText("Email: " + formattedEmail);
-        this.office.setText("Office: " + teacher.getOffice());
-        this.local.setText("Local" + teacher.getLocal());
-        this.website.setText("Website: " + teacher.getWebsite());
-        this.bio.setText("Bio: " + teacher.getBio());
+        this.email.setText(getString(R.string.teacher_email) + formattedEmail);
+        this.office.setText(getString(R.string.teacher_office) + teacher.getOffice());
+        this.local.setText(getString(R.string.teacher_local) + teacher.getLocal());
+        this.website.setText(getString(R.string.teacher_website) + teacher.getWebsite());
+        this.bio.setText(getString(R.string.teacher_bio) + teacher.getBio());
 
     }
     public void launchEmailIntent(View view){

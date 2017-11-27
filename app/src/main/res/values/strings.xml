@@ -40,6 +40,13 @@
     <string name="radio_like">Search for similar results</string>
     <string name="radio_exact">Search for exact results</string>
     <string name="from">from: </string>
+    <string name="teacher_name">"Name: "</string>
+    <string name="teacher_email">"Email: "</string>
+    <string name="teacher_office">"Office: "</string>
+    <string name="teacher_local">"Local: "</string>
+    <string name="teacher_website">"Website: "</string>
+    <string name="teacher_bio">"Bio: "</string>
+
 
 
 </resources>
