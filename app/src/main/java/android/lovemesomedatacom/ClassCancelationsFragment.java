@@ -1,10 +1,10 @@
 package android.lovemesomedatacom;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,27 +13,43 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import static android.R.layout.simple_expandable_list_item_1;
+import java.util.ArrayList;
+
 import static android.R.layout.simple_list_item_1;
+import static android.content.ContentValues.TAG;
 import static android.lovemesomedatacom.ClassCancelationModel.courses;
-import static java.security.AccessController.getContext;
 
 
 public class ClassCancelationsFragment extends Fragment {
     ArrayAdapter<Course> itemsAdapter;
+    CoursesAdapter coursesAdapter;
+    ArrayList<Course> courseList = new ArrayList<>();
+    private ListView coursesListView;
+    private final static String url = "https://www.dawsoncollege.qc.ca/wp-content/external-includes/cancellations/feed.xml";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        itemsAdapter = new ArrayAdapter<String>(getContext(),
 //                android.R.layout.simple_list_item_1, cancelationMenu);
+
         itemsAdapter = new ArrayAdapter<>(getActivity(), simple_list_item_1, courses);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         // Inflate the xml file for the fragment
-        return inflater.inflate(R.layout.fragment_class_cancelations, parent, false);
+        View v = inflater.inflate(R.layout.fragment_class_cancelations, parent, false);
+        popCoursesList(v);
+        return v;
+    }
+
+    private void popCoursesList(View v){
+        coursesAdapter = new CoursesAdapter(getActivity(), courseList);
+        new GetCancelledClasses(this,url).execute();
+
+        coursesListView = (ListView) v.findViewById(R.id.lvItems);
+        coursesListView.setAdapter(coursesAdapter);
     }
 
     @Override
@@ -45,7 +61,7 @@ public class ClassCancelationsFragment extends Fragment {
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // go to activity to load pizza details fragment
+
                 listener.onClassCancellationSelected(position); // (3) Communicate with Activity using Listener
             }
         });
@@ -85,6 +101,10 @@ public class ClassCancelationsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toast.makeText(getActivity(), "ClassCancelationsFragment onActivityCreated", Toast.LENGTH_LONG);
+    }
+
+    public CoursesAdapter getAdapter(){
+        return this.coursesAdapter;
     }
 
 }

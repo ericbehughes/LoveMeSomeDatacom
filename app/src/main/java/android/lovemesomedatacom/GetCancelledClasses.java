@@ -2,6 +2,7 @@ package android.lovemesomedatacom;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -12,19 +13,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Rhai on 26/11/2017.
  */
 
-public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
+public class GetCancelledClasses extends AsyncTask<String, Void,ArrayList<Course>>  {
 
-        private ClassCancelationActivity activity;
+        private  ClassCancelationsFragment activity;
         private String url;
         private XmlPullParserFactory xmlFactoryObject;
         private ProgressDialog pDialog;
+        private ArrayList<Course> coursesList;
+        private CoursesAdapter coursesAdapter;
 
-        public GetCancelledClasses(ClassCancelationActivity activity, String url){
+        public GetCancelledClasses(ClassCancelationsFragment activity, String url){
             this.activity = activity;
             this.url = url;
         }
@@ -32,14 +37,15 @@ public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            pDialog = new ProgressDialog(activity);
-            pDialog.setTitle("Get from xml");
-            pDialog.setMessage("Loading");
-            pDialog.show();
+            coursesAdapter = activity.getAdapter();
+//            pDialog = new ProgressDialog(activity);
+//            pDialog.setTitle("Get from xml");
+//            pDialog.setMessage("Loading");
+//            pDialog.show();
         }
 
         @Override
-        protected Course[] doInBackground(String[]... strings) {
+        protected ArrayList<Course> doInBackground(String... strings) {
             try {
                 URL url = new URL(this.url);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -56,7 +62,7 @@ public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
 
                 myParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 myParser.setInput(stream, null);
-                Course[] result = parseXML(myParser);
+                ArrayList<Course> result = parseXML(myParser);
                 stream.close();
 
                 return result;
@@ -68,14 +74,13 @@ public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
             }
         }
 
-        public Course[] parseXML(XmlPullParser myParser) {
+        public ArrayList<Course> parseXML(XmlPullParser myParser) {
 
             //int event;
             //String text = null;
-            Course[] result = new Course[50];
+            ArrayList<Course> result = new ArrayList<>();
 
             try {
-                int itemC = 0;
                 int eventType = myParser.getEventType();
                 while (eventType != XmlPullParser.END_DOCUMENT) {
                     //start of entire xml file
@@ -117,10 +122,7 @@ public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
                                 }
                                 eventType = myParser.next();
                             }
-                            result[itemC] = course;
-                            if(course.getTitle() != null){
-                                itemC++;
-                            }
+                            result.add(course);
                             System.out.println("End tag " + myParser.getName());
 
                         }
@@ -132,6 +134,12 @@ public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
+            }
+
+            try{
+                Thread.sleep(5000);
+            } catch(InterruptedException ie){
+                System.out.println(ie.getMessage());
             }
 
             return result;
@@ -157,10 +165,15 @@ public class GetCancelledClasses extends AsyncTask<String[], Void,Course[]>  {
         }
 
         @Override
-        protected void onPostExecute(Course[] result){
+        protected void onPostExecute(ArrayList<Course> result){
+            System.out.println("Course result size: "+result.size());
             //call back data to main thread
-            pDialog.dismiss();
-            new ClassCancelationModel(result);
+            //pDialog.dismiss();
+            coursesAdapter.clear();
+            coursesAdapter.addAll(result);
+            coursesAdapter.notifyDataSetChanged();
+
+            //new ClassCancelationModel(result);
             //activity.callBackData(result);
         }
 }

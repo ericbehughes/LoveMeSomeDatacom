@@ -18,7 +18,7 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_cancellation);
 
-        new GetCancelledClasses(this,url).execute();
+        //new GetCancelledClasses(this,url).execute();
         //new ClassCancelationModel(courses);
 
         ClassCancelationsFragment firstFragment;
@@ -94,14 +94,4 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
 
     }
 
-    public void callBackData(Course[] result){
-        if(result != null){
-            courses = result;
-            for(Course r:result){
-                if(r!=null){
-                    Log.d(TAG,"callBackData Method: "+r.toString());
-                }
-            }
-        }
-    }
 }

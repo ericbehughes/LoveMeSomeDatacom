@@ -1,6 +1,7 @@
 package android.lovemesomedatacom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,12 +22,12 @@ public class ClassCancelationDetailFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(savedInstanceState == null){
+        /*if(savedInstanceState == null){
             // Get back arguments
             if(getArguments() != null) {
                 position = getArguments().getInt("position", 0);
             }
-        }
+        }*/
     }
 
     @Override
