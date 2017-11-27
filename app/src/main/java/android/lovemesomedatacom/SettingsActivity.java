@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.Calendar;
@@ -120,8 +121,6 @@ public class SettingsActivity extends MenuActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings_menu, menu);
-
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -139,6 +138,7 @@ public class SettingsActivity extends MenuActivity {
 
         switch (item.getItemId()) {
             case R.id.action_save_settings:
+                Toast.makeText(this, "Settings Saved", Toast.LENGTH_SHORT).show();
                 isSaved = true;
                 firstName = etFirstName.getText().toString();
                 lastName = etLastName.getText().toString();
@@ -198,9 +198,6 @@ public class SettingsActivity extends MenuActivity {
             return false;
         }
         else if (!password.equalsIgnoreCase(etPassword.getText().toString())){
-            return false;
-        }
-        else if (!timeStamp.equalsIgnoreCase(etTimeStamp.getText().toString())){
             return false;
         }
         return true;
