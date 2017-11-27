@@ -31,10 +31,8 @@ public class ChooseTeacherActivity extends MenuActivity {
     private Intent intent;
 
 
-
-
     @Override
-    protected void onCreate(Bundle savedInstance){
+    protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_choose_teacher);
         this.teachersListView = findViewById(R.id.teacherList);
@@ -53,16 +51,12 @@ public class ChooseTeacherActivity extends MenuActivity {
 
     }
 
-    public AdapterView.OnItemClickListener fireTeacherContactActivity = new AdapterView.OnItemClickListener()
-    {
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-        {
+    public AdapterView.OnItemClickListener fireTeacherContactActivity = new AdapterView.OnItemClickListener() {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             Intent intent = new Intent(ChooseTeacherActivity.this, TeacherContactActivity.class);
-            for(int i = 0; i < uniqueTeachers.size(); i++)
-            {
-                if (position == i)
-                {
+            for (int i = 0; i < uniqueTeachers.size(); i++) {
+                if (position == i) {
                     intent.putExtra("CLICKED_TEACHER", uniqueTeachers.get(i));
                     startActivity(intent);
                 }
