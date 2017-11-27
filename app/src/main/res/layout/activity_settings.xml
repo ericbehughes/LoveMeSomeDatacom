@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:gravity="center_vertical"
-                android:text="First Name" />
+                android:text="@string/first_name" />
 
             <EditText
                 android:id="@+id/etFirstName"
@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Eric" />
+                android:hint="@string/first_name" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Last Name" />
+                android:text="@string/last_name" />
 
             <EditText
                 android:id="@+id/etLastName"
@@ -62,7 +62,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Eric" />
+                android:hint="@string/last_name" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Email" />
+                android:text="@string/email_address" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -87,7 +87,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="eric@gmail.com" />
+                android:hint="@string/email_address" />
         </LinearLayout>
 
         <LinearLayout
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Password" />
+                android:text="@string/password" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -112,7 +112,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName|textPassword"
-                android:text="Eric" />
+                android:hint="@string/password" />
 
         </LinearLayout>
 
@@ -129,16 +129,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Timestamp" />
+                android:text="@string/date_last_updated" />
 
-            <EditText
-                android:id="@+id/etTimeStamp"
+            <TextView
+                android:id="@+id/etTimeStampValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Eric" />
+                android:hint="@string/date_last_updated" />
         </LinearLayout>
 
 

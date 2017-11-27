@@ -1,27 +1,21 @@
 package android.lovemesomedatacom;
 
-import android.app.VoiceInteractor;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.lovemesomedatacom.db.NotesDBHelper;
 import android.lovemesomedatacom.db.NotesTable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Scroller;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,30 +30,33 @@ public class NotesActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
-
         mHelper = new NotesDBHelper(this);
         mNoteListView = (ListView) findViewById(R.id.list_notes);
-        mNoteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                    long arg3) {
-                // TODO Auto-generated method stub
-                Toast.makeText(getApplicationContext(),"Clicked",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
 
         updateUI();
     }
 
+
+    /**
+     * overriden to add + button the toolbar
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.notes_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    /**
+     * custom button in the menu bar and creates a small dialog for the user
+     * to enter a note.
+     *
+     * inserts into the DB and calls updateUI once again
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -68,6 +65,8 @@ public class NotesActivity extends MenuActivity {
                 layout.setOrientation(LinearLayout.VERTICAL);
                 final EditText noteEditTextTitle = new EditText(this);
                 final EditText noteEditTextMessage =new EditText(this);
+                noteEditTextMessage.setScroller(new Scroller(getApplicationContext()));
+                noteEditTextMessage.setVerticalScrollBarEnabled(true);
                 layout.addView(noteEditTextTitle);
                 layout.addView(noteEditTextMessage);
                 AlertDialog dialog = new AlertDialog.Builder(this)
@@ -103,8 +102,8 @@ public class NotesActivity extends MenuActivity {
 
     public void deleteNote(View view) {
         View parent = (View) view.getParent();
-        TextView taskTextView = (TextView) parent.findViewById(R.id.note_title);
-        String note_title = String.valueOf(taskTextView.getText());
+        TextView notesTextView = (TextView) view.findViewById(R.id.note_title);
+        String note_title = String.valueOf(notesTextView.getText());
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(NotesTable.NotesEntry.TABLE,
                 NotesTable.NotesEntry.COL_NOTES_TITLE+ " = ?",
@@ -113,11 +112,11 @@ public class NotesActivity extends MenuActivity {
         updateUI();
     }
 
-    @Override
-    public VoiceInteractor getVoiceInteractor() {
-        return super.getVoiceInteractor();
-    }
 
+    /**
+     * gets readable db and fetches both columns to display notes
+     * updates adapter and closes connection
+     */
     private void updateUI() {
         ArrayList<Note> notesList = new ArrayList<>();
         SQLiteDatabase db = mHelper.getReadableDatabase();
@@ -134,8 +133,6 @@ public class NotesActivity extends MenuActivity {
             notesList.add(n);
         }
 
-
-
         if (mAdapter == null) {
             mAdapter = new NotesAdapter(this, notesList);
             mNoteListView.setAdapter(mAdapter);
@@ -146,9 +143,6 @@ public class NotesActivity extends MenuActivity {
             mAdapter.addAll(notesList);
             mAdapter.notifyDataSetChanged();
         }
-
-
-
         cursor.close();
         db.close();
     }
