@@ -47,7 +47,7 @@ public class FindTeacherActivity extends AppCompatActivity {
     /**
      * The onCreate is fired when the Activity is started. It takes a Bundle as parameter in order
      * to preserve data between activities or when the viewport changes. It inflates the specified layout
-     * resource and several attributes required by public and private methods that need initialization.
+     * resource and initializes several attributes required by public and private methods that need initialization.
      * onCreate will also initialize all the views that need to be changed through code by invoking
      * the instantiateViews method.
      *
