@@ -62,14 +62,14 @@ public class CoursesAdapter extends BaseAdapter {
     public View getView(final int position, View view, ViewGroup viewGroup) {
         CoursesAdapter.ViewHolder holder = new CoursesAdapter.ViewHolder();
         View rowView;
-        rowView = inflater.inflate(R.layout.item_note, null);
+        rowView = inflater.inflate(R.layout.fragment_course_cancelation_detail, null);
 
 
         holder.tv1 = (TextView) rowView.findViewById(R.id.tvTitle);
         holder.tv2 = (TextView) rowView.findViewById(R.id.tvDetails);
 
 
-        holder.tv1.setText(courses.get(position).getTitle());
+        holder.tv1.setText(courses.get(position).toString());
         holder.tv2.setText(courses.get(position).cancellationDetails());
 
         rowView.setOnClickListener(new View.OnClickListener() {

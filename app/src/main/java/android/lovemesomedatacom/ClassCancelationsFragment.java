@@ -23,6 +23,7 @@ import static android.lovemesomedatacom.ClassCancelationModel.courses;
 public class ClassCancelationsFragment extends Fragment {
     ArrayAdapter<Course> itemsAdapter;
     CoursesAdapter coursesAdapter;
+
     ArrayList<Course> courseList = new ArrayList<>();
     private ListView coursesListView;
     private final static String url = "https://www.dawsoncollege.qc.ca/wp-content/external-includes/cancellations/feed.xml";
@@ -33,7 +34,7 @@ public class ClassCancelationsFragment extends Fragment {
 //        itemsAdapter = new ArrayAdapter<String>(getContext(),
 //                android.R.layout.simple_list_item_1, cancelationMenu);
 
-        itemsAdapter = new ArrayAdapter<>(getActivity(), simple_list_item_1, courses);
+        //itemsAdapter = new ArrayAdapter<>(getActivity(), simple_list_item_1, courses);
     }
 
     @Override
@@ -45,11 +46,12 @@ public class ClassCancelationsFragment extends Fragment {
     }
 
     private void popCoursesList(View v){
-        coursesAdapter = new CoursesAdapter(getActivity(), courseList);
+
         new GetCancelledClasses(this,url).execute();
 
         coursesListView = (ListView) v.findViewById(R.id.lvItems);
-        coursesListView.setAdapter(coursesAdapter);
+
+
     }
 
     @Override
@@ -69,7 +71,13 @@ public class ClassCancelationsFragment extends Fragment {
 
     private OnItemSelectedListener listener;
 
-
+    public void populateCanceletedCourses(ArrayList<Course> list){
+        coursesAdapter = new CoursesAdapter(getActivity(), list);
+        coursesListView.setAdapter(coursesAdapter);
+        //coursesAdapter.clear();
+        coursesAdapter.addAll(list);
+        coursesAdapter.notifyDataSetChanged();
+    }
 
 
 
@@ -91,6 +99,8 @@ public class ClassCancelationsFragment extends Fragment {
     }
 
 
+
+
     // Define the events that the fragment will use to communicate
     public interface OnItemSelectedListener {
         // This can be any number of events to be sent to the activity
@@ -106,5 +116,6 @@ public class ClassCancelationsFragment extends Fragment {
     public CoursesAdapter getAdapter(){
         return this.coursesAdapter;
     }
+
 
 }

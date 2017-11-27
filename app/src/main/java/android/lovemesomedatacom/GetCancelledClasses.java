@@ -26,6 +26,7 @@ public class GetCancelledClasses extends AsyncTask<String, Void,ArrayList<Course
         private String url;
         private XmlPullParserFactory xmlFactoryObject;
         private ProgressDialog pDialog;
+
         private ArrayList<Course> coursesList;
         private CoursesAdapter coursesAdapter;
 
@@ -169,11 +170,9 @@ public class GetCancelledClasses extends AsyncTask<String, Void,ArrayList<Course
             System.out.println("Course result size: "+result.size());
             //call back data to main thread
             //pDialog.dismiss();
-            coursesAdapter.clear();
-            coursesAdapter.addAll(result);
-            coursesAdapter.notifyDataSetChanged();
+
 
             //new ClassCancelationModel(result);
-            //activity.callBackData(result);
+            activity.populateCanceletedCourses(result);
         }
 }
