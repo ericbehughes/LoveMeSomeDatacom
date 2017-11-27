@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class WeatherActivity extends MenuActivity {
 
     private static final String TAG = "WeatherActivity";
-    private static final String URL = "http://api.openweathermap.org/data/2.5/forecast?q=";
+    private static final String ForecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=";
     EditText input;
     Spinner spinner;
     Button weatherBtn;
@@ -46,9 +46,9 @@ public class WeatherActivity extends MenuActivity {
             public void onClick(View view) {
                 String city = input.getText().toString();
                 String iso = spinner.getSelectedItem().toString();
-                String query = URL + city + "," + iso + "&mode=xml&appid=080b8de151ba3865a7b5e255f448f10f";
-                Log.d(TAG, query);
-                new WeatherActivityTask(WeatherActivity.this , query).execute();
+                String forecastQuery = ForecastURL + city + "," + iso + "&mode=xml&appid=080b8de151ba3865a7b5e255f448f10f";
+                Log.d(TAG, forecastQuery);
+                new WeatherActivityTask(WeatherActivity.this , forecastQuery).execute();
             }
         });
     }
@@ -65,7 +65,7 @@ public class WeatherActivity extends MenuActivity {
         return true;
     }
 
-    public void callBackData(ArrayList<Weather> result, double uv) {
+    public void displayForecast(ArrayList<Weather> result, String uv) {
         StringBuilder builder = new StringBuilder();
         for(Weather weather : result){
             builder.append(weather.start + " " + weather.end).append("\n")
@@ -73,6 +73,7 @@ public class WeatherActivity extends MenuActivity {
                     .append("\n").append("Pressure: " +weather.pressure)
                     .append("\n").append("Humidity: " + weather.humidity).append("\n\n");
         }
-        temperature.setText(builder.toString());
+        temperature.setText(builder.toString() + "UV INDEX: " + uv);
     }
+
 }

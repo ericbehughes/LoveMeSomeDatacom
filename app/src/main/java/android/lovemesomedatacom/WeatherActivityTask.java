@@ -4,10 +4,13 @@ import android.os.AsyncTask;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,9 +23,9 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
 
     private static final String TAG = "WeatherActivityTask";
     private WeatherActivity activity;
-    private String url;
+    private String url, uv;
     private XmlPullParserFactory xmlFactoryObject;
-    private double uv, lat, lng;
+    private double lat, lng;
 
     public WeatherActivityTask(WeatherActivity activity, String url){
         this.activity = activity;
@@ -31,6 +34,7 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
 
     @Override
     protected void onPreExecute() {
+        Log.d(TAG, "OnPreExecute invoked");
         super.onPreExecute();
     }
 
@@ -66,7 +70,7 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
     @Override
     protected void onPostExecute(ArrayList<Weather> list){
         Log.d(TAG, "OnPostExecute invoked");
-        activity.callBackData(list, uv);
+        activity.displayForecast(list, uv);
     }
 
     public ArrayList<Weather> parseXML(XmlPullParser myParser) {
@@ -86,14 +90,17 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
                     case XmlPullParser.START_TAG:
                         name = myParser.getName();
 
-                        if(name.equals("location")){
-                            trigger = true;
-                        } else if (trigger == true){
+                        if (trigger){
                             if(name.equals("location")){
                                 lat = Double.parseDouble(myParser.getAttributeValue(null, "latitude"));
                                 lng = Double.parseDouble(myParser.getAttributeValue(null, "longitude"));
+                                uv = getUVIndex("http://api.openweathermap.org/data/2.5/uvi?appid=080b8de151ba3865a7b5e255f448f10f&lat="+lat+"&lon=" + lng);
                                 trigger = false;
                             }
+                        }
+
+                        if(name.equals("location")){
+                            trigger = true;
                         }
 
                         if(name.equals("time")){
@@ -127,6 +134,36 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
             return list;
         }
         catch(Exception e){
+            return null;
+        }
+    }
+
+    public String getUVIndex(String s) {
+        Log.d(TAG, s);
+        try{
+            URL url = new URL(s);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setReadTimeout(10000);
+            connection.setConnectTimeout(15000);
+            connection.setRequestMethod("GET");
+            connection.setDoInput(true);
+            connection.connect();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuilder sb = new StringBuilder();
+
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            br.close();
+
+            JSONObject obj = new JSONObject(sb.toString());
+            String uv = obj.get("value").toString();
+            return uv;
+        }
+        catch(Exception e){
+            e.printStackTrace();
             return null;
         }
     }
