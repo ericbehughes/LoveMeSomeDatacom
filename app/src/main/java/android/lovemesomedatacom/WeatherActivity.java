@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class WeatherActivity extends MenuActivity {
     private static final String TAG = "WeatherActivity";
     private static final String ForecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=";
     EditText input;
+    ImageView image;
     Spinner spinner;
     Button weatherBtn;
     TextView temperature;
@@ -34,6 +36,7 @@ public class WeatherActivity extends MenuActivity {
     private void findViews(){
         input = (EditText)findViewById(R.id.inputCity);
         input.setText("Montreal");
+        image = (ImageView)findViewById(R.id.weatherIcon);
         temperature = (TextView)findViewById(R.id.temperature);
         spinner = (Spinner)findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -72,8 +75,10 @@ public class WeatherActivity extends MenuActivity {
                     .append("Temperature: " + weather.temperature)
                     .append("\n").append("Pressure: " +weather.pressure)
                     .append("\n").append("Humidity: " + weather.humidity).append("\n\n");
+            temperature.setText(temperature.getText() + builder.toString());
+            builder = new StringBuilder();
         }
-        temperature.setText(builder.toString() + "UV INDEX: " + uv);
+        temperature.setText(temperature.getText() + "UV INDEX: " + uv);
     }
 
 }

@@ -1,7 +1,6 @@
 package android.lovemesomedatacom;
 
 import android.os.AsyncTask;
-import android.text.format.DateUtils;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -123,6 +122,9 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
                             if (name.equals("humidity")) {
                                 current.humidity = myParser.getAttributeValue(null,"value") + " " +
                                         myParser.getAttributeValue(null, "unit");
+                            }
+                            if (name.equals("symbol")){
+                                current.link = "http://openweathermap.org/img/w/" + myParser.getAttributeValue(null, "var") + ".png";
                             }
                         }
 
