@@ -3,6 +3,7 @@ package android.lovemesomedatacom;
 import android.content.Intent;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -44,7 +45,8 @@ public class TeacherContactActivity extends MenuActivity {
     private void setViews() {
         Teacher teacher = this.intent.getParcelableExtra("TEACHER");
         this.fullName.setText(teacher.getFull_name());
-        this.email.setText(teacher.getEmail());
+        String formattedEmail = Html.fromHtml(teacher.getEmail()).toString();
+        this.email.setText(formattedEmail);
         this.office.setText(teacher.getOffice());
         this.local.setText(teacher.getLocal());
         this.website.setText(teacher.getWebsite());

@@ -57,7 +57,7 @@ public class ChooseTeacherActivity extends MenuActivity {
             Intent intent = new Intent(ChooseTeacherActivity.this, TeacherContactActivity.class);
             for (int i = 0; i < uniqueTeachers.size(); i++) {
                 if (position == i) {
-                    intent.putExtra("CLICKED_TEACHER", uniqueTeachers.get(i));
+                    intent.putExtra("TEACHER", uniqueTeachers.get(i));
                     startActivity(intent);
                 }
             }

@@ -66,9 +66,11 @@ public class FindTeacherActivity extends AppCompatActivity {
 
     private void fireActivity() {
         int results = this.teacherList.size();
-        switch (results){
+        Log.d(TAG, "TEACHER_LIST_SIZE: " + results);
+        switch (results) {
             case 0:
                 this.infoToast = Toast.makeText(this, "No results found!", Toast.LENGTH_LONG);
+                this.infoToast.show();
                 break;
             case 1:
                 fireTeacherContactActivity();
@@ -78,15 +80,17 @@ public class FindTeacherActivity extends AppCompatActivity {
                 break;
         }
 
+
     }
-    private void fireChooseTeacherActivity(){
+
+    private void fireChooseTeacherActivity() {
         Intent chooseTeacherIntent = new Intent(FindTeacherActivity.this,
                 ChooseTeacherActivity.class);
         chooseTeacherIntent.putParcelableArrayListExtra("TEACHERS", (ArrayList) this.teacherList);
         startActivity(chooseTeacherIntent);
     }
 
-    private void fireTeacherContactActivity(){
+    private void fireTeacherContactActivity() {
         Intent teacherContentIntent = new Intent(FindTeacherActivity.this,
                 TeacherContactActivity.class);
         teacherContentIntent.putExtra("TEACHER", this.teacherList.get(0));
@@ -105,46 +109,18 @@ public class FindTeacherActivity extends AppCompatActivity {
         Log.d(TAG, "firstNameQuery: " + firstNameQuery);
         String lastNameQuery = this.lastNameSearchView.getQuery().toString().toLowerCase();
         Log.d(TAG, "lastNameQuery: " + lastNameQuery);
-        if (validateSearch(firstNameQuery, lastNameQuery)) {
-            Log.d(TAG, "VALIDATION PASSED");
-            boolean radioButton = likeRadio.isChecked();
-            executeQuery(radioButton, firstNameQuery, lastNameQuery);
-        }
+        validateSearch(firstNameQuery, lastNameQuery);
     }
 
 
-    private void executeQuery(final boolean radioButton, final String firstName, final String lastName) {
+    private void executeQuery(final String firstName, final String lastName) {
         Log.d(TAG, "QUERY_EXACT INVOKED");
-        teacherQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        this.teacherList.clear();
+        teacherQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Teacher teacher = ds.getValue(Teacher.class);
-                    String[] fullName = teacher.getFull_name().split(" ");
-                    String teachersFirst = fullName[0].toLowerCase();
-                    String teachersLast = fullName[1].toLowerCase();
-                    boolean firstNotEmpty = !firstName.isEmpty();
-                    boolean lastNotEmpty = !lastName.isEmpty();
-                    if (radioButton) {
-                        if (teachersFirst.startsWith(firstName) && firstNotEmpty) {
-                            Log.d(TAG, "Teacher name: " + teacher.getFull_name());
-                            teacherList.add(teacher);
-                        }
-                        if (teachersLast.startsWith(lastName) && lastNotEmpty) {
-                            Log.d(TAG, "Teacher name: " + teacher.getFull_name());
-                            teacherList.add(teacher);
-                        }
-
-                    } else {
-                        if (teachersFirst.equalsIgnoreCase(firstName) && firstNotEmpty) {
-                            Log.d(TAG, "Teacher name: " + teacher.getFull_name());
-                            teacherList.add(teacher);
-                        }
-                        if (teachersLast.equalsIgnoreCase(lastName) && lastNotEmpty) {
-                            Log.d(TAG, "Teacher name: " + teacher.getFull_name());
-                            teacherList.add(teacher);
-                        }
-                    }
+                    filterResults(firstName, lastName, ds);
                 }
                 fireActivity();
             }
@@ -158,13 +134,44 @@ public class FindTeacherActivity extends AppCompatActivity {
 
     }
 
-    private boolean validateSearch(String firstName, String lastName) {
+    private void filterResults(String firstName, String lastName, DataSnapshot ds) {
+        Teacher teacher = ds.getValue(Teacher.class);
+        String teachersFirst = teacher.getFirst_name().toLowerCase();
+        String teachersLast = teacher.getLast_name().toLowerCase();
+        boolean firstEmpty = firstName.isEmpty();
+        boolean lastEmpty = lastName.isEmpty();
+        if (likeRadio.isChecked()) {
+            boolean firstStart = firstEmpty ? false : teachersFirst.startsWith(firstName);
+            boolean lastStart = lastEmpty ? false : teachersLast.startsWith(lastName);
+            if (lastEmpty && firstStart)
+                teacherList.add(teacher);
+            else if (firstEmpty && lastStart) {
+                teacherList.add(teacher);
+            } else {
+                if (firstStart && lastStart)
+                    teacherList.add(teacher);
+            }
+        } else {
+            boolean firstEqual = teachersFirst.equals(firstName);
+            boolean lastEqual = teachersLast.equals(lastName);
+            if (lastEmpty && firstEqual)
+                teacherList.add(teacher);
+            else if (firstEmpty && lastEqual) {
+                teacherList.add(teacher);
+            } else {
+                if (firstEqual && lastEqual)
+                    teacherList.add(teacher);
+            }
+        }
+    }
+
+    private void validateSearch(String firstName, String lastName) {
         if (firstName.isEmpty() && lastName.isEmpty()) {
             this.infoToast = Toast.makeText(this, "Please enter at least one search", Toast.LENGTH_LONG);
             infoToast.show();
-            return false;
+        } else {
+            executeQuery(firstName, lastName);
         }
-        return true;
 
     }
 }
