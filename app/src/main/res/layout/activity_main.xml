@@ -120,7 +120,7 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
-            android:onClick="doStuff"
+            
             android:text="@string/fa_sun_icon"
             android:textSize="16dp" />
 
