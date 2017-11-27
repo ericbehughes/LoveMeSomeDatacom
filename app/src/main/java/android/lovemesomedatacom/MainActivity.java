@@ -175,4 +175,11 @@ public class MainActivity extends MenuActivity {
         Log.d(TAG, "CalendarActivity");
         startActivity(i);
     }
+
+    public void showAcademicCalendarClick(View view) {
+
+        Intent i = new Intent(this, AcademicCalendar.class);
+        Log.d(TAG, "AcademicCalendarActivity");
+        startActivity(i);
+    }
 }
