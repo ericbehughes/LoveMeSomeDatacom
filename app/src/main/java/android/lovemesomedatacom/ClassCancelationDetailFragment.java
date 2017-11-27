@@ -1,6 +1,7 @@
 package android.lovemesomedatacom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +14,8 @@ import android.widget.TextView;
 
 
 public class ClassCancelationDetailFragment extends Fragment {
-    int position = 0;
+    String title = "";
+    String details = "";
     TextView tvTitle;
     TextView tvDetails;
 
@@ -24,7 +26,8 @@ public class ClassCancelationDetailFragment extends Fragment {
         if(savedInstanceState == null){
             // Get back arguments
             if(getArguments() != null) {
-                position = getArguments().getInt("position", 0);
+                title = getArguments().getString("course_name", "");
+                details = getArguments().getString("course_description", "");
             }
         }
     }
@@ -43,13 +46,13 @@ public class ClassCancelationDetailFragment extends Fragment {
         tvDetails = (TextView) view.findViewById(R.id.tvDetails);
 
         // update view
-        tvTitle.setText(ClassCancelationModel.cancelationMenu[position]);
-        tvDetails.setText(ClassCancelationModel.cancelationMenu[position]);
+        tvTitle.setText(title);
+        tvDetails.setText(details);
     }
 
     // Activity is calling this to update view on Fragment
     public void updateView(int position){
-        tvTitle.setText(ClassCancelationModel.cancelationMenu[position]);
-        tvDetails.setText(ClassCancelationModel.cancelationMenu[position]);
+        tvTitle.setText(title);
+        tvDetails.setText(details);
     }
 }
