@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.util.Calendar;
@@ -22,6 +21,7 @@ public class SettingsActivity extends MenuActivity {
     private String password;
     private String email;
     private String timeStamp;
+    private boolean isDiscard;
 
     private TextView tvFirstName;
     private EditText etFirstName;
@@ -35,6 +35,9 @@ public class SettingsActivity extends MenuActivity {
     private TextView etTimeStamp;
 
 
+    /**
+     * private method to load view objects
+     */
     private void findViews() {
         tvFirstName = (TextView)findViewById( R.id.tvFirstName );
         etFirstName = (EditText)findViewById( R.id.etFirstName );
@@ -55,8 +58,12 @@ public class SettingsActivity extends MenuActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_settings);
         // load views to be used
+        isDiscard = false;
         findViews();
 
+        /**
+         * load saved preferences if user has already submitted their info before
+         */
         prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
         if (prefs != null){
             firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "");
@@ -74,39 +81,44 @@ public class SettingsActivity extends MenuActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        // get all users new info before screen closes
         firstName = etFirstName.getText().toString();
         lastName = etLastName.getText().toString();
         email= etEmail.getText().toString();
         password = etPassword.getText().toString();
         timeStamp = etTimeStamp.getText().toString();
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(SharedPreferencesKey.FIRST_NAME.toString(), firstName);
-        editor.putString(SharedPreferencesKey.LAST_NAME.toString(), lastName);
-        editor.putString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), email);
-        editor.putString(SharedPreferencesKey.PASSWWORD.toString(), password);
-        editor.putString(SharedPreferencesKey.DATE_STAMP.toString(), timeStamp);
+        if (!isDiscard){
+            // save users info to shared preferences
+            editor.putString(SharedPreferencesKey.FIRST_NAME.toString(), firstName);
+            editor.putString(SharedPreferencesKey.LAST_NAME.toString(), lastName);
+            editor.putString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), email);
+            editor.putString(SharedPreferencesKey.PASSWWORD.toString(), password);
+            editor.putString(SharedPreferencesKey.DATE_STAMP.toString(), timeStamp);
 
-        editor.commit();
+            editor.commit();
+        }
+
 
     }
 
 
+    /**
+     * custom back button alert dialog that turns isDiscard to true or false
+     * before shared preferences are saved
+     */
     @Override
     public void onBackPressed()
     {
-        // code here to show dialog
-        //super.onBackPressed();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.discard_pop_up_dialog)
                 .setTitle(R.string.confirm_discard_string);
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int id) {
+            isDiscard = true;
             SettingsActivity.this.finish();
         }
     });
-
-
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -116,7 +128,5 @@ public class SettingsActivity extends MenuActivity {
         dialog.show();
 
     }
-
-
 
 }

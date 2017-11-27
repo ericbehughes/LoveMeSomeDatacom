@@ -1,28 +1,21 @@
 package android.lovemesomedatacom;
 
-import android.app.VoiceInteractor;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.lovemesomedatacom.db.NotesDBHelper;
 import android.lovemesomedatacom.db.NotesTable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Scroller;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -117,11 +110,6 @@ public class NotesActivity extends MenuActivity {
                 new String[]{note_title});
         db.close();
         updateUI();
-    }
-
-    @Override
-    public VoiceInteractor getVoiceInteractor() {
-        return super.getVoiceInteractor();
     }
 
 
