@@ -29,11 +29,11 @@ public class AcademicCalendar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_academic_calendar);
         findViews();
-//        webViewAcademicCalendar.getSettings().setJavaScriptEnabled(true);
-        season = "winter";
-        year = "2015";
 
 
+        /**
+         * load default Academic Calendar on separate thread
+         */
         webViewAcademicCalendar.post(new Runnable() {
             @Override
             public void run() {
@@ -41,6 +41,10 @@ public class AcademicCalendar extends AppCompatActivity {
             }
         });
 
+        /**
+         * listener on the search/enter button of the keyboard and grabs the value in the
+         * edit text field and laods url on new Runnable thread
+         */
         etAcademicYear.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
 
