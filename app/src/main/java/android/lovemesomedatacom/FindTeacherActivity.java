@@ -39,6 +39,8 @@ public class FindTeacherActivity extends AppCompatActivity {
     //Views
     private SearchView firstNameSearchView;
     private SearchView lastNameSearchView;
+    private String firstNameSearch;
+    private String lastNameSearch;
     private RadioButton likeRadio;
     private Toast infoToast;
     private Query teacherQuery;
@@ -56,7 +58,7 @@ public class FindTeacherActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        setContentView(R.layout.activity_teacher);
+        setContentView(R.layout.activity_find_teacher);
 
         //Initialization of the Teacher's list attribute required by the ValueEventListener of the Query
         this.teacherList = new ArrayList<>();
@@ -67,6 +69,26 @@ public class FindTeacherActivity extends AppCompatActivity {
         this.teacherQuery = mDatabaseRef.orderByChild("full_name");
         //Instantiation of the views
         instantiateViews();
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstance){
+        Log.d(TAG, "onRestoreInstanceState called");
+        if(savedInstance!=null){
+            this.firstNameSearch = savedInstance.getString("FIRST_NAME_SEARCH");
+            Log.d(TAG, "FIRST_NAME_FIELD: "+this.firstNameSearch);
+            this.lastNameSearch = savedInstance.getString("LAST_NAME_SEARCH");
+            Log.d(TAG, "LAST_NAME_FIELD: "+this.lastNameSearch);
+            this.firstNameSearchView.setQuery(this.firstNameSearch, false);
+            this.lastNameSearchView.setQuery(this.lastNameSearch, false);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstance){
+        super.onSaveInstanceState(savedInstance);
+        Log.d(TAG, "onSaveInstanceState called");
+        savedInstance.putString("FIRST_NAME_SEARCH", this.firstNameSearchView.getQuery().toString());
+        savedInstance.putString("LAST_NAME_SEARCH", this.lastNameSearchView.getQuery().toString());
     }
 
     /**
@@ -136,11 +158,11 @@ public class FindTeacherActivity extends AppCompatActivity {
      * @param view
      */
     public void onSearch(View view) {
-        String firstNameQuery = this.firstNameSearchView.getQuery().toString().toLowerCase();
-        Log.d(TAG, "firstNameQuery: " + firstNameQuery);
-        String lastNameQuery = this.lastNameSearchView.getQuery().toString().toLowerCase();
-        Log.d(TAG, "lastNameQuery: " + lastNameQuery);
-        validateSearch(firstNameQuery, lastNameQuery);
+        this.firstNameSearch = this.firstNameSearchView.getQuery().toString().toLowerCase();
+        Log.d(TAG, "firstNameQuery: " + this.firstNameSearch);
+        this.lastNameSearch = this.lastNameSearchView.getQuery().toString().toLowerCase();
+        Log.d(TAG, "lastNameQuery: " + this.lastNameSearch);
+        validateSearch(this.firstNameSearch, this.lastNameSearch);
     }
 
     /**

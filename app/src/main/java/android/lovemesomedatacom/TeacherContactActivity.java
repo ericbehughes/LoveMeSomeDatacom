@@ -44,10 +44,8 @@ public class TeacherContactActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_teacher_contact);
-
         this.intent = this.getIntent();
         this.teacher = this.intent.getParcelableExtra("TEACHER");
-
         instantiateViews();
     }
 

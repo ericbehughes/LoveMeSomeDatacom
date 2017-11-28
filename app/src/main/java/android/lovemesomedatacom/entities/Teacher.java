@@ -16,6 +16,8 @@ import java.util.List;
  *
  * Help on how to use the Parcelable interface taken from Lars Vogel at:
  *  http://www.vogella.com/tutorials/AndroidParcelable/article.html
+ *
+ * @author Sebastian Ramirez
  */
 
 public class Teacher implements Parcelable, Comparable<Teacher> {
