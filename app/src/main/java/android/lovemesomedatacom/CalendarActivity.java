@@ -112,6 +112,9 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
             long startTime = cal.getTimeInMillis();
             long endTime = cal.getTimeInMillis()  + 60 * 60 * 1000;
 
+            //16:40
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+
 
             // have to convert string 16:43 into milliseconds
             intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);

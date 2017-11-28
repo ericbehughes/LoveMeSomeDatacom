@@ -191,4 +191,12 @@ public class MainActivity extends MenuActivity {
         Log.d(TAG, "AcademicCalendarActivity");
         startActivity(i);
     }
+
+    public void getLocationForTemperatureClick(View view) {
+
+        Intent i = new Intent(this, TemperatureLoaction.class);
+        Log.d(TAG, "AcademicCalendarActivity");
+        startActivity(i);
+    }
+
 }
