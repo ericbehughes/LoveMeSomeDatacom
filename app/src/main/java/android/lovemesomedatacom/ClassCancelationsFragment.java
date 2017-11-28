@@ -22,7 +22,6 @@ import static android.lovemesomedatacom.ClassCancelationModel.courses;
 
 
 public class ClassCancelationsFragment extends Fragment {
-    ArrayAdapter<Course> itemsAdapter;
     CoursesAdapter coursesAdapter;
 
     ArrayList<Course> courseList = new ArrayList<>();
@@ -32,23 +31,16 @@ public class ClassCancelationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toast.makeText(getContext(),"oncreate call",Toast.LENGTH_SHORT).show();
+        new GetCancelledClasses(this,url).execute();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle savedInstanceState) {
         // Inflate the xml file for the fragment
         View v = inflater.inflate(R.layout.fragment_class_cancelations, parent, false);
-        popCoursesList(v);
-        return v;
-    }
-
-    private void popCoursesList(View v){
-
-        new GetCancelledClasses(this,url).execute();
-
         coursesListView = (ListView) v.findViewById(R.id.lvItems);
-
-
+        return v;
     }
 
     @Override
@@ -109,6 +101,12 @@ public class ClassCancelationsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Toast.makeText(getActivity(), "ClassCancelationsFragment onActivityCreated", Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+
     }
 
 

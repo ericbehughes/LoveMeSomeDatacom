@@ -55,4 +55,22 @@ public class ClassCancelationDetailFragment extends Fragment {
         tvTitle.setText(title);
         tvDetails.setText(details);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+
+        outState.putString("course_title",title);
+        outState.putString("course_details",details);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+
+        if(savedInstanceState != null){
+            tvTitle.setText(savedInstanceState.getString("course_title"));
+            tvDetails.setText(savedInstanceState.getString("course_details"));
+        }
+    }
 }
