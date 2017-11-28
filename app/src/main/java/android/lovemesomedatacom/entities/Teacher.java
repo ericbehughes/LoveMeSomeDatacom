@@ -7,7 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 1331680 on 11/24/2017.
+ * The Teacher class is in charge of modeling a Teacher object in a manner that the Firebase framework
+ * will be able to translate a json object to this type of object. All the class' attributes match
+ * the name of the json objects in the database. The Teacher class implements the Parcelable interface
+ * in order to facilitate flow of information between the FindTeacherActivity and the ChooseTeacherActivity
+ * and the TeacherContactActivity. It also impelements the Comparable interface in order to sort the contents
+ * of any list of Teachers.
+ *
+ * Help on how to use the Parcelable interface taken from Lars Vogel at:
+ *  http://www.vogella.com/tutorials/AndroidParcelable/article.html
  */
 
 public class Teacher implements Parcelable, Comparable<Teacher> {
@@ -35,11 +43,19 @@ public class Teacher implements Parcelable, Comparable<Teacher> {
     private List<String> departments;
     private List<String> sectors;
 
+    /**
+     * Default no-param constructor.
+     */
     public Teacher() {
         this("", "", "", "", "", "", "", "", "", new ArrayList<String>(),
                 new ArrayList<String>(), new ArrayList<String>());
     }
 
+    /**
+     * Non-default constructor. Takes in a Parcel object and recreates a Teacher from it.
+     *
+     * @param in the parcel that contains the teacher object.
+     */
     public Teacher(Parcel in) {
         this.first_name = in.readString();
         this.last_name = in.readString();
@@ -55,6 +71,21 @@ public class Teacher implements Parcelable, Comparable<Teacher> {
         this.sectors = in.createStringArrayList();
     }
 
+    /**
+     * Non-default constructor that initializes all the object's attributes.
+     * @param first_name
+     * @param last_name
+     * @param full_name
+     * @param email
+     * @param office
+     * @param local
+     * @param website
+     * @param bio
+     * @param image
+     * @param positions
+     * @param departments
+     * @param sectors
+     */
     public Teacher(String first_name, String last_name, String full_name, String email, String office,
                    String local, String website, String bio, String image, List<String> positions,
                    List<String> departments, List<String> sectors) {
