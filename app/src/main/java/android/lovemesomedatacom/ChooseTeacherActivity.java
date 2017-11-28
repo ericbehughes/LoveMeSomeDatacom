@@ -73,7 +73,10 @@ public class ChooseTeacherActivity extends MenuActivity {
 
     /**
      * The uniqueList method makes sure the list of teachers recieved from the intent is unique and
-     * ordered.
+     * ordered. It creates a Set object from the teachers list, this makes sure there are no duplicates.
+     * Then it creates a List back from the set, this is necessary because the super method of the
+     * adapter does not accept Set objects. Finally, it sorts the teachers list using the custom
+     * TeacherNameComparator, which compares two Teacher objects according to their full name fields.
      */
     private void uniqueList() {
         Set<Teacher> teacherSet = new HashSet<>(this.teacherList);
