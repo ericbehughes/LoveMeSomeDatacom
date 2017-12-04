@@ -5,17 +5,9 @@ package android.lovemesomedatacom;
  */
 
 public class ClassCancelationModel {
+    public static Course[] courses = new Course[0];
+    public ClassCancelationModel(Course[] courses){
+        this.courses = courses;
+    }
 
-
-    public static String[] cancelationMenu = {
-            "Java",
-            "Android1",
-            "PHP"
-    };
-
-    public static String[] cancelationDetails = {
-            "Java Description",
-            "Android Description",
-            "Php description"
-    };
 }
