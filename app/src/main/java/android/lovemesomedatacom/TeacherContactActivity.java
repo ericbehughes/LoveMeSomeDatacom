@@ -9,6 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * The TeacherContactActivity is responsible for properly displaying a single's Teachers information.
  * It display the field of a single Teacher object gotten through the intent's extra method. This
@@ -30,6 +33,7 @@ public class TeacherContactActivity extends MenuActivity {
 
     private Intent intent;
     private Teacher teacher;
+    private String formattedEmail;
 
     /**
      * The onCreate is fired when the Activity is started. It takes a Bundle as parameter in order
@@ -77,8 +81,8 @@ public class TeacherContactActivity extends MenuActivity {
      */
     private void setViews() {
         this.fullName.setText(getString(R.string.teacher_name) + this.teacher.getFull_name());
-        String formattedEmail = Html.fromHtml(this.teacher.getEmail()).toString();
-        this.email.setText(getString(R.string.teacher_email) + formattedEmail);
+        this.formattedEmail = Html.fromHtml(this.teacher.getEmail()).toString();
+        this.email.setText(getString(R.string.teacher_email) + this.formattedEmail);
         this.office.setText(getString(R.string.teacher_office) + this.teacher.getOffice());
         this.local.setText(getString(R.string.teacher_local) + this.teacher.getLocal());
         this.website.setText(getString(R.string.teacher_website) + this.teacher.getWebsite());
@@ -94,10 +98,10 @@ public class TeacherContactActivity extends MenuActivity {
      *
      * @param view the view that invoked this method
      */
-    public void launchEmailIntent(View view) {
+    public void launchEmailIntent(View view) throws UnsupportedEncodingException {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:"));
-        String[] recipients = {teacher.getEmail()};
+        String[] recipients = {this.formattedEmail};
         intent.putExtra(Intent.EXTRA_EMAIL, recipients);
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.from) + getString(R.string.app_name));
         if (intent.resolveActivity(getPackageManager()) != null) {
