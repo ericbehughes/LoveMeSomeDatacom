@@ -47,7 +47,8 @@
         <activity android:name=".NetworkFactoryActivity" />
         <activity android:name=".NotesActivity" />
         <activity android:name=".NoteDetailsActivity" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".AcademicCalendar"></activity>
     </application>
 
 </manifest>

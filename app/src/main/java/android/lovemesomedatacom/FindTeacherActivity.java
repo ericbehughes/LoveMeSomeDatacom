@@ -29,7 +29,7 @@ import java.util.List;
  * @author Sebastian Ramirez
  */
 
-public class FindTeacherActivity extends AppCompatActivity {
+public class FindTeacherActivity extends MenuActivity {
 
     private static final String TAG = "FIND_TEACHER_ACTIVITY";
 
@@ -59,8 +59,7 @@ public class FindTeacherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_find_teacher);
-
-        //Initialization of the Teacher's list attribute required by the ValueEventListener of the Query
+        this.setTitle(R.string.find_my_teacher_activity_title);
         this.teacherList = new ArrayList<>();
         //Root reference to the Firebase Database
         this.mDatabaseRef = FirebaseDatabase.getInstance().getReference();

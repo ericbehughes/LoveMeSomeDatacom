@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="android.lovemesomedatacom.MainActivity">
+    tools:context=".MainActivity">
 
     <LinearLayout
 
@@ -61,7 +61,7 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
-
+            android:onClick="classCancellationClick"
             android:text="@string/fa_calendar_icon"
             android:textSize="16dp" />
 
@@ -89,8 +89,6 @@
             android:layout_height="match_parent"
             android:layout_weight=".5"
             android:background="@drawable/border"
-            android:gravity="center"
-            android:onClick="showCalendarView"
             android:text="@string/fa_add_to_calendar_icon"
             android:textSize="16dp" />
 
@@ -119,7 +117,7 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
-            android:onClick="doStuff"
+
             android:text="@string/fa_sun_icon"
             android:textSize="16dp" />
 
@@ -128,8 +126,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:background="@drawable/border"
             android:gravity="center"
+            android:onClick="showAcademicCalendarClick"
+            android:background="@drawable/border"
             android:text="@string/fa_grades_icon"
             android:textSize="16dp" />
     </LinearLayout>

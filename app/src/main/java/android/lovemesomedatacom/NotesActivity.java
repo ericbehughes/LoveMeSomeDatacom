@@ -8,9 +8,12 @@ import android.lovemesomedatacom.db.NotesDBHelper;
 import android.lovemesomedatacom.db.NotesTable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,13 +29,14 @@ public class NotesActivity extends MenuActivity {
     private ListView mNoteListView;
     private NotesAdapter mAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
         mHelper = new NotesDBHelper(this);
         mNoteListView = (ListView) findViewById(R.id.list_notes);
-
+        this.setTitle(R.string.notes_activity_title);
         updateUI();
     }
 
@@ -102,8 +106,13 @@ public class NotesActivity extends MenuActivity {
 
     public void deleteNote(View view) {
         View parent = (View) view.getParent();
-        TextView notesTextView = (TextView) view.findViewById(R.id.note_title);
-        String note_title = String.valueOf(notesTextView.getText());
+        TextView tv = (TextView)((LinearLayout) parent).getChildAt(0);
+        TextView notesTextView = (TextView) tv.findViewById(R.id.note_title);
+        ViewParent vp = parent.getParent();
+        LinearLayout ll = (LinearLayout)vp;
+        TextView tvv = (TextView)ll.getChildAt(0);
+        String note_title = tvv.getText().toString();
+       // String note_title = (String)((TextView)parent.getParent().getChildAt(0)).getText();
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(NotesTable.NotesEntry.TABLE,
                 NotesTable.NotesEntry.COL_NOTES_TITLE+ " = ?",
@@ -129,7 +138,8 @@ public class NotesActivity extends MenuActivity {
             Note n = new Note();
             n.setTitle(cursor.getString(idx));
             idx = cursor.getColumnIndex(NotesTable.NotesEntry.COL_NOTES_TEXT);
-            n.setText(cursor.getString(idx));
+            String text = cursor.getString(idx);
+            n.setText(text);
             notesList.add(n);
         }
 
