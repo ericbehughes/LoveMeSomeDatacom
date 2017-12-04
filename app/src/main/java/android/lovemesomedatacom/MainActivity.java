@@ -3,9 +3,11 @@ package android.lovemesomedatacom;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MainActivity extends MenuActivity {
 
@@ -72,7 +81,7 @@ public class MainActivity extends MenuActivity {
 
         // load views to be used
         findViews();
-        getUserLocation();
+        getLocationForTemperatureClick();
 
         // load icons for each text view
         Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
@@ -114,8 +123,7 @@ public class MainActivity extends MenuActivity {
                 startActivity(i);
             }
         });
-
-
+        
     }
 
     @Override
@@ -189,19 +197,40 @@ public class MainActivity extends MenuActivity {
         startActivity(i);
     }
 
-    public void getUserLocation() {
-        Log.d(TAG, "Getting User Location...");
-        gps = new GPSManager(MainActivity.this);
+    public void getLocationForTemperatureClick() {
 
-        if(gps.locationEnabled()){
+        int REQUEST_CODE_PERMISSION = 2;
+        String mPermission = android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
+        try {
+            if (ActivityCompat.checkSelfPermission(this, mPermission)
+                    != PackageManager.PERMISSION_GRANTED) {
 
-            Toast.makeText(getApplicationContext(), "Your location is : " + latitude + " " + longitude, Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(this, new String[]{mPermission},
+                        REQUEST_CODE_PERMISSION);
+            }
 
-        } else {
-            gps.requestLocation();
+            gps = new GPSManager(MainActivity.this);
+
+            // check if GPS enabled
+            if(gps.canGetLocation()){
+
+                double latitude = gps.getLatitude();
+                double longitude = gps.getLongitude();
+
+                // \n is for new line
+                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
+                        + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+
+            }else{
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                gps.showSettingsAlert();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 }
