@@ -18,11 +18,11 @@
         <!--start image view-->
         <ImageView
             android:id="@+id/imgDawsonLogo"
-            android:padding="100dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
+            android:padding="100dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/dawson_logo" />
     </LinearLayout>
 
@@ -36,16 +36,15 @@
 
         <ImageView
             android:id="@+id/imgTeamLogo"
-            android:padding="100dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:elevation="1dp"
+            android:padding="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/lovemesomedatacom_logo" />
     </LinearLayout>
-
 
 
     <!--start clickable text views-->
@@ -89,8 +88,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
-            android:onClick="showCalendarView"
             android:background="@drawable/border"
             android:text="@string/fa_add_to_calendar_icon"
             android:textSize="16dp" />
@@ -102,8 +99,8 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
-            android:text="@string/fa_notes_icon"
             android:onClick="showNotesClick"
+            android:text="@string/fa_notes_icon"
             android:textSize="16dp" />
     </LinearLayout>
 
