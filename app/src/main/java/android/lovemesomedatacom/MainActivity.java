@@ -43,6 +43,7 @@ public class MainActivity extends MenuActivity {
     private ImageView teamLogo;
 
     private GPSManager gps;
+    private String URL;
 
     //Firebase
     private static final String FIREBASE_USER = "test1@example.com";
@@ -123,7 +124,9 @@ public class MainActivity extends MenuActivity {
                 startActivity(i);
             }
         });
-        
+
+        new CurrentTemperatureTask(MainActivity.this, URL).execute();
+
     }
 
     @Override
@@ -192,9 +195,6 @@ public class MainActivity extends MenuActivity {
 
     public void showAcademicCalendarClick(View view) {
 
-        Intent i = new Intent(this, AcademicCalendar.class);
-        Log.d(TAG, "AcademicCalendarActivity");
-        startActivity(i);
     }
 
     public void getLocationForTemperatureClick() {
@@ -218,6 +218,8 @@ public class MainActivity extends MenuActivity {
                 double latitude = gps.getLatitude();
                 double longitude = gps.getLongitude();
 
+                URL = "http://api.openweathermap.org/data/2.5/weather?appid=080b8de151ba3865a7b5e255f448f10f&units=metric&lat="+latitude+"&lon="+longitude;
+
                 // \n is for new line
                 Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
                         + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
@@ -233,4 +235,7 @@ public class MainActivity extends MenuActivity {
         }
     }
 
+    public void updateCurrentTemperature(String result) {
+        tvCurrentTemperature.setText(tvCurrentTemperature.getText() + " " + result);
+    }
 }
