@@ -76,7 +76,7 @@ public class NoteDetailsActivity extends MenuActivity {
 
         switch (item.getItemId()) {
             case R.id.action_save_settings:
-                Toast.makeText(this, "Settings Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
 
                 updateNote();
 

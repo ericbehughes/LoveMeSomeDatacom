@@ -135,6 +135,34 @@
             android:textSize="16dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvWhosFree"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:background="@drawable/border"
+            android:gravity="center"
+
+            android:text="@string/fa_clock_icon"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvFindFriends"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:onClick="showAcademicCalendarClick"
+            android:background="@drawable/border"
+            android:text="@string/fa_users_icon"
+            android:textSize="16dp" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -153,6 +181,8 @@
             android:text="@string/fa_thermometer_icon"
             android:textSize="16dp" />
     </LinearLayout>
+
+
 
 
 </LinearLayout>

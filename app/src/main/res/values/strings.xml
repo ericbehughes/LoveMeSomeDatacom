@@ -24,6 +24,9 @@
     <string name="fa_sun_icon">&#xf185; Weather</string>
     <string name="fa_grades_icon">&#xf19d; Academic Calendar</string>
     <string name="fa_thermometer_icon">&#xf2c7; Current Temperature</string>
+    <string name="fa_users_icon">&#xf0c0; Find Friends</string>
+    <string name="fa_clock_icon">&#xf017; Who\'s Free</string>
+
 
     <string name="connection_error">connection error</string>
     <string name="xml_error">Cant parse xml</string>
