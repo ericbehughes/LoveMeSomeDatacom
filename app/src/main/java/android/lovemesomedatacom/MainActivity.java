@@ -3,11 +3,11 @@ package android.lovemesomedatacom;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,11 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MainActivity extends MenuActivity {
 
@@ -38,6 +41,9 @@ public class MainActivity extends MenuActivity {
     private TextView tvAcademicCalendar;
     private ImageView dawsonLogo;
     private ImageView teamLogo;
+
+    private GPSManager gps;
+    private String URL;
 
     //Firebase
     private static final String FIREBASE_USER = "test1@example.com";
@@ -76,6 +82,7 @@ public class MainActivity extends MenuActivity {
 
         // load views to be used
         findViews();
+        getLocationForTemperatureClick();
 
         // load icons for each text view
         Typeface font = Typeface.createFromAsset(getAssets(), "fontawesome-webfont.ttf");
@@ -118,6 +125,7 @@ public class MainActivity extends MenuActivity {
             }
         });
 
+        new CurrentTemperatureTask(MainActivity.this, URL).execute();
 
     }
 
@@ -187,8 +195,47 @@ public class MainActivity extends MenuActivity {
 
     public void showAcademicCalendarClick(View view) {
 
-        Intent i = new Intent(this, AcademicCalendar.class);
-        Log.d(TAG, "AcademicCalendarActivity");
-        startActivity(i);
+    }
+
+    public void getLocationForTemperatureClick() {
+
+        int REQUEST_CODE_PERMISSION = 2;
+        String mPermission = android.Manifest.permission.ACCESS_FINE_LOCATION;
+
+        try {
+            if (ActivityCompat.checkSelfPermission(this, mPermission)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{mPermission},
+                        REQUEST_CODE_PERMISSION);
+            }
+
+            gps = new GPSManager(MainActivity.this);
+
+            // check if GPS enabled
+            if(gps.canGetLocation()){
+
+                double latitude = gps.getLatitude();
+                double longitude = gps.getLongitude();
+
+                URL = "http://api.openweathermap.org/data/2.5/weather?appid=080b8de151ba3865a7b5e255f448f10f&units=metric&lat="+latitude+"&lon="+longitude;
+
+                // \n is for new line
+                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
+                        + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+
+            }else{
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                gps.showSettingsAlert();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCurrentTemperature(String result) {
+        tvCurrentTemperature.setText(tvCurrentTemperature.getText() + " " + result);
     }
 }
