@@ -24,6 +24,7 @@ import android.widget.TimePicker;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class CalendarActivity extends MenuActivity implements TimePickerFragment.OnCompleteListener  {
 
@@ -108,18 +109,24 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
             Intent intent = new Intent(Intent.ACTION_INSERT);
             intent.setType("vnd.android.cursor.item/event");
 
+            String[] array = tvStartTimeValue.getText().toString().split(":");
             Calendar cal = Calendar.getInstance();
-            long startTime = cal.getTimeInMillis();
+            long temp = Long.parseLong(array[0]);
+            if (temp > 12){
+                temp = temp - 12;
+            }
+            long startTimeHours = TimeUnit.HOURS.toMillis(temp);
+            long startTimeMinutes = TimeUnit.MINUTES.toMillis(temp);
 
-            long endTime = cal.getTimeInMillis()  + 60 * 60 * 1000;
+
 
             //16:40
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
 
 
             // have to convert string 16:43 into milliseconds
-            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
-            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTimeHours);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,startTimeHours+startTimeMinutes);
             intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
 
             intent.putExtra(CalendarContract.Events.TITLE, "Event title goes here");

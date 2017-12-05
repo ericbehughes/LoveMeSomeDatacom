@@ -28,15 +28,24 @@ public class NotesActivity extends MenuActivity {
     private NotesDBHelper mHelper;
     private ListView mNoteListView;
     private NotesAdapter mAdapter;
+    private  ArrayList<Note> notesList = new ArrayList<>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
-        mHelper = new NotesDBHelper(this);
         mNoteListView = (ListView) findViewById(R.id.list_notes);
+        mAdapter = new NotesAdapter(this, notesList);
+        mNoteListView.setAdapter(mAdapter);
         this.setTitle(R.string.notes_activity_title);
+        //updateUI();
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
         updateUI();
     }
 
@@ -127,7 +136,10 @@ public class NotesActivity extends MenuActivity {
      * updates adapter and closes connection
      */
     private void updateUI() {
-        ArrayList<Note> notesList = new ArrayList<>();
+        //mNoteListView = (ListView) findViewById(R.id.list_notes);
+        mAdapter.clear();
+        mHelper = new NotesDBHelper(this);
+
         SQLiteDatabase db = mHelper.getReadableDatabase();
         Cursor cursor = db.query(NotesTable.NotesEntry.TABLE,
                 new String[]{NotesTable.NotesEntry._ID, NotesTable.NotesEntry.COL_NOTES_TITLE,
@@ -143,16 +155,28 @@ public class NotesActivity extends MenuActivity {
             notesList.add(n);
         }
 
-        if (mAdapter == null) {
-            mAdapter = new NotesAdapter(this, notesList);
-            mNoteListView.setAdapter(mAdapter);
+        //
+        //mAdapter = new NotesAdapter(this, notesList);
+
+        mAdapter.addAll(notesList);
+        mAdapter.notifyDataSetChanged();
+        mNoteListView.setAdapter(mAdapter);
+
+        mNoteListView.invalidateViews();
 
 
-        } else {
-            //mAdapter.clear();
-            mAdapter.addAll(notesList);
-            mAdapter.notifyDataSetChanged();
-        }
+        //mAdapter.notifyDataSetChanged();
+
+//        if (mAdapter == null) {
+//            mAdapter = new NotesAdapter(this, notesList);
+//            mNoteListView.setAdapter(mAdapter);
+//
+//
+//        } else {
+//            mAdapter.clear();
+//            mAdapter.addAll(notesList);
+//            mAdapter.notifyDataSetChanged();
+//        }
         cursor.close();
         db.close();
     }

@@ -51,28 +51,63 @@ public class NoteDetailsActivity extends MenuActivity {
 
     }
 
+    /**
+     * overriden to add + button the toolbar
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    /**
+     * custom button in the menu bar and creates a small dialog for the user
+     * to enter a note.
+     *
+     * inserts into the DB and calls updateUI once again
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_save_settings:
+                Toast.makeText(this, "Settings Saved", Toast.LENGTH_SHORT).show();
+
+                updateNote();
+
+                break;
+
+
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
-        updateNote();
+
     }
 
     private void updateNote(){
+        mHelper = new NotesDBHelper(this);
         String note_title = tvNoteDetailsTitle.getText().toString();
         String note_text = tvNoteDetailsText.getText().toString();
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.delete(NotesTable.NotesEntry.TABLE,
-                NotesTable.NotesEntry.COL_NOTES_TITLE+ " = ?",
-                new String[]{note_title});
+
+        String selection = NotesTable.NotesEntry.COL_NOTES_TITLE+ " = ?";
 
         ContentValues cv = new ContentValues();
-        cv.put(NotesTable.NotesEntry.COL_NOTES_TITLE, ""); //These Fields should be your String values of actual column names
-        cv.put(NotesTable.NotesEntry.COL_NOTES_TEXT,"19");
+        cv.put(NotesTable.NotesEntry.COL_NOTES_TITLE, note_title);
+        cv.put(NotesTable.NotesEntry.COL_NOTES_TEXT,note_text);
+        db.update(NotesTable.NotesEntry.TABLE, cv, selection, new String[] {String.valueOf(note_title)});
 
-
-
-//        db.update(TableName, cv, "_id="+id, null);
-//        db.close();
+        db.close();
     }
 
 }
