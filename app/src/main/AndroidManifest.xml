@@ -31,9 +31,10 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".FindTeacherActivity" />
-        <activity android:name=".ChooseTeacherActivity" />
+        <activity android:name=".FindTeacherActivity"></activity>
+        <activity android:name=".ChooseTeacherActivity"></activity>
         <activity android:name=".TeacherContactActivity"></activity>
+
         <activity android:name=".MenuActivity" />
         <activity android:name=".WeatherActivity" />
         <activity android:name=".AboutActivity" />

@@ -59,6 +59,8 @@
     <string name="delete_button">Delete</string>
 
     <!--Teacher module related strings-->
+    <string name="search_first_title">First Name</string>
+    <string name="search_last_title">Last Name</string>
     <string name="search_teacher">Search</string>
     <string name="radio_like">Search for similar results</string>
     <string name="radio_exact">Search for exact results</string>

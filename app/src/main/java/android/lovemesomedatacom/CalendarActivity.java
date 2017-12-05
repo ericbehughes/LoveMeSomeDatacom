@@ -110,6 +110,7 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
 
             Calendar cal = Calendar.getInstance();
             long startTime = cal.getTimeInMillis();
+
             long endTime = cal.getTimeInMillis()  + 60 * 60 * 1000;
 
             //16:40

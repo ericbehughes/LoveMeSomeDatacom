@@ -90,7 +90,10 @@ public class MainActivity extends MenuActivity {
 
         firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
 
+        prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
+        if (prefs == null){
 
+        }
         dawsonLogo.setOnClickListener(new View.OnClickListener() {
 
             @Override
