@@ -93,14 +93,19 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV.setTypeface(font);
         tvAcademicCalendar.setTypeface(font);
         tvCurrentTemperature.setTypeface(font);
+
         prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
+        prefs.edit().clear();
+        if (prefs.getAll().size() == 0 || prefs == null){
+            Intent settingIntent = new Intent(this, SettingsActivity.class);
+            Log.d(TAG, "Settings not detected");
+            startActivity(settingIntent);
+        }
 
         firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
 
-        prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
-        if (prefs == null){
 
-        }
+
         dawsonLogo.setOnClickListener(new View.OnClickListener() {
 
             @Override
