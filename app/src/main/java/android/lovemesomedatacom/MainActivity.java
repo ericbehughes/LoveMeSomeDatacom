@@ -104,8 +104,6 @@ public class MainActivity extends MenuActivity {
 
         firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
 
-
-
         dawsonLogo.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -202,7 +200,10 @@ public class MainActivity extends MenuActivity {
     }
 
     public void showAcademicCalendarClick(View view) {
+        Intent i = new Intent(this, AcademicCalendar.class);
 
+        Log.d(TAG, "CalendarActivity");
+        startActivity(i);
     }
 
     public void getLocationForTemperatureClick() {
