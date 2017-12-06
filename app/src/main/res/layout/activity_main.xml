@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+
         android:background="@drawable/border"
 
         android:orientation="vertical">
@@ -88,7 +89,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
+            android:gravity="center"
             android:background="@drawable/border"
+            android:onClick="showCalendarView"
             android:text="@string/fa_add_to_calendar_icon"
             android:textSize="16dp" />
 
@@ -133,6 +136,34 @@
             android:textSize="16dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvWhosFree"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:background="@drawable/border"
+            android:gravity="center"
+
+            android:text="@string/fa_clock_icon"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvFindFriends"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:onClick="showAcademicCalendarClick"
+            android:background="@drawable/border"
+            android:text="@string/fa_users_icon"
+            android:textSize="16dp" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -144,12 +175,15 @@
             android:id="@+id/tvCurrentTemperature"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:onClick="getLocationForTemperatureClick"
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="@string/fa_thermometer_icon"
             android:textSize="16dp" />
     </LinearLayout>
+
+
 
 
 </LinearLayout>

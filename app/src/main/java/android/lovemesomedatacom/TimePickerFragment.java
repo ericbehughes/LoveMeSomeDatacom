@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by jahid on 12/10/15.
@@ -47,7 +48,7 @@ public class TimePickerFragment extends DialogFragment
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
-
+        long milliseconds = c.get(Calendar.MILLISECOND);
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
@@ -55,7 +56,11 @@ public class TimePickerFragment extends DialogFragment
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
+        long milliseconds = TimeUnit.SECONDS.toMillis(TimeUnit.HOURS.toSeconds(hourOfDay)
+                + TimeUnit.MINUTES.toSeconds(minute));
 
+
+        //cal.set(Calendar.HOUR_OF_DAY, hourOfDay );
         //Log.d(TAG, "text view + " + tv1);
         Log.d(TAG, "view.getHour + " + hourOfDay);
         Log.d(TAG, "view.getMinute + " + minute);

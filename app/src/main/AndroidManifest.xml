@@ -13,8 +13,13 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+=======
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+>>>>>>> 1509f1f01dd14bc3f0413645c9a773bcc131c9ab
 
 
     <application
@@ -47,7 +52,8 @@
         <activity android:name=".NotesActivity" />
         <activity android:name=".NoteDetailsActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".AcademicCalendar"></activity>
+        <activity android:name=".AcademicCalendar" />
+        <activity android:name=".TemperatureLoaction"></activity>
     </application>
 
 </manifest>
