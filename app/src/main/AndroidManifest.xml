@@ -48,7 +48,7 @@
         <activity android:name=".NoteDetailsActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".AcademicCalendar" />
-        <activity android:name=".TemperatureLoaction"></activity>
+        <activity android:name=".TemperatureLocation"></activity>
     </application>
 
 </manifest>
