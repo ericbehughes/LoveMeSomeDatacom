@@ -55,6 +55,7 @@ public class CoursesAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView tv1;
+        TextView tv2;
     }
 
     @Override
@@ -65,8 +66,23 @@ public class CoursesAdapter extends BaseAdapter {
 
 
         holder.tv1 = (TextView) rowView.findViewById(R.id.course_name);
+        holder.tv2 = (TextView) rowView.findViewById(R.id.teacher_name);
 
-        holder.tv1.setText(courses.get(position).toString());
+
+        holder.tv1.setText(courses.get(position).getCourseName());
+        holder.tv2.setText(courses.get(position).getTeacherName());
+
+        holder.tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("inside", "inside on click");
+
+                Intent teacherContact = new Intent(context, FindTeacherActivity.class);
+                teacherContact.putExtra("teacher", courses.get(position).getTeacherName());
+                context.startActivity(teacherContact);
+            }
+        });
 
 //        rowView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -83,4 +99,6 @@ public class CoursesAdapter extends BaseAdapter {
 
         return rowView;
     }
+
+
 }

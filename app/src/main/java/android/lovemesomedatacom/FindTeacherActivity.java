@@ -47,6 +47,7 @@ public class FindTeacherActivity extends MenuActivity {
     private Toast infoToast;
     private Query teacherQuery;
     private List<Teacher> teacherList;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -59,7 +60,7 @@ public class FindTeacherActivity extends MenuActivity {
 
         this.teacherQuery = mDatabaseRef.orderByChild("full_name");
 
-
+        intent = getIntent();
         instantiateViews();
 
     }
@@ -102,7 +103,24 @@ public class FindTeacherActivity extends MenuActivity {
         this.lastNameSearchView = findViewById(R.id.lastNameSearch);
         this.likeRadio = findViewById(R.id.likeRadio);
         this.infoToast = new Toast(this);
+        if(intent.hasExtra("teacher")){
+            setViews();
+        }
     }
+
+    private void setViews(){
+        String teacher_name = intent.getStringExtra("teacher");
+        Log.d(TAG, "Teacher name from intent: "+teacher_name);
+        int space = teacher_name.trim().indexOf(" ");
+        String firstname = teacher_name.substring(0,space);
+        String lastname = teacher_name.substring(space+1);
+        this.firstNameSearchView.setIconified(false);
+        this.lastNameSearchView.setIconified(false);
+        this.firstNameSearchView.setQuery(firstname,false);
+        this.lastNameSearchView.setQuery(lastname,false);
+        ((RadioButton)findViewById(R.id.exactRadio)).setChecked(true);
+    }
+
 
     public void onSearch(View view) {
         String firstNameQuery = this.firstNameSearchView.getQuery().toString().toLowerCase();
@@ -173,5 +191,11 @@ public class FindTeacherActivity extends MenuActivity {
             executeQuery(firstName, lastName);
         }
 
+    }
+
+    public void showTeacherInfo(String firstName, String lastName){
+        this.likeRadio = findViewById(R.id.likeRadio);
+        this.likeRadio.setChecked(false);
+        executeQuery(firstName,lastName);
     }
 }
