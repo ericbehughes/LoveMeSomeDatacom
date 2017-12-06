@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.provider.CalendarContract;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +22,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +44,7 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
     private TextView tvDate;
     private TextView tvDateValue;
     private int currentTimeElement;
+    private long pickedDateMilis;
 
 
     /**
@@ -75,24 +80,29 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "dd/MMM/yyyy"; //In which you need put here
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
+                //pickedDateMilis = myCalendar.getTimeInMillis();
+                myCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                myCalendar.set(Calendar.MINUTE, 0);
+                myCalendar.set(Calendar.SECOND, 0);
+                myCalendar.set(Calendar.MILLISECOND, 0);
+                pickedDateMilis =myCalendar.getTimeInMillis();
+                Log.d(TAG, "CURRENT_DATE_ANON_CLASS: " + pickedDateMilis);
+                String myFormat = "dd/MM/yy"; //In which you need put here
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
 
                 tvDateValue.setText(sdf.format(myCalendar.getTime()));
-
             }
         };
+
         tvDateValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new DatePickerDialog(CalendarActivity.this, datePickerListener, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH ),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
 
             }
         });
-
-
     }
 
 
@@ -110,25 +120,23 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
             intent.setType("vnd.android.cursor.item/event");
 
             String[] array = tvStartTimeValue.getText().toString().split(":");
-            Calendar cal = Calendar.getInstance();
+
             long temp = Long.parseLong(array[0]);
+            long minutes = Long.parseLong(array[1]);
             if (temp > 12){
                 temp = temp - 12;
             }
-            long startTimeHours = TimeUnit.HOURS.toMillis(temp);
-            long startTimeMinutes = TimeUnit.MINUTES.toMillis(temp);
-
-
+            long startTimeHours = TimeUnit.HOURS.toMillis(10);
+            long startTimeMinutes = TimeUnit.MINUTES.toMillis(minutes);
 
             //16:40
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-
-
             // have to convert string 16:43 into milliseconds
-            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTimeHours);
-            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,startTimeHours+startTimeMinutes);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, pickedDateMilis );
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,pickedDateMilis);
             intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
-
+//            intent.putExtra(CalendarContract.Events.DTSTART, currentDateMilis);
+//            Log.d(TAG, "CURRENT_DATE_ADD_TO_CALENDAR: " + currentDateMilis);
+//            intent.putExtra(CalendarContract.Events.DTEND, currentDateMilis);
             intent.putExtra(CalendarContract.Events.TITLE, "Event title goes here");
             intent.putExtra(CalendarContract.Events.DESCRIPTION,  "Event Description");
             intent.putExtra(CalendarContract.Events.EVENT_LOCATION, "Location");
