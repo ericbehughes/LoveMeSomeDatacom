@@ -39,8 +39,11 @@ public class MainActivity extends MenuActivity {
     private TextView tvWeatherTV;
     private TextView tvCurrentTemperature;
     private TextView tvAcademicCalendar;
+    private TextView tvWhosFree;
+    private TextView tvFindFriends;
     private ImageView dawsonLogo;
     private ImageView teamLogo;
+
 
     private GPSManager gps;
     private String URL;
@@ -66,6 +69,8 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV = (TextView)findViewById( R.id.tvWeatherTV );
         tvAcademicCalendar = (TextView)findViewById( R.id.tvAcademicCalendar );
         tvCurrentTemperature = (TextView)findViewById( R.id.tvCurrentTemperature );
+        tvFindFriends = findViewById(R.id.tvFindFriends);
+        tvWhosFree = findViewById(R.id.tvWhosFree);
         dawsonLogo = (ImageView)findViewById(R.id.imgDawsonLogo);
         teamLogo = (ImageView)findViewById(R.id.imgTeamLogo);
     }
@@ -93,10 +98,18 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV.setTypeface(font);
         tvAcademicCalendar.setTypeface(font);
         tvCurrentTemperature.setTypeface(font);
+        tvWhosFree.setTypeface(font);
+        tvFindFriends.setTypeface(font);
+
         prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
+        prefs.edit().clear();
+        if (prefs.getAll().size() == 0 || prefs == null){
+            Intent settingIntent = new Intent(this, SettingsActivity.class);
+            Log.d(TAG, "Settings not detected");
+            startActivity(settingIntent);
+        }
 
         firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
-
 
         dawsonLogo.setOnClickListener(new View.OnClickListener() {
 
@@ -194,7 +207,10 @@ public class MainActivity extends MenuActivity {
     }
 
     public void showAcademicCalendarClick(View view) {
+        Intent i = new Intent(this, AcademicCalendar.class);
 
+        Log.d(TAG, "CalendarActivity");
+        startActivity(i);
     }
 
     public void getLocationForTemperatureClick() {
