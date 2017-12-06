@@ -27,7 +27,7 @@ import java.net.URL;
 
 public class MainActivity extends MenuActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private SharedPreferences prefs;
     private String firstName;
@@ -75,6 +75,7 @@ public class MainActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "testing class tag");
 
         mAuth = FirebaseAuth.getInstance();
         //Initial and only authentication of the app, used to access the database
