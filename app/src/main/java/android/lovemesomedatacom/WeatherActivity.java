@@ -24,6 +24,11 @@ public class WeatherActivity extends MenuActivity {
     Button weatherBtn;
     TextView temperature;
 
+    /**
+     * Overridden onCreate method, which is responsible for
+     * assigning the correct content view.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "OnCreate Invoked");
@@ -34,10 +39,14 @@ public class WeatherActivity extends MenuActivity {
 
     }
 
+    /**
+     * Private helper method, which is responsible for retrieving
+     * all the required views, attaching event listeners and defining
+     * default value if required.
+     */
     private void findViews(){
         input = (EditText)findViewById(R.id.inputCity);
         input.setText("Montreal");
-        image = (ImageView)findViewById(R.id.weatherIcon);
         temperature = (TextView)findViewById(R.id.temperature);
         spinner = (Spinner)findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -45,37 +54,54 @@ public class WeatherActivity extends MenuActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         weatherBtn = (Button)findViewById(R.id.weatherBtn);
+        //On the button click, an Async task is launched
         weatherBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String city = input.getText().toString();
                 String iso = spinner.getSelectedItem().toString();
-                String forecastQuery = ForecastURL + city + "," + iso + "&mode=xml&appid=080b8de151ba3865a7b5e255f448f10f";
+                String forecastQuery = ForecastURL + city + "," + iso + "&mode=xml&units=metric&appid=080b8de151ba3865a7b5e255f448f10f";
                 Log.d(TAG, forecastQuery);
                 new WeatherActivityTask(WeatherActivity.this , forecastQuery).execute();
             }
         });
     }
 
+    /**
+     * Overridden onCreateOptionsMenu from the Menu Activity
+     * @param menu
+     * @return true or false
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         super.onCreateOptionsMenu(menu);
         return true;
     }
 
+    /**
+     * Overridden onOptionsItemSelected from the Menu Activity
+     * @param item
+     * @return true or false
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         super.onOptionsItemSelected(item);
         return true;
     }
 
+    /**
+     * This method is responsible for updating the UI, with the information
+     * retrieved from the API call.
+     * @param result
+     * @param uv
+     */
     public void displayForecast(ArrayList<Weather> result, String uv) {
         StringBuilder builder = new StringBuilder();
         for(Weather weather : result){
-            builder.append(weather.start + " " + weather.end).append("\n")
-                    .append("Temperature: " + weather.temperature)
-                    .append("\n").append("Pressure: " +weather.pressure)
-                    .append("\n").append("Humidity: " + weather.humidity).append("\n\n");
+            builder.append(weather.getStart() + " - " + weather.getEnd()).append("\n")
+                    .append("Temperature: " + weather.getTemperature())
+                    .append("\n").append("Pressure: " +weather.getPressure())
+                    .append("\n").append("Humidity: " + weather.getHumidity()).append("\n\n");
             temperature.setText(temperature.getText() + builder.toString());
             builder = new StringBuilder();
         }

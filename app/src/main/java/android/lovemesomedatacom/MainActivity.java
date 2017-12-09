@@ -14,16 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class MainActivity extends MenuActivity {
 
@@ -197,6 +189,7 @@ public class MainActivity extends MenuActivity {
 
     }
 
+
     public void getLocationForTemperatureClick() {
 
         int REQUEST_CODE_PERMISSION = 2;
@@ -220,11 +213,7 @@ public class MainActivity extends MenuActivity {
 
                 URL = "http://api.openweathermap.org/data/2.5/weather?appid=080b8de151ba3865a7b5e255f448f10f&units=metric&lat="+latitude+"&lon="+longitude;
 
-                // \n is for new line
-                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
-                        + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
-            }else{
+            } else {
                 // can't get location
                 // GPS or Network is not enabled
                 // Ask user to enable GPS/network in settings
@@ -235,6 +224,11 @@ public class MainActivity extends MenuActivity {
         }
     }
 
+    /**
+     * Responsible for updating the UI with the response
+     * from the CurrentTemperature async Task
+     * @param result
+     */
     public void updateCurrentTemperature(String result) {
         tvCurrentTemperature.setText(tvCurrentTemperature.getText() + " " + result);
     }
