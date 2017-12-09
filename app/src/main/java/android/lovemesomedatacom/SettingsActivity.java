@@ -19,7 +19,7 @@ import java.util.Calendar;
 
 public class SettingsActivity extends MenuActivity {
 
-    private static final String TAG = "SettingsActivity";
+    private final String TAG = getResources().getString(R.string.settings_activity_tag);
     private SharedPreferences prefs;
     private String firstName;
     private String lastName;
@@ -64,7 +64,6 @@ public class SettingsActivity extends MenuActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         setContentView(R.layout.activity_settings);
         this.setTitle(R.string.settings_calendar_activity_title);
-        // load views to be used
 
         isSaved = true;
         Log.d(TAG, "Calendar.getInstance.getTime.ToString()" + Calendar.getInstance().getTime().toString());
@@ -100,6 +99,7 @@ public class SettingsActivity extends MenuActivity {
         timeStamp = etTimeStamp.getText().toString();
         SharedPreferences.Editor editor = prefs.edit();
         if (isSaved){
+            Log.d(TAG, "isSaved == true" + timeStamp);
             // save users info to shared preferences
             editor.putString(SharedPreferencesKey.FIRST_NAME.toString(), firstName);
             editor.putString(SharedPreferencesKey.LAST_NAME.toString(), lastName);
@@ -115,7 +115,7 @@ public class SettingsActivity extends MenuActivity {
 
 
     /**
-     * overriden to add + button the toolbar
+     * overriden to add + button to the toolbar
      * @param menu
      * @return
      */
@@ -137,9 +137,11 @@ public class SettingsActivity extends MenuActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        String settings_saved = getResources().getString(R.string.settings_saved_toast);
         switch (item.getItemId()) {
             case R.id.action_save_settings:
-                Toast.makeText(this, "Settings Saved", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "saving settings from onOptionsItemSelected");
+                Toast.makeText(this,settings_saved , Toast.LENGTH_SHORT).show();
                 isSaved = true;
                 firstName = etFirstName.getText().toString();
                 lastName = etLastName.getText().toString();
@@ -164,17 +166,20 @@ public class SettingsActivity extends MenuActivity {
     public void onBackPressed()
     {
         isSaved = isSettingsChanged();
+        Log.d(TAG, "are settings saved onBackPressed " + isSaved);
         if(!isSaved){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage(R.string.discard_pop_up_dialog)
                     .setTitle(R.string.confirm_discard_string);
-            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            String yes = getResources().getString(R.string.yes_confirmation);
+            String no = getResources().getString(R.string.no_confirmation);
+            builder.setPositiveButton(yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
 
                     SettingsActivity.this.finish();
                 }
             });
-            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(no, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.cancel();
                 }
@@ -188,7 +193,13 @@ public class SettingsActivity extends MenuActivity {
 
     }
 
+    /**
+     * compare if new values are different than the updated values if they are
+     * then saved is false otherwise true
+     * @return
+     */
     private boolean isSettingsChanged(){
+
         if (!firstName.equalsIgnoreCase(etFirstName.getText().toString())){
             return false;
         }

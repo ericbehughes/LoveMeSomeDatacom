@@ -23,7 +23,12 @@ import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by jahid on 12/10/15.
+ * This time picker fragment base was taken from a developer called jahid
+ https://neurobin.org/docs/android/android-date-picker-example/
+
+ a lot of modifications had to go into the Calendar Activity as you need to convert the times
+ to milliseconds
+
  */
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {

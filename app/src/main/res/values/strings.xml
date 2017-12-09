@@ -88,6 +88,11 @@
     <string name="resume">resume</string>
     
     <string name="permission_toast">Sorry! Permission denied :(</string>
+    <string name="notes_activity_tag">NotesActivity</string>
+    <string name="yes_confirmation">Yes</string>
+    <string name="no_confirmation">No</string>
+    <string name="settings_saved_toast">Settings Saved</string>
+    <string name="settings_activity_tag">SettingsActivity</string>
 
 
 </resources>

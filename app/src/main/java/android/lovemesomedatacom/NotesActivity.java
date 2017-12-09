@@ -10,6 +10,7 @@ import android.lovemesomedatacom.db.NotesTable;
 import android.lovemesomedatacom.entities.Note;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 
 public class NotesActivity extends MenuActivity {
 
-    private static final String TAG = "NotesActivity";
+    private final String TAG = getResources().getString(R.string.notes_activity_tag);
     private NotesDBHelper mHelper;
     private ListView mNoteListView;
     private NotesAdapter mAdapter;
@@ -34,6 +35,7 @@ public class NotesActivity extends MenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_notes);
         mNoteListView = (ListView) findViewById(R.id.list_notes);
         mAdapter = new NotesAdapter(this, notesList);
@@ -43,7 +45,6 @@ public class NotesActivity extends MenuActivity {
 
     @Override
     protected void onResume() {
-
         super.onResume();
         updateUI();
     }
@@ -66,13 +67,21 @@ public class NotesActivity extends MenuActivity {
      * to enter a note.
      *
      * inserts into the DB and calls updateUI once again
+     *
+     * this code snippet was taken from the tutorial
+     * https://www.sitepoint.com/starting-android-development-creating-todo-app/
+     * however I did have to make changes since in this tutorial there is only 1
+     * line for them to enter text while mine is multi line if you increase the length of the
+     * string
      * @param item
      * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "onOptionsItemSelected");
         switch (item.getItemId()) {
             case R.id.action_add_task:
+                Log.d(TAG, "action_add_task");
                 LinearLayout layout = new LinearLayout(this);
                 layout.setOrientation(LinearLayout.VERTICAL);
                 final EditText noteEditTextTitle = new EditText(this);
@@ -85,6 +94,7 @@ public class NotesActivity extends MenuActivity {
                         .setTitle("New Note")
                         .setMessage("Please add a note here")
                         .setView(layout)
+                        // on click listener for little dialog and save text to db
                         .setPositiveButton("Add", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -127,10 +137,12 @@ public class NotesActivity extends MenuActivity {
         TextView tvv = (TextView)ll.getChildAt(0);
         String note_title = tvv.getText().toString();
         SQLiteDatabase db = mHelper.getWritableDatabase();
+        Log.d(TAG, "db opened");
         db.delete(NotesTable.NotesEntry.TABLE,
                 NotesTable.NotesEntry.COL_NOTES_TITLE+ " = ?",
                 new String[]{note_title});
         db.close();
+        Log.d(TAG, "db closed");
         updateUI();
     }
 
@@ -140,7 +152,7 @@ public class NotesActivity extends MenuActivity {
      * updates adapter and closes connection
      */
     private void updateUI() {
-        //mNoteListView = (ListView) findViewById(R.id.list_notes);
+
         mAdapter.clear();
         mHelper = new NotesDBHelper(this);
 

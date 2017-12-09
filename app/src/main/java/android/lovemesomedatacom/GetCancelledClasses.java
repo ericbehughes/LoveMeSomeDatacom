@@ -79,14 +79,7 @@ public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Cou
             }
         }
 
-            return result;
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("AsyncTask", "exception");
-            return null;
-        }
-    }
 
     public ArrayList<Course> parseXML(XmlPullParser myParser) {
 
