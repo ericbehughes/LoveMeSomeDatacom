@@ -20,7 +20,7 @@ import java.util.List;
  * Created by Rhai on 26/11/2017.
  */
 
-public class GetCancelledClasses extends AsyncTask<String, Void,ArrayList<Course>>  {
+public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Course>>  {
 
         private ClassCancelationsFragment activity;
         private String url;
@@ -42,6 +42,11 @@ public class GetCancelledClasses extends AsyncTask<String, Void,ArrayList<Course
 //            pDialog.setTitle("Get from xml");
 //            pDialog.setMessage("Loading");
 //            pDialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress){
+
         }
 
         @Override
