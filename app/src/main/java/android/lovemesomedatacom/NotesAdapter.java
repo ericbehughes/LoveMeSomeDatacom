@@ -55,11 +55,16 @@ public class NotesAdapter extends BaseAdapter {
 
     public void addAll(ArrayList<Note> list){
         this.notes = list;
+        notifyDataSetChanged();
     }
 
     private class ViewHolder {
         TextView tv1;
         TextView tv2;
+    }
+
+    public void clear(){
+        this.notes.clear();
     }
 
     @Override

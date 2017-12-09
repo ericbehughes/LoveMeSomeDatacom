@@ -24,6 +24,9 @@
     <string name="fa_sun_icon">&#xf185; Weather</string>
     <string name="fa_grades_icon">&#xf19d; Academic Calendar</string>
     <string name="fa_thermometer_icon">&#xf2c7; Current Temperature</string>
+    <string name="fa_users_icon">&#xf0c0; Find Friends</string>
+    <string name="fa_clock_icon">&#xf017; Who\'s Free</string>
+
 
     <string name="connection_error">connection error</string>
     <string name="xml_error">Cant parse xml</string>
@@ -59,6 +62,8 @@
     <string name="delete_button">Delete</string>
 
     <!--Teacher module related strings-->
+    <string name="search_first_title">First Name</string>
+    <string name="search_last_title">Last Name</string>
     <string name="search_teacher">Search</string>
     <string name="radio_like">Search for similar results</string>
     <string name="radio_exact">Search for exact results</string>
@@ -79,6 +84,8 @@
     <string name="academic_calendar_activity_title">Academic Calendar</string>
     <string name="settings_calendar_activity_title">Settings</string>
     <string name="about_activity_title">About</string>
+    <string name="pause">pause</string>
+    <string name="resume">resume</string>
 
 
 </resources>
