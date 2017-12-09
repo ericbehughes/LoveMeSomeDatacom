@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 public class ClassCancelationActivity extends AppCompatActivity  implements ClassCancelationsFragment.OnItemSelectedListener {
 
@@ -59,7 +58,7 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
     @Override
     protected void onStop() {
         super.onStop();
-        Toast.makeText(this, "main Activity onStop ", Toast.LENGTH_SHORT).show();
+
 
     }
 

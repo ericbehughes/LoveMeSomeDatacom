@@ -88,8 +88,6 @@ public class ClassCancelationsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        //Toast.makeText(this, "Called By Fragment A: position - ", Toast.LENGTH_SHORT).show();
-        Toast.makeText(context, "ClassCancelationsFragment on Attach", Toast.LENGTH_LONG);
         if (context instanceof OnItemSelectedListener) {      // context instanceof YourActivity
             this.listener = (OnItemSelectedListener) context; // = (YourActivity) context
         } else {
