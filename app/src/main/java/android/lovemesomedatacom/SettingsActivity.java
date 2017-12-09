@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,7 +18,7 @@ import java.util.Calendar;
 
 public class SettingsActivity extends MenuActivity {
 
-    private final String TAG = getResources().getString(R.string.settings_activity_tag);
+    private final String TAG = "SettingsActivity";
     private SharedPreferences prefs;
     private String firstName;
     private String lastName;
@@ -80,7 +79,7 @@ public class SettingsActivity extends MenuActivity {
             etLastName.setText(lastName);
             email = prefs.getString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), "");
             etEmail.setText(email);
-            password = prefs.getString(SharedPreferencesKey.PASSWWORD.toString(), "");
+            password = prefs.getString(SharedPreferencesKey.PASSWORD.toString(), "");
             etPassword.setText(password);
             Log.d(TAG, "Calendar.getInstance.getTime.ToString()" + Calendar.getInstance().getTime().toString());
             timeStamp = prefs.getString(SharedPreferencesKey.DATE_STAMP.toString(), Calendar.getInstance().getTime().toString());
@@ -88,6 +87,11 @@ public class SettingsActivity extends MenuActivity {
             etTimeStamp.setText(timeStamp);
         }
     }
+
+    /**
+     * onStop is overriden for writting to disk and saving to shared preferences
+     * only when the user has clicked the save button
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -104,7 +108,7 @@ public class SettingsActivity extends MenuActivity {
             editor.putString(SharedPreferencesKey.FIRST_NAME.toString(), firstName);
             editor.putString(SharedPreferencesKey.LAST_NAME.toString(), lastName);
             editor.putString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), email);
-            editor.putString(SharedPreferencesKey.PASSWWORD.toString(), password);
+            editor.putString(SharedPreferencesKey.PASSWORD.toString(), password);
             editor.putString(SharedPreferencesKey.DATE_STAMP.toString(), timeStamp);
 
             editor.commit();

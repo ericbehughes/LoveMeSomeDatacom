@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class NotesActivity extends MenuActivity {
 
-    private final String TAG = getResources().getString(R.string.notes_activity_tag);
+    private final String TAG = "NotesActivity";
     private NotesDBHelper mHelper;
     private ListView mNoteListView;
     private NotesAdapter mAdapter;
