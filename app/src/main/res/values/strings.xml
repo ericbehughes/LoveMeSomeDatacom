@@ -86,6 +86,8 @@
     <string name="about_activity_title">About</string>
     <string name="pause">pause</string>
     <string name="resume">resume</string>
+    
+    <string name="permission_toast">Sorry! Permission denied :(</string>
 
 
 </resources>

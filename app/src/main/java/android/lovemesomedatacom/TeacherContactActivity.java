@@ -23,7 +23,7 @@ import java.net.URLEncoder;
  */
 
 public class TeacherContactActivity extends MenuActivity {
-    private final String TAG = "TEACHER_CONTACT_ACT";
+    private final String TAG = TeacherContactActivity.class.getSimpleName();
 
     //Common phone number to reach Dawson College
     private final String DAWSON_NUMBER = "15149318731";
