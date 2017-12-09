@@ -237,8 +237,8 @@ public class MainActivity extends MenuActivity {
                 URL = "http://api.openweathermap.org/data/2.5/weather?appid=080b8de151ba3865a7b5e255f448f10f&units=metric&lat="+latitude+"&lon="+longitude;
 
                 // \n is for new line
-                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
-                        + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
+//                        + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
             }else{
                 // can't get location

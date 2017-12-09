@@ -39,7 +39,6 @@ public class NotesActivity extends MenuActivity {
         mAdapter = new NotesAdapter(this, notesList);
         mNoteListView.setAdapter(mAdapter);
         this.setTitle(R.string.notes_activity_title);
-        //updateUI();
     }
 
     @Override
@@ -113,6 +112,12 @@ public class NotesActivity extends MenuActivity {
         }
     }
 
+    /**
+     * this code is a little hacky on how I retrieve the title going through the parent
+     * of the linear layout.  However it retrieves the title for the currently selected note
+     * and deletes it using the delete button
+     * @param view
+     */
     public void deleteNote(View view) {
         View parent = (View) view.getParent();
         TextView tv = (TextView)((LinearLayout) parent).getChildAt(0);
@@ -121,7 +126,6 @@ public class NotesActivity extends MenuActivity {
         LinearLayout ll = (LinearLayout)vp;
         TextView tvv = (TextView)ll.getChildAt(0);
         String note_title = tvv.getText().toString();
-       // String note_title = (String)((TextView)parent.getParent().getChildAt(0)).getText();
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(NotesTable.NotesEntry.TABLE,
                 NotesTable.NotesEntry.COL_NOTES_TITLE+ " = ?",
