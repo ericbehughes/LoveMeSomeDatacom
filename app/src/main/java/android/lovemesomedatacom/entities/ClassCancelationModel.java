@@ -1,4 +1,6 @@
-package android.lovemesomedatacom;
+package android.lovemesomedatacom.entities;
+
+import android.lovemesomedatacom.entities.Course;
 
 /**
  * Created by ehugh on 11/20/2017.

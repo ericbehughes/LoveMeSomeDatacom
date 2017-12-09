@@ -1,6 +1,7 @@
 package android.lovemesomedatacom;
 
 import android.content.res.Configuration;
+import android.lovemesomedatacom.entities.Course;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

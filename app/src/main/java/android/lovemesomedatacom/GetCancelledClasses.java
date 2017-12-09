@@ -1,8 +1,9 @@
 package android.lovemesomedatacom;
 
 import android.app.ProgressDialog;
+import android.lovemesomedatacom.adapters.CoursesAdapter;
+import android.lovemesomedatacom.entities.Course;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -14,7 +15,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Rhai on 26/11/2017.
