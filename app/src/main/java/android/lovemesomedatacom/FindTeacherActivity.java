@@ -45,6 +45,7 @@ public class FindTeacherActivity extends MenuActivity {
     private Toast infoToast;
     private Query teacherQuery;
     private List<Teacher> teacherList;
+    private Intent intent;
 
     /**
      * The onCreate is fired when the Activity is started. It takes a Bundle as parameter in order
@@ -66,6 +67,10 @@ public class FindTeacherActivity extends MenuActivity {
         //Query that will sort the items in the database by full_name, this is done for faster
         //querying since the dataset is indexed by full_name
         this.teacherQuery = mDatabaseRef.orderByChild("full_name");
+
+
+        intent = getIntent();
+
         //Instantiation of the views
         instantiateViews();
     }
@@ -99,6 +104,28 @@ public class FindTeacherActivity extends MenuActivity {
         this.lastNameSearchView = findViewById(R.id.lastNameSearch);
         this.likeRadio = findViewById(R.id.likeRadio);
         this.infoToast = new Toast(this);
+        if(intent.hasExtra("teacher")){
+            setViews();
+        }
+    }
+
+    /**
+     * setViews configures the search criteria to look for a single teacher.
+     * That teacher's name is received, when the teacher's name in the cancellation
+     * list is tapped.
+     */
+
+    private void setViews(){
+        String teacher_name = intent.getStringExtra("teacher");
+        Log.d(TAG, "Teacher name from intent: "+teacher_name);
+        int space = teacher_name.trim().indexOf(" ");
+        String firstname = teacher_name.substring(0,space);
+        String lastname = teacher_name.substring(space+1);
+        this.firstNameSearchView.setIconified(false);
+        this.lastNameSearchView.setIconified(false);
+        this.firstNameSearchView.setQuery(firstname,false);
+        this.lastNameSearchView.setQuery(lastname,false);
+        ((RadioButton)findViewById(R.id.exactRadio)).setChecked(true);
     }
 
     /**
@@ -148,6 +175,7 @@ public class FindTeacherActivity extends MenuActivity {
         teacherContentIntent.putExtra("TEACHER", this.teacherList.get(0));
         startActivity(teacherContentIntent);
     }
+
 
     /**
      * The onSearch method is fired whenever the user presses the search button on this activity.
@@ -261,4 +289,11 @@ public class FindTeacherActivity extends MenuActivity {
         }
     }
 
+    public void showTeacherInfo(String firstName, String lastName){
+        this.likeRadio = findViewById(R.id.likeRadio);
+        this.likeRadio.setChecked(false);
+        executeQuery(firstName,lastName);
+    }
 }
+
+

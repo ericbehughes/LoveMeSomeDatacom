@@ -42,33 +42,42 @@ public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Cou
 //            pDialog.setTitle("Get from xml");
 //            pDialog.setMessage("Loading");
 //            pDialog.show();
-    }
+        }
 
-    @Override
-    protected void onProgressUpdate(Integer... progress){
+        @Override
+        protected void onProgressUpdate(Integer... progress){
 
-    }
+        }
 
-    @Override
-    protected ArrayList<Course> doInBackground(String... strings) {
-        try {
-            URL url = new URL(this.url);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setReadTimeout(10000 /* milliseconds */);
-            connection.setConnectTimeout(15000 /* milliseconds */);
-            connection.setRequestMethod("GET");
-            connection.setDoInput(true);
-            connection.addRequestProperty("User-Agent","chrome");
-            connection.connect();
-            InputStream stream = connection.getInputStream();
+        @Override
+        protected ArrayList<Course> doInBackground(String... strings) {
+            try {
+                URL url = new URL(this.url);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setReadTimeout(10000 /* milliseconds */);
+                connection.setConnectTimeout(15000 /* milliseconds */);
+                connection.setRequestMethod("GET");
+                connection.setDoInput(true);
+                connection.addRequestProperty("User-Agent","chrome");
+                connection.connect();
+                InputStream stream = connection.getInputStream();
 
-            xmlFactoryObject = XmlPullParserFactory.newInstance();
-            XmlPullParser myParser = xmlFactoryObject.newPullParser();
+                xmlFactoryObject = XmlPullParserFactory.newInstance();
+                XmlPullParser myParser = xmlFactoryObject.newPullParser();
 
-            myParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-            myParser.setInput(stream, null);
-            ArrayList<Course> result = parseXML(myParser);
-            stream.close();
+                myParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+                myParser.setInput(stream, null);
+                ArrayList<Course> result = parseXML(myParser);
+                stream.close();
+
+                return result;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("AsyncTask", "exception");
+                return null;
+            }
+        }
 
             return result;
 
