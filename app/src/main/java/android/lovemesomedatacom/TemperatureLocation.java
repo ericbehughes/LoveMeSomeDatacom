@@ -2,26 +2,18 @@ package android.lovemesomedatacom;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.test.mock.MockPackageManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-public class TemperatureLoaction extends Activity {
+public class TemperatureLocation extends Activity {
 
     Button btnShowLocation;
     private static final int REQUEST_CODE_PERMISSION = 2;
-    String mPermission = android.Manifest.permission.ACCESS_FINE_LOCATION;
+    private final String LOCATION_PERMISSION = android.Manifest.permission.ACCESS_FINE_LOCATION;
 
     // GPSTracker class
     GPSTracker gps;
@@ -32,10 +24,10 @@ public class TemperatureLoaction extends Activity {
         setContentView(R.layout.activity_temperature_loaction);
 
         try {
-            if (ActivityCompat.checkSelfPermission(this, mPermission)
+            if (ActivityCompat.checkSelfPermission(this, LOCATION_PERMISSION)
                     != PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(this, new String[]{mPermission},
+                ActivityCompat.requestPermissions(this, new String[]{LOCATION_PERMISSION},
                         REQUEST_CODE_PERMISSION);
 
                 // If any permission above not allowed by user, this condition will
@@ -53,7 +45,7 @@ public class TemperatureLoaction extends Activity {
             @Override
             public void onClick(View arg0) {
                 // create class object
-                gps = new GPSTracker(TemperatureLoaction.this);
+                gps = new GPSTracker(TemperatureLocation.this);
 
                 // check if GPS enabled
                 if(gps.canGetLocation()){
