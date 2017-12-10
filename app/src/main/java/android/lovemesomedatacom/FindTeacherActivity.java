@@ -3,7 +3,6 @@ package android.lovemesomedatacom;
 import android.content.Intent;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.*;
 import android.util.Log;
 import android.view.View;

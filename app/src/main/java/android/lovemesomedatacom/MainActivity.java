@@ -208,7 +208,7 @@ public class MainActivity extends MenuActivity {
 
 
     public void showFindFriends(View view){
-        Intent intent = new Intent(this, FindFriends.class);
+        Intent intent = new Intent(this, FindFriendsActivity.class);
         startActivity(intent);
     }
 
