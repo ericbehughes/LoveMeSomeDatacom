@@ -1,7 +1,6 @@
 package android.lovemesomedatacom.adapters;
 
 import android.app.Activity;
-import android.content.Context;
 import android.lovemesomedatacom.R;
 import android.lovemesomedatacom.entities.Friend;
 import android.support.annotation.LayoutRes;

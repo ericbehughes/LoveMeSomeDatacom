@@ -4,7 +4,7 @@ package android.lovemesomedatacom.entities;
  * @author Sebastian Ramirez
  */
 
-public class Friend {
+public class Friend{
 
     private String firstName;
     private String lastName;
@@ -13,8 +13,6 @@ public class Friend {
     public Friend(){
         this("", "", "");
     }
-
-
 
     public Friend(String firstName, String lastName, String email) {
 
