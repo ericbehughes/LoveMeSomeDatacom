@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
     private TextView whosFreeStartTimeTV;
     private TextView tvEndTime;
     private TextView whosFreeEndTimeTV;
-
+    private Button whosFreeFindBtn;
     private int currentTimeElement;
     private long pickedDateMilis;
     private final String CALENDAR_PERMISSION = Manifest.permission.WRITE_CALENDAR;
@@ -48,6 +49,7 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
         spinnerDay.setAdapter(adapter);
         whosFreeStartTimeTV = (TextView) findViewById(R.id.whosFreeStartTimeTV);
         whosFreeEndTimeTV = (TextView) findViewById(R.id.whosFreeEndTimeTV);
+        whosFreeFindBtn = findViewById(R.id.whosFreeFindBtn);
         final Calendar myCalendar = Calendar.getInstance();
         String myFormat = "hh:mm";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
@@ -79,10 +81,24 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
             whosFreeEndTimeTV.setText(savedInstanceState.getString("endTime").toString());
             
         }
+        whosFreeFindBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = "eric@gmail.com";
+                String password = "password";
+                String day = spinnerDay.getSelectedItem().toString();
+                String startTime = tvStartTime.getText().toString();
+                String endTime = tvEndTime.getText().toString();
+                String url = "http://friendfinder08.herokuapp.com/api/api/breakfriends?";
+                //email=eric@gmail.com&password=password&day=1&start=1000&end=1700
+                String whosFreeQuery = url + "email=" + email +"&" + "password=" + password +
+                        "&"+"day="+day + "&" + "start=" + startTime + "end=" + endTime;
+
+                new WhosFreeTask(WhosFreeActivity.this , url).execute();
+            }
+        });
 
     }
-
-
 
     /**
      * different style compared to the listener and DatePickerDialog
@@ -144,6 +160,7 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
     public void findFriendsClick(View view) {
 
-        
+
+
     }
 }

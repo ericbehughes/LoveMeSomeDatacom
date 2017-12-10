@@ -33,17 +33,8 @@ public class WhosFreeTask extends AsyncTask<ArrayList<Friend>, Void, ArrayList<F
     protected ArrayList doInBackground(ArrayList<Friend>... params) {
         try {
             URL url = new URL(this.url);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setReadTimeout(10000);
-            connection.setConnectTimeout(15000);
-            connection.setRequestMethod("GET");
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream inputStream = connection.getInputStream();
+            getFriendsWhoAreFree(url);
 
-            //ArrayList<Friend> list = parseXML(myParser);
-            getFriendsWhoAreFree("");
-            inputStream.close();
             return null;
 
         }
@@ -60,10 +51,9 @@ public class WhosFreeTask extends AsyncTask<ArrayList<Friend>, Void, ArrayList<F
     }
 
 
-    public List<Friend> getFriendsWhoAreFree(String s) {
-        Log.d(TAG, s);
+    public List<Friend> getFriendsWhoAreFree(URL url) {
         try{
-            URL url = new URL(s);
+
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(10000);
             connection.setConnectTimeout(15000);
@@ -81,7 +71,7 @@ public class WhosFreeTask extends AsyncTask<ArrayList<Friend>, Void, ArrayList<F
             br.close();
 
             JSONObject obj = new JSONObject(sb.toString());
-            String uv = obj.get("value").toString();
+            String friends = obj.toString();
             return null;
         }
         catch(Exception e){
