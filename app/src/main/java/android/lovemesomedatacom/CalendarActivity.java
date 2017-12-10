@@ -62,14 +62,18 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
 
         tvStartTime = (TextView) findViewById(R.id.tvStartTime);
         tvStartTimeValue = (TextView) findViewById(R.id.tvStartTimeValue);
+
         tvEndTime = (TextView) findViewById(R.id.tvEndTime);
         tvEndTimeValue = (TextView) findViewById(R.id.tvEndTimeValue);
         tvDate = (TextView) findViewById(R.id.tvDate);
         tvDateValue = (TextView) findViewById(R.id.tvDateValue);
         final Calendar myCalendar = Calendar.getInstance();
         String myFormat = "dd/MM/yy";
+        String myFormat2 = "HHmm";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-
+        SimpleDateFormat sdf2 = new SimpleDateFormat(myFormat2);
+        tvStartTimeValue.setText(sdf2.format(myCalendar.getTime()));
+        tvEndTimeValue.setText(sdf2.format(myCalendar.getTime()));
         tvDateValue.setText(sdf.format(myCalendar.getTime()));
 
 
@@ -180,10 +184,22 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
                 == PackageManager.PERMISSION_GRANTED) {
             ContentResolver contentResolver = getContentResolver();
             long calID = 3;
+            int starthours = Integer.parseInt(tvStartTimeValue.getText().toString()) / 100;
+            int startminutes = Integer.parseInt(tvStartTimeValue.getText().toString())% 100;
+            long starttime = ((starthours * 60) + startminutes) * 60000;
+
+
+            int endhours = Integer.parseInt(tvStartTimeValue.getText().toString()) / 100;
+            int endminutes = Integer.parseInt(tvStartTimeValue.getText().toString())% 100;
+            long endtime = ((endhours * 60) + endminutes) * 60000;
+
+            starttime+=pickedDateMilis;
+            endtime+= pickedDateMilis;
             ContentValues values = new ContentValues();
-            values.put(CalendarContract.Events.DTSTART, pickedDateMilis);
-            values.put(CalendarContract.Events.DTEND, pickedDateMilis + 60000);
-            values.put(CalendarContract.Events.TITLE, tvEventName.getText().toString());
+            values.put(CalendarContract.Events.DTSTART, starttime);
+            values.put(CalendarContract.Events.DTEND, endtime );
+
+            values.put(CalendarContract.Events.TITLE, etEventName.getText().toString());
             values.put(CalendarContract.Events.CALENDAR_ID, calID);
             TimeZone tz = TimeZone.getDefault();
             values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
