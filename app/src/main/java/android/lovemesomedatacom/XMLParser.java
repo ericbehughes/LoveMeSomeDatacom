@@ -15,7 +15,7 @@ import java.util.List;
  * Created by 1513733 on 11/24/2017.
  */
 
-public class TestXMLParser {
+public class XMLParser {
     private static final String ns = null;
     private static final String TAG = "TESTPARSER";
 

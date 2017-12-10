@@ -1,5 +1,6 @@
 package android.lovemesomedatacom;
 
+import android.lovemesomedatacom.entities.Weather;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;

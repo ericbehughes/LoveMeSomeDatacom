@@ -1,8 +1,7 @@
 package android.lovemesomedatacom;
 
-import android.content.SharedPreferences;
+import android.lovemesomedatacom.entities.Course;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,11 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 public class NetworkFactoryActivity extends AppCompatActivity {
 

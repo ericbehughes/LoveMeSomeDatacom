@@ -1,4 +1,4 @@
-package android.lovemesomedatacom;
+package android.lovemesomedatacom.adapters;
 
 /**
  * Created by ehugh on 11/24/2017.
@@ -7,12 +7,14 @@ package android.lovemesomedatacom;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.lovemesomedatacom.entities.Note;
+import android.lovemesomedatacom.NoteDetailsActivity;
+import android.lovemesomedatacom.R;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -55,11 +57,16 @@ public class NotesAdapter extends BaseAdapter {
 
     public void addAll(ArrayList<Note> list){
         this.notes = list;
+        notifyDataSetChanged();
     }
 
     private class ViewHolder {
         TextView tv1;
         TextView tv2;
+    }
+
+    public void clear(){
+        this.notes.clear();
     }
 
     @Override

@@ -10,6 +10,7 @@
     tools:context=".AboutActivity">
 
 
+<<<<<<< HEAD
     <TextView
         android:id="@+id/courseID"
         style="@style/Base.TextAppearance.AppCompat.Title"
@@ -23,9 +24,39 @@
         android:id="@+id/memberNames"
         android:textSize="11sp"
         android:gravity="center"
+=======
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/member_names" />
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/lovemesomedatacom_logo" />
+    </LinearLayout>
+
+    <LinearLayout
+>>>>>>> 51afd03eb93c57ee10d86f10dafef32a4e5be568
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/courseID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/course_id" />
+
+        <TextView
+            android:id="@+id/memberNames"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/member_names" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/aboutText"

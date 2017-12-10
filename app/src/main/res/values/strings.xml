@@ -24,6 +24,9 @@
     <string name="fa_sun_icon">&#xf185; Weather</string>
     <string name="fa_grades_icon">&#xf19d; Academic Calendar</string>
     <string name="fa_thermometer_icon">&#xf2c7; Current Temperature</string>
+    <string name="fa_users_icon">&#xf0c0; Find Friends</string>
+    <string name="fa_clock_icon">&#xf017; Who\'s Free</string>
+
 
     <string name="connection_error">connection error</string>
     <string name="xml_error">Can not parse xml</string>
@@ -48,6 +51,15 @@
     <string name="note_details_string">sample note title</string>
 
 
+    <string-array name="whos_free_day_array">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confirm_discard_string">You sure you want to discard?</string>
@@ -64,6 +76,8 @@
     <string name="delete_button">Delete</string>
 
     <!--Teacher module related strings-->
+    <string name="search_first_title">First Name</string>
+    <string name="search_last_title">Last Name</string>
     <string name="search_teacher">Search</string>
     <string name="radio_like">Search for similar results</string>
     <string name="radio_exact">Search for exact results</string>
@@ -84,6 +98,17 @@
     <string name="academic_calendar_activity_title">Academic Calendar</string>
     <string name="settings_calendar_activity_title">Settings</string>
     <string name="about_activity_title">About</string>
+    <string name="pause">pause</string>
+    <string name="resume">resume</string>
+
+    <string name="permission_toast">Sorry! Permission denied :(</string>
+    <string name="notes_activity_tag">NotesActivity</string>
+    <string name="yes_confirmation">Yes</string>
+    <string name="no_confirmation">No</string>
+    <string name="settings_saved_toast">Settings Saved</string>
+    <string name="settings_activity_tag">SettingsActivity</string>
+    <string name="whosFreeFindBtn">Find</string>
+    <string name="whos_free_title">Whos Free</string>
 
 
 </resources>

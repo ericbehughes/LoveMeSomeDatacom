@@ -14,12 +14,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 51afd03eb93c57ee10d86f10dafef32a4e5be568
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends MenuActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private SharedPreferences prefs;
     private String firstName;
@@ -31,8 +35,11 @@ public class MainActivity extends MenuActivity {
     private TextView tvWeatherTV;
     private TextView tvCurrentTemperature;
     private TextView tvAcademicCalendar;
+    private TextView tvWhosFree;
+    private TextView tvFindFriends;
     private ImageView dawsonLogo;
     private ImageView teamLogo;
+
 
     private GPSManager gps;
     private String URL;
@@ -58,6 +65,8 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV = (TextView)findViewById( R.id.tvWeatherTV );
         tvAcademicCalendar = (TextView)findViewById( R.id.tvAcademicCalendar );
         tvCurrentTemperature = (TextView)findViewById( R.id.tvCurrentTemperature );
+        tvFindFriends = findViewById(R.id.tvFindFriends);
+        tvWhosFree = findViewById(R.id.tvWhosFree);
         dawsonLogo = (ImageView)findViewById(R.id.imgDawsonLogo);
         teamLogo = (ImageView)findViewById(R.id.imgTeamLogo);
     }
@@ -67,6 +76,7 @@ public class MainActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "testing class tag");
 
         mAuth = FirebaseAuth.getInstance();
         //Initial and only authentication of the app, used to access the database
@@ -85,10 +95,18 @@ public class MainActivity extends MenuActivity {
         tvWeatherTV.setTypeface(font);
         tvAcademicCalendar.setTypeface(font);
         tvCurrentTemperature.setTypeface(font);
+        tvWhosFree.setTypeface(font);
+        tvFindFriends.setTypeface(font);
+
         prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
+        prefs.edit().clear();
+        if (prefs.getAll().size() == 0 || prefs == null){
+            Intent settingIntent = new Intent(this, SettingsActivity.class);
+            Log.d(TAG, "Settings not detected");
+            startActivity(settingIntent);
+        }
 
         firstName = prefs.getString(SharedPreferencesKey.FIRST_NAME.toString(), "default_first_name");
-
 
         dawsonLogo.setOnClickListener(new View.OnClickListener() {
 
@@ -186,7 +204,17 @@ public class MainActivity extends MenuActivity {
     }
 
     public void showAcademicCalendarClick(View view) {
+        Intent i = new Intent(this, AcademicCalendar.class);
 
+        Log.d(TAG, "CalendarActivity");
+        startActivity(i);
+    }
+
+    public void showWhosFree(View view) {
+        Intent i = new Intent(this, WhosFreeActivity.class);
+
+        Log.d(TAG, "WhosFreeActivity");
+        startActivity(i);
     }
 
 
@@ -213,7 +241,12 @@ public class MainActivity extends MenuActivity {
 
                 URL = "http://api.openweathermap.org/data/2.5/weather?appid=080b8de151ba3865a7b5e255f448f10f&units=metric&lat="+latitude+"&lon="+longitude;
 
+<<<<<<< HEAD
             } else {
+=======
+
+            }else{
+>>>>>>> 51afd03eb93c57ee10d86f10dafef32a4e5be568
                 // can't get location
                 // GPS or Network is not enabled
                 // Ask user to enable GPS/network in settings

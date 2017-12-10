@@ -83,7 +83,7 @@ public class NetworkActivity extends AppCompatActivity {
     private String loadXmlFromNetwork(String urlString) throws XmlPullParserException, IOException {
         InputStream stream = null;
         // Instantiate the parser
-        TestXMLParser stackOverflowXmlParser = new TestXMLParser();
+        XMLParser stackOverflowXmlParser = new XMLParser();
         List entries = null;
         String title = null;
         String url = null;
@@ -102,7 +102,7 @@ public class NetworkActivity extends AppCompatActivity {
 
         try {
             stream = downloadUrl(urlString);
-            entries = TestXMLParser.parse(stream);
+            entries = XMLParser.parse(stream);
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
         } catch (XmlPullParserException e) {

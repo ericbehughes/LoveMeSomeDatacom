@@ -1,4 +1,4 @@
-package android.lovemesomedatacom;
+package android.lovemesomedatacom.entities;
 
 /**
  * Created by ehugh on 11/24/2017.

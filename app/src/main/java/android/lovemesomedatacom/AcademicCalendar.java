@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 public class AcademicCalendar extends AppCompatActivity {
 
+    private final String TAG = "AcademicCalendar";
     private EditText etAcademicYear;
     private RadioButton rdioBtnFall;
     private RadioButton rdioBtnWinter;
@@ -21,7 +22,7 @@ public class AcademicCalendar extends AppCompatActivity {
     private WebView webViewAcademicCalendar;
     private String season;
     private String year;
-    private static final String TAG = "academiccalendar";
+
 
 
     @Override
@@ -35,6 +36,7 @@ public class AcademicCalendar extends AppCompatActivity {
         /**
          * load default Academic Calendar on separate thread
          */
+        Log.d(TAG, "start default academic calendar webview with fall 2017");
         webViewAcademicCalendar.post(new Runnable() {
             @Override
             public void run() {

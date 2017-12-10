@@ -1,8 +1,11 @@
-package android.lovemesomedatacom;
+package android.lovemesomedatacom.adapters;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.lovemesomedatacom.FindTeacherActivity;
+import android.lovemesomedatacom.entities.Course;
+import android.lovemesomedatacom.R;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +58,7 @@ public class CoursesAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView tv1;
+        TextView tv2;
     }
 
     @Override
@@ -65,8 +69,41 @@ public class CoursesAdapter extends BaseAdapter {
 
 
         holder.tv1 = (TextView) rowView.findViewById(R.id.course_name);
+        holder.tv2 = (TextView) rowView.findViewById(R.id.teacher_name);
 
-        holder.tv1.setText(courses.get(position).toString());
+
+        holder.tv1.setText(courses.get(position).getCourseName());
+        holder.tv2.setText(courses.get(position).getTeacherName());
+
+        holder.tv1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Log.d("COURSESADAPTER","inside on long click");
+                Intent friends = new Intent(context,null);
+
+                //course title from the rss contains both the course and section number
+                String title = courses.get(position).getTitle().trim();
+                String courseNum =  title.substring(0,title.indexOf(" "));
+                String section = title.substring(title.indexOf(" ")+1);
+                //section = section.
+                friends.putExtra("coursenumber",courseNum);
+                friends.putExtra("coursesection",section);
+                context.startActivity(friends);
+                return true;
+            }
+        });
+
+        holder.tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.d("inside", "inside on click");
+
+                Intent teacherContact = new Intent(context, FindTeacherActivity.class);
+                teacherContact.putExtra("teacher", courses.get(position).getTeacherName());
+                context.startActivity(teacherContact);
+            }
+        });
 
 //        rowView.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -83,4 +120,6 @@ public class CoursesAdapter extends BaseAdapter {
 
         return rowView;
     }
+
+
 }
