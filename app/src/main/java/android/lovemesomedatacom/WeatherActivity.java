@@ -19,7 +19,6 @@ public class WeatherActivity extends MenuActivity {
     private static final String TAG = "WeatherActivity";
     private static final String ForecastURL = "http://api.openweathermap.org/data/2.5/forecast?q=";
     EditText input;
-    ImageView image;
     Spinner spinner;
     Button weatherBtn;
     TextView temperature;
@@ -58,6 +57,7 @@ public class WeatherActivity extends MenuActivity {
         weatherBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                temperature.setText("");
                 String city = input.getText().toString();
                 String iso = spinner.getSelectedItem().toString();
                 String forecastQuery = ForecastURL + city + "," + iso + "&mode=xml&units=metric&appid=080b8de151ba3865a7b5e255f448f10f";
@@ -98,14 +98,19 @@ public class WeatherActivity extends MenuActivity {
     public void displayForecast(ArrayList<Weather> result, String uv) {
         StringBuilder builder = new StringBuilder();
         for(Weather weather : result){
-            builder.append(weather.getStart() + " - " + weather.getEnd()).append("\n")
-                    .append("Temperature: " + weather.getTemperature())
+            builder.append(weather.getStart().replace("T", " ") + " - " + weather.getEnd().replace("T", " "))
+                    .append("\n").append("Temperature: " + weather.getTemperature())
+                    .append("\n").append("Description: " + weather.getSymbol())
+                    .append("\n").append("Precipitation: " + weather.getPrecipitation())
+                    .append("\n").append("Clouds: " + weather.getClouds())
+                    .append("\n").append("Wind Speed: " + weather.getWindSpeed())
+                    .append("\n").append("Wind Direction: " + weather.getWindDirection())
                     .append("\n").append("Pressure: " +weather.getPressure())
                     .append("\n").append("Humidity: " + weather.getHumidity()).append("\n\n");
             temperature.setText(temperature.getText() + builder.toString());
             builder = new StringBuilder();
         }
-        temperature.setText(temperature.getText() + "UV INDEX: " + uv);
+        temperature.setText(temperature.getText() + "UV Index: " + uv);
     }
 
 }
