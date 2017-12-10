@@ -214,6 +214,11 @@ public class MainActivity extends MenuActivity {
         startActivity(i);
     }
 
+    public void showFindFriends(View view){
+        Intent intent = new Intent(this, FindFriends.class);
+        startActivity(intent);
+    }
+
     public void getLocationForTemperatureClick() {
 
         int REQUEST_CODE_PERMISSION = 2;

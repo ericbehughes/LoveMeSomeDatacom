@@ -25,6 +25,9 @@ public class FriendAdapter extends ArrayAdapter<Friend> {
 
     public FriendAdapter(@NonNull Activity context, @LayoutRes int resource, List<Friend> friends) {
         super(context, resource, friends);
+        this.context = context;
+        this.resource = resource;
+        this.friends = friends;
     }
 
     /**
@@ -42,10 +45,10 @@ public class FriendAdapter extends ArrayAdapter<Friend> {
         View v = inflater.inflate(resource, null);
 
         TextView tvFirstName = v.findViewById(R.id.firstName);
-        TextView tvLastName = v.findViewById(R.id.lastName);
-        TextView tvEmail = v.findViewById(R.id.email);
         tvFirstName.setText(friends.get(position).getFirstName());
+        TextView tvLastName = v.findViewById(R.id.lastName);
         tvLastName.setText(friends.get(position).getLastName());
+        TextView tvEmail = v.findViewById(R.id.email);
         tvEmail.setText(friends.get(position).getEmail());
 
         return v;
