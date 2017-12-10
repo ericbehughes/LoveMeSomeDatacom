@@ -148,7 +148,7 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
-
+            android:onClick="showWhosFree"
             android:text="@string/fa_clock_icon"
             android:textSize="16dp" />
 

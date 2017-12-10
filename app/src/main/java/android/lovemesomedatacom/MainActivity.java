@@ -214,6 +214,13 @@ public class MainActivity extends MenuActivity {
         startActivity(i);
     }
 
+    public void showWhosFree(View view) {
+        Intent i = new Intent(this, WhosFreeActivity.class);
+
+        Log.d(TAG, "WhosFreeActivity");
+        startActivity(i);
+    }
+
     public void getLocationForTemperatureClick() {
 
         int REQUEST_CODE_PERMISSION = 2;
