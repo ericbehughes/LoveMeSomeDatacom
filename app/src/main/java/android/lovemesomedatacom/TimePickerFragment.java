@@ -59,10 +59,18 @@ public class TimePickerFragment extends DialogFragment
         //Log.d(TAG, "text view + " + tv1);
         Log.d(TAG, "view.getHour + " + hourOfDay);
         Log.d(TAG, "view.getMinute + " + minute);
-        String str = hourOfDay + ":" + minute;
-        this.mListener.onComplete(str);
 
-       // tv1.setText(hourOfDay + ":" + minute);
+        String min= "";
+        String str = hourOfDay + ":" + minute;
+        if (minute< 9){
+            min += "0"+minute;
+        }
+        else{
+            min = minute+ "";
+        }
+        this.mListener.onComplete(hourOfDay+min+"");
+
+        // tv1.setText(hourOfDay + ":" + minute);
 
     }
 

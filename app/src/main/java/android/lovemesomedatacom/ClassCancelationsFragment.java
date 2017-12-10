@@ -77,6 +77,7 @@ public class ClassCancelationsFragment extends Fragment {
         //coursesAdapter.clear();
         coursesAdapter.addAll(list);
         coursesAdapter.notifyDataSetChanged();
+        hideProgressBar();
     }
 
 

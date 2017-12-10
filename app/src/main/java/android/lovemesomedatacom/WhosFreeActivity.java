@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.util.TimeZone;
+import android.lovemesomedatacom.adapters.FriendAdapter;
 import android.lovemesomedatacom.entities.Friend;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,8 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
     private SharedPreferences prefs;
 
     private TextView whosFreeStartTimeTV;
-    private ArrayList<Friend> friends;
+    private FriendAdapter friendAdapter;
+    private ListView whosFreeListView;
 
     private TextView whosFreeEndTimeTV;
     private Button whosFreeFindBtn;
@@ -62,6 +65,7 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
         whosFreeStartTimeTV = (TextView) findViewById(R.id.whosFreeStartTimeTV);
         whosFreeEndTimeTV = (TextView) findViewById(R.id.whosFreeEndTimeTV);
         whosFreeFindBtn = findViewById(R.id.whosFreeFindBtn);
+        whosFreeListView = findViewById(R.id.whosFreeList);
         final Calendar myCalendar = Calendar.getInstance();
         String myFormat = "hh:mm";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
@@ -91,7 +95,7 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
             whosFreeStartTimeTV.setText(savedInstanceState.getString("startTime").toString());
             whosFreeEndTimeTV.setText(savedInstanceState.getString("endTime").toString());
-            
+
         }
         whosFreeFindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,9 +108,9 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
                     day = transalteDay(day);
                     String startTime = whosFreeStartTimeTV.getText().toString();
                     String endTime = whosFreeEndTimeTV.getText().toString();
-                    int spliter = startTime.indexOf(':');
-                    startTime = startTime.substring(0,spliter)+startTime.substring(spliter+1);
-                    endTime = endTime.substring(0,spliter)+endTime.substring(spliter+1);
+                    //int spliter = startTime.indexOf(':');
+                    //startTime = startTime.substring(0,spliter)+startTime.substring(spliter+1);
+                    //endTime = endTime.substring(0,spliter)+endTime.substring(spliter+1);
                     String url = "http://friendfinder08.herokuapp.com/api/api/breakfriends?";
                     //email=eric@gmail.com&password=password&day=1&start=1000&end=1700
                     String whosFreeQuery = url + "email=" + email + "&" + "password=" + password +
@@ -114,10 +118,10 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
                     String query = "http://friendfinder08.herokuapp.com/api/api/breakfriends?email=eric@gmail.com&password=password&day=1&start=1000&end=1700";
                     Log.d(TAG,"whosfreequery: "+whosFreeQuery);
-                    Intent freeList = new Intent(getApplicationContext(),WhosFreeListActivity.class);
-                    freeList.putExtra("query",whosFreeQuery);
-                    startActivity(freeList);
-                    //new WhosFreeTask(WhosFreeActivity.this, whosFreeQuery).execute();
+                    //Intent freeList = new Intent(getApplicationContext(),WhosFreeListActivity.class);
+                    //freeList.putExtra("query",whosFreeQuery);
+                    //startActivity(freeList);
+                    new WhosFreeTask(WhosFreeActivity.this, whosFreeQuery).execute();
                 } else {
                     String checkSettings = "Check user settings" ;
                     Toast.makeText(getApplicationContext(),checkSettings, Toast.LENGTH_SHORT).show();
@@ -182,6 +186,15 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
                 whosFreeEndTimeTV.setText(time);
                 break;
 
+        }
+    }
+
+    public void listOfFriends(ArrayList<Friend> friends){
+        if(friends != null) {
+            friendAdapter = new FriendAdapter(this, friends);
+            this.whosFreeListView.setAdapter(friendAdapter);
+            friendAdapter.addAll(friends);
+            friendAdapter.notifyDataSetChanged();
         }
     }
 

@@ -1,6 +1,7 @@
 package android.lovemesomedatacom;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.lovemesomedatacom.adapters.CoursesAdapter;
 import android.lovemesomedatacom.adapters.FriendAdapter;
@@ -8,6 +9,7 @@ import android.lovemesomedatacom.adapters.TeacherAdapter;
 import android.lovemesomedatacom.entities.Friend;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -46,16 +48,15 @@ public class WhosFreeListActivity extends MenuActivity {
         setContentView(R.layout.activity_whos_free_list);
         this.whosFreeListView = findViewById(R.id.whosFreeList);
         this.intent = getIntent();
+        String query = this.intent.getStringExtra("query");
 
-        new WhosFreeTask(WhosFreeListActivity.this, this.intent.getStringExtra("query")).execute();
+        //new WhosFreeTask(WhosFreeListActivity.this, query).execute();
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        //TeacherAdapter teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list, this.whosFreeList);
-        //this.whosFreeListView.setAdapter();
         //this.whosFreeListView.setOnItemClickListener(fireEmailFriendWhoIsFree);
 
     }
@@ -68,9 +69,11 @@ public class WhosFreeListActivity extends MenuActivity {
     };
 
     public void listOfFriends(ArrayList<Friend> friends){
-        friendAdapter = new FriendAdapter(this, friends);
-        this.whosFreeListView.setAdapter(friendAdapter);
-        friendAdapter.addAll(friends);
-        friendAdapter.notifyDataSetChanged();
+        if(friends != null) {
+            friendAdapter = new FriendAdapter(this, friends);
+            this.whosFreeListView.setAdapter(friendAdapter);
+            friendAdapter.addAll(friends);
+            friendAdapter.notifyDataSetChanged();
+        }
     }
 }
