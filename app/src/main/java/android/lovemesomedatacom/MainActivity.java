@@ -178,12 +178,6 @@ public class MainActivity extends MenuActivity {
         startActivity(aboutIntent);
     }
 
-    public void doStuff(View view) {
-        Intent i = new Intent(this, NetworkFactoryActivity.class);
-
-        Log.d(TAG, "NetworkFactoryActivity");
-        startActivity(i);
-    }
 
     public void showNotesClick(View view) {
         Intent i = new Intent(this, NotesActivity.class);

@@ -37,8 +37,6 @@
         <activity android:name=".WeatherActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".NetworkActivity" />
-        <activity android:name=".NetworkFactoryActivity" />
         <activity android:name=".NotesActivity" />
         <activity android:name=".NoteDetailsActivity" />
         <activity android:name=".CalendarActivity" />
