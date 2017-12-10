@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.lovemesomedatacom.findteacher.FindTeacherActivity;
 import android.lovemesomedatacom.business.SharedPreferencesKey;
-import android.lovemesomedatacom.FriendsByCourseListActivity;
+import android.lovemesomedatacom.findfriend.FriendsByCourseListActivity;
 import android.lovemesomedatacom.entities.Course;
 import android.lovemesomedatacom.R;
 import android.util.Log;

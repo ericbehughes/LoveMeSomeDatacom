@@ -1,4 +1,4 @@
-package android.lovemesomedatacom;
+package android.lovemesomedatacom.findfriend;
 
 import android.lovemesomedatacom.entities.Friend;
 import android.os.AsyncTask;

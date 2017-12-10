@@ -1,6 +1,7 @@
-package android.lovemesomedatacom;
+package android.lovemesomedatacom.findfriend;
 
 import android.content.Intent;
+import android.lovemesomedatacom.R;
 import android.lovemesomedatacom.adapters.FriendAdapter;
 import android.lovemesomedatacom.business.MenuActivity;
 import android.lovemesomedatacom.entities.Friend;
