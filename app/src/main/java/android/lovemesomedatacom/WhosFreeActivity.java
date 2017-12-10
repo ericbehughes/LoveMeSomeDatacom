@@ -211,11 +211,7 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
         builder.setMessage(msg)
                 .setTitle(title);
 
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // User clicked OK button
-            }
-        });
+        builder.setPositiveButton(R.string.ok, null);
 
         AlertDialog dialog = builder.create();
 
