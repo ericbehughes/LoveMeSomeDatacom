@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,18 +29,30 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
+ * The FindFriendsActivity is responsible for showing the user, defined by its email and password,
+ * a list of friends collected from an API call to our heroku website at https://friendfinder08.herokuapp.com.
+ * It will display a list of friends if the user has register any friend on the website, or nothing
+ * if no friends are found. Each friend will be displayed in a TextView that when clicked, will
+ * notify the user where a particular friend is. If it is Saturday/Sunday or the hour is not between
+ * the hours specified by the API, a Toast will show up indicating that the Whereabouts service is not
+ * available.
+ *
  * @author Sebastian Ramirez
  */
 
 public class FindFriendsActivity extends MenuActivity {
+    //TAG
     private final String TAG = this.getClass().getSimpleName();
-
-    private ConnectivityInfo cInfo;
+    //user's friends
     private List<Friend> allFriends;
-    private ListView friendListView;
 
+    private ListView friendListView;
+    //private fields to deal with http request
+    private ConnectivityInfo cInfo;
     private HttpURLConnection conn;
     private InputStream inputStream;
+
+    //strings for url and displaying alert
     private String email;
     private String password;
     private String URL, whereIs, isIn, section, rightNow;
@@ -71,6 +84,14 @@ public class FindFriendsActivity extends MenuActivity {
         getData();
     }
 
+    /**
+     * The getData method is called right before the onCreate method finishes. It is responsible for
+     * grabbing a list of Friend objects returned as JSON from an API call to our heroku website. It
+     * checks for connectivity before performing any action. If there is connectvity, it calls the
+     * execute method of the FindAllFriendsTask AsyncTask to run in the background. If there is no
+     * connectivity, an appropriate message is shown.
+     *
+     */
     private void getData() {
         if (cInfo.isOnline()) {
             Log.d(TAG, "IS_ONLINE");
@@ -82,33 +103,53 @@ public class FindFriendsActivity extends MenuActivity {
     }
 
     /**
-     * The fireWheereFriendFragment method makes sure to create an appropriate intent to each
-     * inflated ListView according to the appropiate teacher. When a ListView is clicked in the UI
-     * it will retrive the specific teacher and fire the TeacherContactActivity.
+     * The fireWheereFriendFragment method makes sure to create an appropriate AlertDialog to each
+     * inflated TextView according to the appropiate friend. When a TextView is clicked in the UI
+     * it will retrive the specific friend and show an AlertDialog with the particular friend's
+     * whereabouts.
      */
     public AdapterView.OnItemClickListener fireWhereFriendFragment = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Friend friend;
-            for (int i = 0; i < allFriends.size(); i++) {
-                if (position == i) {
-                    Calendar calendar = Calendar.getInstance();
-                    int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-                    int hour = calendar.get(Calendar.HOUR_OF_DAY) * 100;
-                    int minutes = calendar.get(Calendar.MINUTE);
-                    int time = hour + minutes;
-                    friend = allFriends.get(i);
-                    String url = "https://friendfinder08.herokuapp.com/api/api/whereisfriend?" +
-                            "email=" + email + "&password=123lol123&friendemail=" + friend.getEmail() + "&day=" + dayOfWeek + "&time=" + time;
-                    Log.d(TAG, "WHERE_URL: " + url);
-                    new WhereIsFriendTask().execute(url, friend.getFirstName());
+            if (cInfo.isOnline()) {
+                Friend friend;
+                for (int i = 0; i < allFriends.size(); i++) {
+                    if (position == i) {
+                        Calendar calendar = Calendar.getInstance();
+                        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+                        int hour = calendar.get(Calendar.HOUR_OF_DAY) * 100;
+                        int minutes = calendar.get(Calendar.MINUTE);
+                        int time = hour + minutes;
+                        friend = allFriends.get(i);
+                        String url = "https://friendfinder08.herokuapp.com/api/api/whereisfriend?" +
+                                "email=" + email + "&password=123lol123&friendemail=" + friend.getEmail() + "&day=" + dayOfWeek + "&time=" + time;
+                        Log.d(TAG, "WHERE_URL: " + url);
+                        new WhereIsFriendTask().execute(url, friend.getFirstName());
+                    }
                 }
+            } else {
+                Toast.makeText(FindFriendsActivity.this, R.string.connection_error, Toast.LENGTH_LONG).show();
             }
+
         }
     };
 
     //Start of FindFriends related methods and AsyncTask class stub
+
+    /**
+     * The FindAllFriendsTask stub class is an AsyncTask that will perform network operations in the
+     * background. It is used for making an API call to heroku to find the user's list of friends
+     * specified by the email and password saved in the settings.
+     */
     private class FindAllFriendsTask extends AsyncTask<String, Void, List<Friend>> {
 
+        /**
+         * The overridden doInBackGround method receives a single url and calls the downloadUrlFriends
+         * method to grab the JSON response from the API call and convert that response into Friend
+         * objects. If an IOException occurs, it returns null.
+         *
+         * @param urls the call to the api
+         * @return a list of Friend objects converted from JSON
+         */
         @Override
         protected List<Friend> doInBackground(String... urls) {
             try {
@@ -119,6 +160,13 @@ public class FindFriendsActivity extends MenuActivity {
             return null;
         }
 
+        /**
+         * The overridden onPostExecute method grabs the result of the doInBackGround method and sets
+         * the FindFriendAdapter object with the resulting list of friends. It also sets an onItemClickListener
+         * event to every item in the list.
+         *
+         * @param result The Friend list coming from doInBackGround
+         */
         @Override
         protected void onPostExecute(List<Friend> result) {
             super.onPostExecute(result);
@@ -129,6 +177,15 @@ public class FindFriendsActivity extends MenuActivity {
         }
     }
 
+    /**
+     * The downloadUrlFriends method performs an HTTP GET request with the specified URL. It tries to
+     * get a response from the URL. If the HTTP code is not 200, it returns an empty array to denote
+     * that something went wrong. If it is 200, it calls the readJsonStream method.
+     *
+     * @param myUrl the url to perform the api call
+     * @return a list containing friends or null if the code was not 200
+     * @throws IOException
+     */
     private List<Friend> downloadUrlFriends(String myUrl) throws IOException {
 
         inputStream = null;
@@ -164,12 +221,27 @@ public class FindFriendsActivity extends MenuActivity {
 
     }
 
+    /**
+     * The readJsonStreamFriends uses try with resources to read an array incoming from the web API.
+     * It calls the readFriendsArray method to deal with every entry in the array.
+     * @param in The InputStream coming in
+     * @return  a List of Friend objects from the readFriendsArray method
+     * @throws IOException
+     */
     private List<Friend> readJsonStreamFriends(InputStream in) throws IOException {
         try (JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"))) {
             return readFriendsArray(reader);
         }
     }
 
+    /**
+     * The readFriendsArray method is responsible for parsing through a JSON array and creating friend
+     * objects from each object in the JSON array.
+     *
+     * @param reader The JsonReader object coming from the readJsonStreamFriends method
+     * @return a List of Friend objects
+     * @throws IOException
+     */
     private List<Friend> readFriendsArray(JsonReader reader) throws IOException {
         List<Friend> allFriends = new ArrayList<>();
         reader.beginArray();
@@ -180,6 +252,14 @@ public class FindFriendsActivity extends MenuActivity {
         return allFriends;
     }
 
+    /**
+     * The readFriend method is in charge of reading an instance of a JSON object and recreating a
+     * Friend object from it.
+     *
+     * @param reader the JsonReader object coming from the readFriendsArray method
+     * @return a Friend object that is the result of parsing through a JSON object
+     * @throws IOException
+     */
     private Friend readFriend(JsonReader reader) throws IOException {
         String firstName = null;
         String lastName = null;
@@ -209,8 +289,26 @@ public class FindFriendsActivity extends MenuActivity {
         return new Friend(firstName, lastName, email);
     }
 
+
+    //Start of WhereIsFriend related methods and AsyncTask class stub
+
+    /**
+     * The WhereIsFriendTask stub class is an AsyncTask that will perform network operations in the
+     * background. It is used for making an API call to heroku to find whether an specific Friend of the
+     * user is currently in class or not.
+     */
     private class WhereIsFriendTask extends AsyncTask<String, Void, String[]> {
 
+        /**
+         * The overridden doInBackground method takes a string containing the URL for the API call and
+         * the name of the particular friend in the TextView that launches this AsyncTask. It return
+         * a String array coming from the downloadUrlWhere method. If the array is empty, it will simply
+         * return an empty array coming from the method. If the array is not empty, it will attach the
+         * Friends name to the String array to be returned for display purposes.
+         *
+         * @param urls
+         * @return
+         */
         @Override
         protected String[] doInBackground(String... urls) {
             try {
@@ -230,7 +328,12 @@ public class FindFriendsActivity extends MenuActivity {
             }
 
         }
-
+        /**
+         * The overridden onPostExecute method grabs the result of the doInBackGround method and
+         * displays an appropriate AlertDialog according to the information coming from the API
+         *
+         * @param result The Friend list coming from doInBackGround
+         */
         @Override
         protected void onPostExecute(String[] result) {
             super.onPostExecute(result);
@@ -257,7 +360,15 @@ public class FindFriendsActivity extends MenuActivity {
             }
         }
     }
-
+    /**
+     * The downloadUrlFriends method performs an HTTP GET request with the specified URL. It tries to
+     * get a response from the URL. If the HTTP code is not 200, it returns an empty array to denote
+     * that something went wrong. If it is 200, it calls the readJsonStream method.
+     *
+     * @param myUrl the url to perform the api call
+     * @return a list containing friends or null if the code was not 200
+     * @throws IOException
+     */
     private String[] downloadUrlWhere(String myUrl) throws IOException {
 
         inputStream = null;
