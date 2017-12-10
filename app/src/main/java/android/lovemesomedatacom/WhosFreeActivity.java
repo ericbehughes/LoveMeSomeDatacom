@@ -28,9 +28,9 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
     private TextView tvDay;
     private Spinner spinnerDay;
-    private TextView tvStartTime;
+
     private TextView whosFreeStartTimeTV;
-    private TextView tvEndTime;
+
     private TextView whosFreeEndTimeTV;
     private Button whosFreeFindBtn;
     private int currentTimeElement;
@@ -87,14 +87,18 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
                 String email = "eric@gmail.com";
                 String password = "password";
                 String day = spinnerDay.getSelectedItem().toString();
-                String startTime = tvStartTime.getText().toString();
-                String endTime = tvEndTime.getText().toString();
+                day = "1";
+                String startTime = whosFreeStartTimeTV.getText().toString();
+                String endTime = whosFreeEndTimeTV.getText().toString();
                 String url = "http://friendfinder08.herokuapp.com/api/api/breakfriends?";
                 //email=eric@gmail.com&password=password&day=1&start=1000&end=1700
                 String whosFreeQuery = url + "email=" + email +"&" + "password=" + password +
-                        "&"+"day="+day + "&" + "start=" + startTime + "end=" + endTime;
+                        "&"+"day="+day + "&" + "start=" + "1000" + "end=" + "1700";
 
-                new WhosFreeTask(WhosFreeActivity.this , url).execute();
+                String query = "http://friendfinder08.herokuapp.com/api/api/breakfriends?email=eric@gmail.com&password=password&day=1&start=1000&end=1700";
+
+
+                new WhosFreeTask(WhosFreeActivity.this , query).execute();
             }
         });
 
