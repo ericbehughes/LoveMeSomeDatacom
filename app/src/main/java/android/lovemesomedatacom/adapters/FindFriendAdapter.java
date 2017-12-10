@@ -14,7 +14,11 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by Sebastian on 12/9/2017.
+ * The FindFriendAdapter class is a custom adapter that facilitates adapting a list of friends to a
+ * particular layout consisting of ListView. It overrides the getView method to display the
+ * Teacher object full name in the TextView.
+ *
+ * @author Sebastian Ramirez
  */
 
 public class FindFriendAdapter extends ArrayAdapter<Friend> {
