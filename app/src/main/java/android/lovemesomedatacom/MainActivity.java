@@ -103,6 +103,7 @@ public class MainActivity extends MenuActivity {
         tvFindFriends.setTypeface(font);
 
         prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
+        prefs.edit().clear();
         if (prefs.getAll().size() == 0 || prefs == null){
             Intent settingIntent = new Intent(this, SettingsActivity.class);
             Log.d(TAG, "Settings not detected");
