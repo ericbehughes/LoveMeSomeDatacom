@@ -157,10 +157,14 @@ public class NotesActivity extends MenuActivity {
 
         // Save the state so that it can be restored in onCreate or onRestoreInstanceState
         state.putBoolean("dialog_showing", dialog_showing);
-        state.putString(getResources().getString(R.string.new_note_str),
-                String.valueOf(noteEditTextTitle.getText().toString()));
-        state.putString(getResources().getString(R.string.new_note_body),
-                String.valueOf(noteEditTextMessage.getText().toString()));
+
+        if (noteEditTextTitle != null && noteEditTextMessage != null){
+            state.putString(getResources().getString(R.string.new_note_str),
+                    String.valueOf(noteEditTextTitle.getText().toString()));
+            state.putString(getResources().getString(R.string.new_note_body),
+                    String.valueOf(noteEditTextMessage.getText().toString()));
+        }
+
     }
 
     /**
