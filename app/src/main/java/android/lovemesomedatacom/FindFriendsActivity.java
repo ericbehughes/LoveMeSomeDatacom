@@ -1,5 +1,6 @@
 package android.lovemesomedatacom;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.lovemesomedatacom.adapters.FindFriendAdapter;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,7 +28,7 @@ import java.util.List;
  * @author Sebastian Ramirez
  */
 
-public class FindFriendsActivity extends AppCompatActivity {
+public class FindFriendsActivity extends MenuActivity {
     private final String TAG = this.getClass().getSimpleName();
 
     private ConnectivityInfo cInfo;
@@ -41,17 +41,18 @@ public class FindFriendsActivity extends AppCompatActivity {
     private String password;
     private String URL, whereIs, isIn, section, rightNow;
 
+    private SharedPreferences prefs;
+
     private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle instanceBundle) {
         super.onCreate(instanceBundle);
         setContentView(R.layout.activity_find_friends);
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        //could not retrieve the shared prefs, had to hardcode an email and a password
-        this.email = preferences.getString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), "");
+        prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
+        this.email = prefs.getString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), "");
         Log.d(TAG, "EMAIL: " + email);
-        this.password = preferences.getString(SharedPreferencesKey.PASSWORD.toString(), "");
+        this.password = prefs.getString(SharedPreferencesKey.PASSWORD.toString(), "");
         Log.d(TAG, "PASSWORD: " + password);
         if (this.email != null && this.password != null) {
             this.URL = "https://friendfinder08.herokuapp.com/api/api/allfriends?email=" + email + "&password=" + password;
