@@ -2,11 +2,11 @@
 <ListView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/whosFreeList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="android.lovemesomedatacom.FriendsByCourseListActivity"
-    android:id="@+id/whosFreeList">
+    tools:context="android.lovemesomedatacom.findfriend.FriendsByCourseListActivity">
 
 
 </ListView>
