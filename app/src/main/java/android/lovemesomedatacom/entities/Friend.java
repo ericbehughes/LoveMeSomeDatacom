@@ -77,10 +77,4 @@ public class Friend {
         return result;
     }
 
-
-    @Override
-    public String toString(){
-        return this.firstName+" "+this.lastName+" "+this.email;
-    }
-
 }
