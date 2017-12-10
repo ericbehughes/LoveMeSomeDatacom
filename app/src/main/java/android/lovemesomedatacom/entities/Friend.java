@@ -1,10 +1,23 @@
 package android.lovemesomedatacom.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author Sebastian Ramirez
  */
 
-public class Friend {
+public class Friend implements Parcelable{
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Friend createFromParcel(Parcel in) {
+            return new Friend(in);
+        }
+
+        public Friend[] newArray(int size) {
+            return new Friend[size];
+        }
+    };
 
     private String firstName;
     private String lastName;
@@ -14,7 +27,16 @@ public class Friend {
         this("", "", "");
     }
 
-
+    /**
+     * Non-default constructor. Takes in a Parcel object and recreates a Teacher from it.
+     *
+     * @param in the parcel that contains the teacher object.
+     */
+    public Friend(Parcel in) {
+        this.firstName = in.readString();
+        this.lastName = in.readString();
+        this.email = in.readString();
+    }
 
     public Friend(String firstName, String lastName, String email) {
 
@@ -75,6 +97,19 @@ public class Friend {
         result = 31 * result + getLastName().hashCode();
         result = 31 * result + getEmail().hashCode();
         return result;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(this.firstName);
+        parcel.writeString(this.lastName);
+        parcel.writeString(this.email);
     }
 
 }

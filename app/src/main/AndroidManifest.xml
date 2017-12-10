@@ -44,7 +44,7 @@
         <activity android:name=".CalendarActivity" />
         <activity android:name=".AcademicCalendar" />
 
-        <activity android:name=".FindFriends" />
+        <activity android:name=".FindFriendsActivity" />
         <activity android:name=".TemperatureLocation"></activity>
 
         <activity android:name=".TemperatureLocation" />
