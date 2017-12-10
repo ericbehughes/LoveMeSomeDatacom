@@ -59,7 +59,7 @@
 
                 <TextView
                     android:id="@+id/temperature"
-                    style="@style/Base.TextAppearance.AppCompat.Headline"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
                     android:textSize="@dimen/activity_horizontal_margin"
                     android:padding="10dp"
                     android:layout_width="match_parent"

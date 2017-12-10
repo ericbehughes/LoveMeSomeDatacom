@@ -155,8 +155,8 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
                                 current.setPrecipitation(myParser.getAttributeValue(null,"type"));
                             }
                             if (name.equals("windSpeed")) {
-                                current.setWindSpeed(myParser.getAttributeValue(null,"name") + " " +
-                                        myParser.getAttributeValue(null, "mps"));
+                                current.setWindSpeed(myParser.getAttributeValue(null,"name") + ", " +
+                                        myParser.getAttributeValue(null, "mps") + " mps");
                             }
                             if (name.equals("windDirection")) {
                                 current.setWindDirection(myParser.getAttributeValue(null,"name"));
