@@ -1,7 +1,7 @@
 package android.lovemesomedatacom.entities;
 
 /**
- * Created by Sebastian on 12/9/2017.
+ * @author Sebastian Ramirez
  */
 
 public class Friend {
