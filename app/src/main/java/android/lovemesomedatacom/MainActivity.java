@@ -14,10 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-<<<<<<< HEAD
-=======
-
->>>>>>> 51afd03eb93c57ee10d86f10dafef32a4e5be568
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -241,12 +237,7 @@ public class MainActivity extends MenuActivity {
 
                 URL = "http://api.openweathermap.org/data/2.5/weather?appid=080b8de151ba3865a7b5e255f448f10f&units=metric&lat="+latitude+"&lon="+longitude;
 
-<<<<<<< HEAD
-            } else {
-=======
-
             }else{
->>>>>>> 51afd03eb93c57ee10d86f10dafef32a4e5be568
                 // can't get location
                 // GPS or Network is not enabled
                 // Ask user to enable GPS/network in settings
