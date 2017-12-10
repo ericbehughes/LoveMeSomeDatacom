@@ -82,12 +82,12 @@
     <string name="radio_like">Search for similar results</string>
     <string name="radio_exact">Search for exact results</string>
     <string name="from">from: </string>
-    <string name="teacher_name">"Name: "</string>
-    <string name="teacher_email">"Email: "</string>
-    <string name="teacher_office">"Office: "</string>
-    <string name="teacher_local">"Local: "</string>
-    <string name="teacher_website">"Website: "</string>
-    <string name="teacher_bio">"Bio: "</string>
+    <string name="teacher_name">Name: </string>
+    <string name="teacher_email">Email: </string>
+    <string name="teacher_office">Office: </string>
+    <string name="teacher_local">Local: </string>
+    <string name="teacher_website">Website: </string>
+    <string name="teacher_bio">Bio: </string>
 
     <!--titles for each screen-->
     <string name="notes_activity_title">Notes</string>
@@ -102,11 +102,17 @@
     <string name="resume">resume</string>
 
     <string name="permission_toast">Sorry! Permission denied :(</string>
+    <string name="connectivity_toast">No connectivity found :(</string>
     <string name="notes_activity_tag">NotesActivity</string>
     <string name="yes_confirmation">Yes</string>
     <string name="no_confirmation">No</string>
     <string name="settings_saved_toast">Settings Saved</string>
     <string name="settings_activity_tag">SettingsActivity</string>
+
+    <string name="friend_fname">First Name: </string>
+    <string name="friend_lname">Last Name: </string>
+    <string name="friend_email">Email: </string>
+
     <string name="whosFreeFindBtn">Find</string>
     <string name="whos_free_title">Whos Free</string>
 
