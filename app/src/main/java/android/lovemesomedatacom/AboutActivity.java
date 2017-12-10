@@ -8,12 +8,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AboutActivity extends MenuActivity {
 
     private static final String TAG = "About";
     TextView courseID, memberNames;
+    ImageView pictureOne, pictureTwo, pictureThree, pictureFour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,18 @@ public class AboutActivity extends MenuActivity {
      */
     private void findViews(){
 
+        pictureOne = (ImageView)findViewById(R.id.pictureOne);
+        pictureOne.setOnClickListener(showDialog);
+
+        pictureTwo = (ImageView)findViewById(R.id.pictureTwo);
+        pictureTwo.setOnClickListener(showDialog);
+
+        pictureThree = (ImageView)findViewById(R.id.pictureThree);
+        pictureThree.setOnClickListener(showDialog);
+
+        pictureFour = (ImageView)findViewById(R.id.pictureFour);
+        pictureFour.setOnClickListener(showDialog);
+
         courseID = (TextView)findViewById(R.id.courseID);
         courseID.setOnClickListener(openURL);
 
@@ -62,9 +76,24 @@ public class AboutActivity extends MenuActivity {
 
         @Override
         public void onClick(View view) {
+            String message = "";
             AlertDialog.Builder builder = new AlertDialog.Builder(AboutActivity.this);
-            builder.setMessage(R.string.about_message)
-                    .setPositiveButton(android.R.string.ok, null);
+            switch(view.getId()){
+                case R.id.pictureOne:
+                    builder.setMessage(R.string.picture_one_blurb);
+                    break;
+                case R.id.pictureTwo:
+                    builder.setMessage(R.string.picture_two_blurb);
+                    break;
+                case R.id.pictureThree:
+                    builder.setMessage(R.string.picture_three_blurb);
+                    break;
+                case R.id.pictureFour:
+                    builder.setMessage(R.string.picture_four_blurb);
+                    break;
+
+            }
+            builder.setPositiveButton(android.R.string.ok, null);
             AlertDialog dialog = builder.create();
             dialog.show();
         }
