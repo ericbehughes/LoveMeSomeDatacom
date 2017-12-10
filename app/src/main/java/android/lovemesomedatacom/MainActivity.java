@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -214,6 +214,13 @@ public class MainActivity extends MenuActivity {
         startActivity(i);
     }
 
+    public void showWhosFree(View view) {
+        Intent i = new Intent(this, WhosFreeActivity.class);
+
+        Log.d(TAG, "WhosFreeActivity");
+        startActivity(i);
+    }
+
     public void getLocationForTemperatureClick() {
 
         int REQUEST_CODE_PERMISSION = 2;
@@ -237,9 +244,6 @@ public class MainActivity extends MenuActivity {
 
                 URL = "http://api.openweathermap.org/data/2.5/weather?appid=080b8de151ba3865a7b5e255f448f10f&units=metric&lat="+latitude+"&lon="+longitude;
 
-                // \n is for new line
-                Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
-                        + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
 
             }else{
                 // can't get location

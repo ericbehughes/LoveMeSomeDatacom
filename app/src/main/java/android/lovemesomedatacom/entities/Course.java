@@ -1,4 +1,4 @@
-package android.lovemesomedatacom;
+package android.lovemesomedatacom.entities;
 
 import android.text.Html;
 import android.text.Spanned;

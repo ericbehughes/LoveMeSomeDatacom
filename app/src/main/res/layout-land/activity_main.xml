@@ -10,42 +10,34 @@
     <LinearLayout
 
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:layout_weight="1"
 
         android:background="@drawable/border"
 
-        android:orientation="vertical">
+        android:orientation="horizontal">
         <!--start image view-->
         <ImageView
             android:id="@+id/imgDawsonLogo"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:padding="100dp"
+            android:layout_weight=".5"
             android:scaleType="centerCrop"
             android:src="@drawable/dawson_logo" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/border"
-        android:orientation="vertical">
-        <!--start image view-->
 
         <ImageView
             android:id="@+id/imgTeamLogo"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
             android:adjustViewBounds="true"
             android:elevation="1dp"
-            android:padding="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/lovemesomedatacom_logo" />
     </LinearLayout>
+
+
 
 
     <!--start clickable text views-->
@@ -148,7 +140,7 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
-            android:onClick="showWhosFree"
+
             android:text="@string/fa_clock_icon"
             android:textSize="16dp" />
 

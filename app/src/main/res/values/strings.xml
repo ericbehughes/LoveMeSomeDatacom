@@ -46,6 +46,15 @@
     <string name="note_details_string">sample note title</string>
 
 
+    <string-array name="whos_free_day_array">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confirm_discard_string">You sure you want to discard?</string>
@@ -86,8 +95,15 @@
     <string name="about_activity_title">About</string>
     <string name="pause">pause</string>
     <string name="resume">resume</string>
-    
+
     <string name="permission_toast">Sorry! Permission denied :(</string>
+    <string name="notes_activity_tag">NotesActivity</string>
+    <string name="yes_confirmation">Yes</string>
+    <string name="no_confirmation">No</string>
+    <string name="settings_saved_toast">Settings Saved</string>
+    <string name="settings_activity_tag">SettingsActivity</string>
+    <string name="whosFreeFindBtn">Find</string>
+    <string name="whos_free_title">Whos Free</string>
 
 
 </resources>

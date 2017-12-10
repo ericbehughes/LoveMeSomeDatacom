@@ -165,7 +165,7 @@ public class FindTeacherActivity extends MenuActivity {
     }
 
     /**
-     * The fireTeacherContactActivity method takes care of the initialization of the intent that will fire
+     * The fireEmailFriendWhoIsFree method takes care of the initialization of the intent that will fire
      * the TeacherContactActivity. It will pass a single Teacher object that implement the
      * Parcelable interface as an extra.
      */

@@ -23,12 +23,7 @@ public class NoteDetailsActivity extends MenuActivity {
 
     private NotesDBHelper mHelper;
 
-    /**
-     * Find the Views in the layout<br />
-     * <br />
-     * Auto-created on 2017-11-24 19:05:17 by Android Layout Finder
-     * (http://www.buzzingandroid.com/tools/android-layout-finder)
-     */
+
     private void findViews() {
         tvNoteDetailsTitle = (TextView)findViewById( R.id.etNoteDetailsTitle );
         tvNoteDetailsText = (TextView)findViewById( R.id.etNoteDetailsText );
@@ -41,9 +36,7 @@ public class NoteDetailsActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_details);
         findViews();
-
         Intent intent = getIntent();
-
         tvNoteDetailsTitle.setText(intent.getStringExtra("noteTitle"));
         tvNoteDetailsText.setText(intent.getStringExtra("noteText"));
 
@@ -94,6 +87,15 @@ public class NoteDetailsActivity extends MenuActivity {
 
     }
 
+    /**
+     * click listener when the savae button is clicked
+     * gets a writeable db instance retrieves note by title and
+     * updates contents
+     *
+     * unfortunately you cannot update the title this way
+     * I would need to keep the id as part of the model in
+     * order to search by primary_key
+     */
     private void updateNote(){
         mHelper = new NotesDBHelper(this);
         String note_title = tvNoteDetailsTitle.getText().toString();
