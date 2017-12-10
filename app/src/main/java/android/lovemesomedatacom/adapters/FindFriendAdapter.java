@@ -18,12 +18,12 @@ import java.util.List;
  * Created by Sebastian on 12/9/2017.
  */
 
-public class FriendAdapter extends ArrayAdapter<Friend> {
+public class FindFriendAdapter extends ArrayAdapter<Friend> {
     private Activity context;
     private int resource;
     private List<Friend> friends;
 
-    public FriendAdapter(@NonNull Activity context, @LayoutRes int resource, List<Friend> friends) {
+    public FindFriendAdapter(@NonNull Activity context, @LayoutRes int resource, List<Friend> friends) {
         super(context, resource, friends);
         this.context = context;
         this.resource = resource;

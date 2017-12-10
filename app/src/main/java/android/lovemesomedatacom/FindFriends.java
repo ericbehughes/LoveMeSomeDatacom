@@ -1,7 +1,7 @@
 package android.lovemesomedatacom;
 
 import android.content.SharedPreferences;
-import android.lovemesomedatacom.adapters.FriendAdapter;
+import android.lovemesomedatacom.adapters.FindFriendAdapter;
 import android.lovemesomedatacom.entities.Friend;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -88,7 +88,7 @@ public class FindFriends extends AppCompatActivity {
             for (Friend f : allFriends) {
                 Log.d(TAG, f.getFirstName());
             }
-            FriendAdapter friendAdapter = new FriendAdapter(FindFriends.this, R.layout.friends_list, allFriends);
+            FindFriendAdapter friendAdapter = new FindFriendAdapter(FindFriends.this, R.layout.friends_list, allFriends);
             friendListView.setAdapter(friendAdapter);
         }
     }
