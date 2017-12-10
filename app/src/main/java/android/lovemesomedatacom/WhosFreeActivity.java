@@ -2,8 +2,12 @@ package android.lovemesomedatacom;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.util.TimeZone;
+import android.lovemesomedatacom.entities.Friend;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
@@ -17,8 +21,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class WhosFreeActivity extends MenuActivity implements TimePickerFragment.OnCompleteListener {
@@ -28,8 +38,10 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
     private TextView tvDay;
     private Spinner spinnerDay;
+    private SharedPreferences prefs;
 
     private TextView whosFreeStartTimeTV;
+    private ArrayList<Friend> friends;
 
     private TextView whosFreeEndTimeTV;
     private Button whosFreeFindBtn;
@@ -84,21 +96,32 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
         whosFreeFindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = "eric@gmail.com";
-                String password = "password";
-                String day = spinnerDay.getSelectedItem().toString();
-                day = "1";
-                String startTime = whosFreeStartTimeTV.getText().toString();
-                String endTime = whosFreeEndTimeTV.getText().toString();
-                String url = "http://friendfinder08.herokuapp.com/api/api/breakfriends?";
-                //email=eric@gmail.com&password=password&day=1&start=1000&end=1700
-                String whosFreeQuery = url + "email=" + email +"&" + "password=" + password +
-                        "&"+"day="+day + "&" + "start=" + "1000" + "end=" + "1700";
+                prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
+                if(prefs != null) {
+                    String email = prefs.getString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), "");
+                    String password = prefs.getString(SharedPreferencesKey.PASSWORD.toString(), "");
+                    String day = spinnerDay.getSelectedItem().toString();
+                    day = transalteDay(day);
+                    String startTime = whosFreeStartTimeTV.getText().toString();
+                    String endTime = whosFreeEndTimeTV.getText().toString();
+                    int spliter = startTime.indexOf(':');
+                    startTime = startTime.substring(0,spliter)+startTime.substring(spliter+1);
+                    endTime = endTime.substring(0,spliter)+endTime.substring(spliter+1);
+                    String url = "http://friendfinder08.herokuapp.com/api/api/breakfriends?";
+                    //email=eric@gmail.com&password=password&day=1&start=1000&end=1700
+                    String whosFreeQuery = url + "email=" + email + "&" + "password=" + password +
+                            "&" + "day=" + day + "&" + "start=" + startTime + "&end=" + endTime;
 
-                String query = "http://friendfinder08.herokuapp.com/api/api/breakfriends?email=eric@gmail.com&password=password&day=1&start=1000&end=1700";
-
-
-                new WhosFreeTask(WhosFreeActivity.this , query).execute();
+                    String query = "http://friendfinder08.herokuapp.com/api/api/breakfriends?email=eric@gmail.com&password=password&day=1&start=1000&end=1700";
+                    Log.d(TAG,"whosfreequery: "+whosFreeQuery);
+                    Intent freeList = new Intent(getApplicationContext(),WhosFreeListActivity.class);
+                    freeList.putExtra("query",whosFreeQuery);
+                    startActivity(freeList);
+                    //new WhosFreeTask(WhosFreeActivity.this, whosFreeQuery).execute();
+                } else {
+                    String checkSettings = "Check user settings" ;
+                    Toast.makeText(getApplicationContext(),checkSettings, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -167,4 +190,30 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
 
     }
+
+    private String transalteDay(String day){
+
+        switch(day){
+            case "Monday":
+                day="1";
+                break;
+            case "Tuesday":
+                day="2";
+                break;
+            case "Wednesday":
+                day="3";
+                break;
+            case "Thursday":
+                day="4";
+                break;
+            case "Friday":
+                day="5";
+                break;
+            default:
+                day="-1";
+        }
+
+        return day;
+    }
+
 }

@@ -8,11 +8,17 @@ public class Friend {
 
     private String firstName;
     private String lastName;
-    private String program;
+    private String email;
 
-    public Friend(String firstName, String lastName, String program) {
+    public Friend(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.program = program;
+        this.email = email;
     }
+
+    @Override
+    public String toString(){
+        return this.firstName+" "+this.lastName+" "+this.email;
+    }
+
 }

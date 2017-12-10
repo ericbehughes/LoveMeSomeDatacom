@@ -1,8 +1,12 @@
 package android.lovemesomedatacom;
 
+import android.content.Intent;
 import android.lovemesomedatacom.entities.Friend;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -14,13 +18,13 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhosFreeTask extends AsyncTask<ArrayList<Friend>, Void, ArrayList<Friend>> {
+public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
 
     private static final String TAG = "WhosFreeTask";
-    private WhosFreeActivity activity;
+    private WhosFreeListActivity activity;
     private String url;
 
-    public WhosFreeTask(WhosFreeActivity activity, String url){
+    public WhosFreeTask(WhosFreeListActivity activity, String url){
         this.activity = activity;
         this.url = url;
     }
@@ -29,10 +33,11 @@ public class WhosFreeTask extends AsyncTask<ArrayList<Friend>, Void, ArrayList<F
     protected void onPreExecute() {
         Log.d(TAG, "OnPreExecute invoked");
         super.onPreExecute();
+
     }
 
     @Override
-    protected ArrayList doInBackground(ArrayList<Friend>... params) {
+    protected ArrayList<Friend> doInBackground(String... params) {
         try {
 
             URL url = new URL(this.url);
@@ -52,10 +57,12 @@ public class WhosFreeTask extends AsyncTask<ArrayList<Friend>, Void, ArrayList<F
     protected void onPostExecute(ArrayList<Friend> list){
         Log.d(TAG, "OnPostExecute invoked");
 
+        activity.listOfFriends(list);
+
     }
 
 
-    public List<Friend> getFriendsWhoAreFree(URL url) {
+    public ArrayList<Friend> getFriendsWhoAreFree(URL url) {
         try{
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -75,17 +82,38 @@ public class WhosFreeTask extends AsyncTask<ArrayList<Friend>, Void, ArrayList<F
             }
             br.close();
 
-            JSONObject obj = new JSONObject(sb.toString());
+            JSONArray arrayFriends = new JSONArray(sb.toString());
+            ArrayList<Friend> friends = makeFriendsList(arrayFriends);
 
-
-            String friends = obj.toString();
-            Log.d(TAG, friends);
-            return null;
+            Log.d(TAG, arrayFriends.toString());
+            return friends;
         }
         catch(Exception e){
             e.printStackTrace();
             return null;
         }
+    }
+
+    private ArrayList<Friend> makeFriendsList(JSONArray friends){
+        ArrayList<Friend> friendsList = new ArrayList<>();
+        for(int i=0; i< friends.length();i++){
+            try {
+                JSONObject friend = friends.getJSONObject(i);
+                if(friend.has("error")){
+                    Friend friendItem = new Friend("Error",friend.getString("error"),"");
+                    friendsList.add(friendItem);
+                    return friendsList;
+                }
+                Friend friendItem = new Friend(friend.getString("firstName"),friend.getString("lastName"),friend.getString("email"));
+                friendsList.add(friendItem);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        return friendsList;
     }
 
 
