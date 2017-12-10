@@ -46,11 +46,8 @@
 
         <activity android:name=".findfriend.FindFriendsActivity" />
         <activity android:name=".weather.TemperatureLocation"></activity>
-
-        <activity android:name=".weather.TemperatureLocation" />
         <activity android:name=".findfriend.WhosFreeActivity" />
-        <activity android:name=".findfriend.WhosFreeListActivity"></activity>
-
+        <activity android:name=".FriendsByCourseListActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package android.lovemesomedatacom.findfriend;
+package android.lovemesomedatacom;
 
 import android.lovemesomedatacom.entities.Friend;
 import android.os.AsyncTask;
@@ -7,23 +7,27 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
+/**
+ * Created by Rhai on 10/12/2017.
+ */
 
-    private static final String TAG = "WhosFreeTask";
-    private WhosFreeActivity activity;
+public class FriendsByCourseTask extends AsyncTask<String, Void, ArrayList<Friend>> {
+
+    private static final String TAG = "FriendsByCourseTask";
+    private FriendsByCourseListActivity activity;
     private String url;
 
-    public WhosFreeTask(WhosFreeActivity activity, String url){
+    public FriendsByCourseTask(FriendsByCourseListActivity activity, String url){
         this.activity = activity;
         this.url = url;
     }
@@ -60,7 +64,7 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
 
 
     public ArrayList<Friend> getFriendsWhoAreFree(URL url) {
-        try{
+        try {
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(10000);
@@ -71,7 +75,7 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
             connection.connect();
 
             int response = connection.getResponseCode();
-            if(response == HttpURLConnection.HTTP_OK) {
+            if (response == HttpURLConnection.HTTP_OK) {
                 InputStream stream = connection.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(stream));
                 StringBuilder sb = new StringBuilder();
@@ -87,7 +91,7 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
 
                 Log.d(TAG, arrayFriends.toString());
                 return friends;
-            } else if(response == HttpURLConnection.HTTP_UNAUTHORIZED){
+            } else if (response == HttpURLConnection.HTTP_UNAUTHORIZED) {
                 InputStream stream = connection.getErrorStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(stream));
                 StringBuilder sb = new StringBuilder();
@@ -97,17 +101,14 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
                 }
                 br.close();
 
-                System.out.println("http bad request"+sb.toString());
                 JSONObject error = new JSONObject(sb.toString());
-                Friend error401 = new Friend("Error 401:",error.getString("error"),"");
+                Friend error401 = new Friend("Error 401:", error.getString("error"), "");
 
-                ArrayList<Friend> errorF= new ArrayList<>();
+                ArrayList<Friend> errorF = new ArrayList<>();
                 errorF.add(error401);
                 return errorF;
-
             } else if(response == HttpURLConnection.HTTP_BAD_REQUEST){
                 InputStream stream = connection.getErrorStream();
-
                 BufferedReader br = new BufferedReader(new InputStreamReader(stream));
                 StringBuilder sb = new StringBuilder();
                 String line;
@@ -123,13 +124,14 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
                 errorF.add(error400);
                 return errorF;
             }
-            return null;
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println("Method for task threw exception: "+e.getMessage());
             return null;
         }
+
+        return null;
     }
 
     private ArrayList<Friend> makeFriendsList(JSONArray friends){
@@ -137,6 +139,11 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
         for(int i=0; i< friends.length();i++){
             try {
                 JSONObject friend = friends.getJSONObject(i);
+                if(friend.has("error")){
+                    Friend friendItem = new Friend("Error",friend.getString("error"),"");
+                    friendsList.add(friendItem);
+                    return friendsList;
+                }
                 Friend friendItem = new Friend(friend.getString("firstName"),friend.getString("lastName"),friend.getString("email"));
                 friendsList.add(friendItem);
 
@@ -169,4 +176,3 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
     }
 
 }
-

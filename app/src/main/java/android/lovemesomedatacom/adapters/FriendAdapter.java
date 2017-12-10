@@ -25,8 +25,8 @@ public class FriendAdapter extends BaseAdapter{
     LayoutInflater inflater;
     ArrayList<Friend> friends;
 
-    public FriendAdapter(Activity whosfreeListActivity, ArrayList<Friend> friends){
-        this.context = whosfreeListActivity;
+    public FriendAdapter(Activity contextActivity, ArrayList<Friend> friends){
+        this.context =  contextActivity;
         this.friends = friends;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -35,7 +35,10 @@ public class FriendAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
-        return this.friends.size();
+        if(this.friends != null) {
+            return this.friends.size();
+        }
+        return 0;
     }
 
     @Override
@@ -61,12 +64,13 @@ public class FriendAdapter extends BaseAdapter{
 
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
-        FriendAdapter.ViewHolder holder = new FriendAdapter.ViewHolder();
+        ViewHolder holder = new ViewHolder();
         View rowView;
-        rowView = inflater.inflate(R.layout.activity_whos_free_list,null);
+        rowView = inflater.inflate(R.layout.friend_list_item,null);
 
         holder.tv1 = (TextView) rowView.findViewById(R.id.friend);
 
+        holder.tv1.setText(friends.get(position).toString());
 
         return rowView;
     }
