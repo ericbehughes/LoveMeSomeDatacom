@@ -1,13 +1,18 @@
 package android.lovemesomedatacom;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.lovemesomedatacom.adapters.CoursesAdapter;
+import android.lovemesomedatacom.adapters.FriendAdapter;
 import android.lovemesomedatacom.adapters.TeacherAdapter;
+import android.lovemesomedatacom.entities.Friend;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +35,7 @@ public class WhosFreeListActivity extends MenuActivity {
 
 
     private ListView whosFreeListView;
+    private FriendAdapter friendAdapter;
 
     private Intent intent;
 
@@ -40,16 +46,17 @@ public class WhosFreeListActivity extends MenuActivity {
         setContentView(R.layout.activity_whos_free_list);
         this.whosFreeListView = findViewById(R.id.whosFreeList);
         this.intent = getIntent();
-        this.whosFreeList = this.intent.getParcelableArrayListExtra("FRIENDS");
+
+        new WhosFreeTask(WhosFreeListActivity.this, this.intent.getStringExtra("query")).execute();
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        TeacherAdapter teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list, this.whosFreeList);
-        this.whosFreeListView.setAdapter(teacherAdapter);
-        this.whosFreeListView.setOnItemClickListener(fireEmailFriendWhoIsFree);
+        //TeacherAdapter teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list, this.whosFreeList);
+        //this.whosFreeListView.setAdapter();
+        //this.whosFreeListView.setOnItemClickListener(fireEmailFriendWhoIsFree);
 
     }
 
@@ -59,4 +66,11 @@ public class WhosFreeListActivity extends MenuActivity {
 
         }
     };
+
+    public void listOfFriends(ArrayList<Friend> friends){
+        friendAdapter = new FriendAdapter(this, friends);
+        this.whosFreeListView.setAdapter(friendAdapter);
+        friendAdapter.addAll(friends);
+        friendAdapter.notifyDataSetChanged();
+    }
 }

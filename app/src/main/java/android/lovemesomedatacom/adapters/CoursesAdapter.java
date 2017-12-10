@@ -3,7 +3,10 @@ package android.lovemesomedatacom.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.lovemesomedatacom.FindTeacherActivity;
+import android.lovemesomedatacom.SharedPreferencesKey;
+import android.lovemesomedatacom.WhosFreeListActivity;
 import android.lovemesomedatacom.entities.Course;
 import android.lovemesomedatacom.R;
 import android.util.Log;
@@ -23,6 +26,7 @@ public class CoursesAdapter extends BaseAdapter {
 
     private static final String TAG = "CoursesAdapter";
     private Context context;
+    private SharedPreferences prefs;
     LayoutInflater inflater;
     ArrayList<Course> courses;
 
@@ -74,22 +78,31 @@ public class CoursesAdapter extends BaseAdapter {
 
         holder.tv1.setText(courses.get(position).getCourseName());
         holder.tv2.setText(courses.get(position).getTeacherName());
-
+        //prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
         holder.tv1.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 Log.d("COURSESADAPTER","inside on long click");
-                Intent friends = new Intent(context,null);
 
-                //course title from the rss contains both the course and section number
-                String title = courses.get(position).getTitle().trim();
-                String courseNum =  title.substring(0,title.indexOf(" "));
-                String section = title.substring(title.indexOf(" ")+1);
-                //section = section.
-                friends.putExtra("coursenumber",courseNum);
-                friends.putExtra("coursesection",section);
-                context.startActivity(friends);
-                return true;
+
+                if(prefs != null) {
+                    String email = prefs.getString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), "");
+                    String password = prefs.getString(SharedPreferencesKey.PASSWORD.toString(), "");
+                    String url = "http://friendfinder08.herokuapp.com/api/api/breakfriends?";
+
+                    //course title from the rss contains both the course and section number
+                    String title = courses.get(position).getTitle().trim();
+                    String courseNum = title.substring(0, title.indexOf(" "));
+                    String section = title.substring(title.indexOf(" ") + 1);
+
+                    String friendsForCourseQuery = url + "email=" + email + "&" + "password=" + password +
+                            "&coursename=" + courseNum + "&section=" + section;
+                    Intent courseFriends = new Intent(context, WhosFreeListActivity.class);
+                    courseFriends.putExtra("query", friendsForCourseQuery);
+                    context.startActivity(courseFriends);
+                    return true;
+                }
+                return false;
             }
         });
 
