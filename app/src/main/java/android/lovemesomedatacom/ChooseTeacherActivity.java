@@ -85,7 +85,7 @@ public class ChooseTeacherActivity extends MenuActivity {
     }
 
     /**
-     * The fireEmailFriendWhoIsFree method makes sure to create an appropriate intent to each
+     * The fireTeacherContactActivity method makes sure to create an appropriate intent to each
      * inflated ListView according to the appropiate teacher. When a ListView is clicked in the UI
      * it will retrive the specific teacher and fire the TeacherContactActivity.
      */
