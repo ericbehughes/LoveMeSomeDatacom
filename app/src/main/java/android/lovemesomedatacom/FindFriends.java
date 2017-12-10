@@ -3,6 +3,7 @@ package android.lovemesomedatacom;
 import android.lovemesomedatacom.entities.Friend;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -11,6 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +24,16 @@ import java.util.List;
  */
 
 public class FindFriends extends MenuActivity {
+    private final String TAG = this.getClass().getSimpleName();
+    private final String EMAIL = "seb@example.com";
+    private final String PASSWORD = "123lol13";
 
     private ConnectivityInfo cInfo;
     private List<Friend> allFriends;
     private ListView friendListView;
+
+    private HttpURLConnection conn;
+    private InputStream inputStream;
 
     @Override
     protected void onCreate(Bundle instanceBundle) {
@@ -32,20 +42,19 @@ public class FindFriends extends MenuActivity {
         this.friendListView = findViewById(R.id.friendList);
         this.cInfo = new ConnectivityInfo(this);
         this.allFriends = new ArrayList<>();
+        getData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        getData();
-
     }
 
     private void getData() {
         if (cInfo.isOnline()) {
-            new GetAPIResponse();
+            new GetAPIResponse().execute("https://hostname/api/api/allfriends?email=" + EMAIL + "&password=" + PASSWORD);
         } else {
-            Toast.makeText(this,R.string.connection_error, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.connection_error, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -68,11 +77,55 @@ public class FindFriends extends MenuActivity {
         }
     }
 
-    private class GetAPIResponse extends AsyncTask<String, Void, String>{
+    private class GetAPIResponse extends AsyncTask<String, Void, Void> {
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected Void doInBackground(String... urls) {
+            try {
+                downloadUrl(urls[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             return null;
         }
+    }
+
+    private void downloadUrl(String myurl) throws IOException {
+
+        inputStream = null;
+
+        try {
+            URL url = new URL(myurl);
+            this.conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setDoInput(true);
+            conn.connect();
+
+            int response = conn.getResponseCode();
+            Log.d(TAG, "Server returned: " + response + " aborting read.");
+            inputStream = conn.getInputStream();
+            String jsonText = inputStream.toString();
+            processJSONResponse(jsonText);
+
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException ignore) {
+                }
+                if (conn != null)
+                    try {
+                        conn.disconnect();
+                    } catch (IllegalStateException ignore) {
+                    }
+            }
+        }
+
     }
 }
