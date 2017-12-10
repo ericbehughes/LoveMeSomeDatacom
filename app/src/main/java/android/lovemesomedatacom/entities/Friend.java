@@ -14,7 +14,10 @@ public class Friend {
         this("", "", "");
     }
 
-    public Friend (final String firstName, final String lastName, final String email){
+
+
+    public Friend(String firstName, String lastName, String email) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -74,5 +77,10 @@ public class Friend {
         return result;
     }
 
+
+    @Override
+    public String toString(){
+        return this.firstName+" "+this.lastName+" "+this.email;
+    }
 
 }

@@ -29,14 +29,19 @@
 
 
     <string name="connection_error">connection error</string>
-    <string name="xml_error">Cant parse xml</string>
+    <string name="xml_error">Can not parse xml</string>
     <string name="page_title">Async test</string>
     <string name="updated">UPDATED</string>
 
 
-    <string name="about_message">Change this later, default About Message</string>
-    <string name="course_id">420-518-DW MOBILE SOFTWARE DEVELOPMENT</string>
+    <string name="about_message">The following application is the final project of our
+    Mobile Software Development course.</string>
+    <string name="course_id">420–518-DW MOBILE SOFTWARE DEVELOPMENT</string>
     <string name="member_names"> Rhai Hinds, Eric Hughes, Amin Manai, Sebastien Ramirez </string>
+    <string name="picture_one_blurb">Rhai Hinds, Grad Dawson CS 2018</string>
+    <string name="picture_two_blurb">Eric Hughes, Grad Dawson CS 2018</string>
+    <string name="picture_three_blurb">Amin "Chico" Manai, Grad Dawson CS 2018</string>
+    <string name="picture_four_blurb">Sebastian Ramirez, Grad Dawson CS 2018</string>
     <string name="weatherButton">Generate Weather</string>
 
     <string-array name="iso_array">
@@ -44,6 +49,15 @@
         <item>US</item>
     </string-array>
     <string name="note_details_string">sample note title</string>
+
+
+    <string-array name="whos_free_day_array">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+    </string-array>
 
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -86,7 +100,7 @@
     <string name="about_activity_title">About</string>
     <string name="pause">pause</string>
     <string name="resume">resume</string>
-    
+
     <string name="permission_toast">Sorry! Permission denied :(</string>
     <string name="connectivity_toast">No connectivity found :(</string>
     <string name="notes_activity_tag">NotesActivity</string>
@@ -94,9 +108,13 @@
     <string name="no_confirmation">No</string>
     <string name="settings_saved_toast">Settings Saved</string>
     <string name="settings_activity_tag">SettingsActivity</string>
+
     <string name="friend_fname">First Name: </string>
     <string name="friend_lname">Last Name: </string>
     <string name="friend_email">Email: </string>
+
+    <string name="whosFreeFindBtn">Find</string>
+    <string name="whos_free_title">Whos Free</string>
 
 
 </resources>
