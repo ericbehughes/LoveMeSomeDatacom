@@ -107,8 +107,8 @@ public class SettingsActivity extends MenuActivity {
             // save users info to shared preferences
             editor.putString(SharedPreferencesKey.FIRST_NAME.toString(), firstName);
             editor.putString(SharedPreferencesKey.LAST_NAME.toString(), lastName);
-            editor.putString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), email);
-            editor.putString(SharedPreferencesKey.PASSWORD.toString(), password);
+            editor.putString("EMAIL_ADDRESS", email);
+            editor.putString("PASSWORD", password);
             editor.putString(SharedPreferencesKey.DATE_STAMP.toString(), timeStamp);
 
             editor.commit();

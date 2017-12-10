@@ -1,37 +1,30 @@
 package android.lovemesomedatacom;
 
+import android.content.SharedPreferences;
 import android.lovemesomedatacom.adapters.FriendAdapter;
 import android.lovemesomedatacom.entities.Friend;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
-import android.util.JsonToken;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sebastian on 12/9/2017.
+ * @author Sebastian Ramirez
  */
 
-public class FindFriends extends MenuActivity {
+public class FindFriends extends AppCompatActivity {
     private final String TAG = this.getClass().getSimpleName();
-    private final String EMAIL = "seb@example.com";
-    private final String PASSWORD = "123lol123";
 
     private ConnectivityInfo cInfo;
     private List<Friend> allFriends;
@@ -39,11 +32,21 @@ public class FindFriends extends MenuActivity {
 
     private HttpURLConnection conn;
     private InputStream inputStream;
+    private String email;
+    private String password;
+    private String URL;
 
     @Override
     protected void onCreate(Bundle instanceBundle) {
         super.onCreate(instanceBundle);
         setContentView(R.layout.activity_find_friends);
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        this.email = preferences.getString("EMAIL_ADDRESS", "");
+        this.password = preferences.getString("PASSWORD", "");
+        if (this.email != null && this.password != null) {
+            this.URL = "https://friendfinder08.herokuapp.com/api/api/allfriends?email=" + email + "&password=" + password;
+        }
+        Log.d(TAG, URL);
         this.friendListView = findViewById(R.id.friendList);
         this.cInfo = new ConnectivityInfo(this);
         this.allFriends = new ArrayList<>();
@@ -58,7 +61,7 @@ public class FindFriends extends MenuActivity {
     private void getData() {
         if (cInfo.isOnline()) {
             Log.d(TAG, "IS_ONLINE");
-            new GetAPIResponse().execute("https://friendfinder08.herokuapp.com/api/api/allfriends?email=" + EMAIL + "&password=" + PASSWORD);
+            new GetAPIResponse().execute(URL);
         } else {
             Log.d(TAG, "IS_OFFLINE");
             Toast.makeText(this, R.string.connection_error, Toast.LENGTH_LONG).show();
@@ -78,10 +81,10 @@ public class FindFriends extends MenuActivity {
         }
 
         @Override
-        protected void onPostExecute(List<Friend> result){
+        protected void onPostExecute(List<Friend> result) {
             super.onPostExecute(result);
             allFriends = result;
-            for(Friend f: allFriends){
+            for (Friend f : allFriends) {
                 Log.d(TAG, f.getFirstName());
             }
             FriendAdapter friendAdapter = new FriendAdapter(FindFriends.this, R.layout.friends_list, allFriends);
@@ -100,9 +103,6 @@ public class FindFriends extends MenuActivity {
             conn.setConnectTimeout(15000);
             conn.setDoInput(true);
             conn.connect();
-
-//            int response = conn.getResponseCode();
-//            Log.d(TAG, "Server returned: " + response + " aborting read.");
             inputStream = conn.getInputStream();
             return readJsonStream(inputStream);
 
@@ -123,11 +123,8 @@ public class FindFriends extends MenuActivity {
     }
 
     private List<Friend> readJsonStream(InputStream in) throws IOException {
-        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-        try {
+        try (JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"))) {
             return readFriendsArray(reader);
-        } finally {
-            reader.close();
         }
     }
 
@@ -149,14 +146,19 @@ public class FindFriends extends MenuActivity {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("firstName")) {
-                firstName = reader.nextString();
-            } else if (name.equals("lastName")) {
-                lastName = reader.nextString();
-            } else if (name.equals("email")) {
-                email = reader.nextString();
-            } else {
-                reader.skipValue();
+            switch (name) {
+                case "firstName":
+                    firstName = reader.nextString();
+                    break;
+                case "lastName":
+                    lastName = reader.nextString();
+                    break;
+                case "email":
+                    email = reader.nextString();
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
             }
         }
         reader.endObject();
@@ -164,4 +166,6 @@ public class FindFriends extends MenuActivity {
         Log.d(TAG, "LAST_NAME: " + lastName);
         return new Friend(firstName, lastName, email);
     }
+
+
 }
