@@ -5,13 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="android.lovemesomedatacom.WhosFreeListActivity"
+    tools:context="android.lovemesomedatacom.FriendsByCourseListActivity"
     android:id="@+id/whosFreeList">
 
 
-    <TextView
-        android:id="@+id/friend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"/>
 </ListView>
