@@ -27,17 +27,31 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
     private XmlPullParserFactory xmlFactoryObject;
     private double lat, lng;
 
+    /**
+     * Two parameter constructor
+     * @param activity
+     * @param url
+     */
     public WeatherActivityTask(WeatherActivity activity, String url){
         this.activity = activity;
         this.url = url;
     }
 
+    /**
+     * Overridden onPreExecute method
+     */
     @Override
     protected void onPreExecute() {
         Log.d(TAG, "OnPreExecute invoked");
         super.onPreExecute();
     }
 
+    /**
+     * This is responsible for making the call to the Open Weather Map API,
+     * which returns an XML response that needs to be parsed.
+     * @param params
+     * @return list
+     */
     @Override
     protected ArrayList doInBackground(ArrayList<Weather>... params) {
         try {
@@ -67,18 +81,29 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
         }
     }
 
+    /**
+     * Overridden onPostExecute, which is responsible to publish the
+     * changes on the UI.
+     * @param list
+     */
     @Override
     protected void onPostExecute(ArrayList<Weather> list){
         Log.d(TAG, "OnPostExecute invoked");
         activity.displayForecast(list, uv);
     }
 
+    /**
+     * Helper parsing method, which takes in an XML formatted text
+     * and returns an ArrayList
+     * @param myParser
+     * @return
+     */
     public ArrayList<Weather> parseXML(XmlPullParser myParser) {
         ArrayList<Weather> list = new ArrayList<>();
         Date currentTime = roundToNextHour();
         String[] formattedTime = currentTime.toString().split(" ");
         Log.d(TAG, formattedTime[3]);
-        Weather current = null;
+        Weather current = new Weather();
         boolean trigger = false;
         int event;
 
@@ -108,25 +133,40 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
                             if(formatted[1].equals(formattedTime[3])){
                                 current = new Weather();
                                 list.add(current);
-                                current.start = myParser.getAttributeValue(null, "from");
-                                current.end = myParser.getAttributeValue(null, "to");
+                                current.setStart(myParser.getAttributeValue(null, "from"));
+                                current.setEnd(myParser.getAttributeValue(null, "to"));
                             }
                         } else if (current != null) {
                             if (name.equals("temperature")) {
-                                current.temperature = myParser.getAttributeValue(null,"value") + " " +
-                                        myParser.getAttributeValue(null, "unit");
+                                current.setTemperature(myParser.getAttributeValue(null,"value") + " " +
+                                        myParser.getAttributeValue(null, "unit"));
                             }
                             if (name.equals("pressure")) {
-                                current.pressure = myParser.getAttributeValue(null,"value") + " " +
-                                        myParser.getAttributeValue(null, "unit");
+                                current.setPressure(myParser.getAttributeValue(null,"value") + " " +
+                                        myParser.getAttributeValue(null, "unit"));
                             }
                             if (name.equals("humidity")) {
-                                current.humidity = myParser.getAttributeValue(null,"value") + " " +
-                                        myParser.getAttributeValue(null, "unit");
+                                current.setHumidity(myParser.getAttributeValue(null,"value") + " " +
+                                        myParser.getAttributeValue(null, "unit"));
                             }
-                            if (name.equals("symbol")){
-                                current.link = "http://openweathermap.org/img/w/" + myParser.getAttributeValue(null, "var") + ".png";
+                            if (name.equals("clouds")) {
+                                current.setClouds(myParser.getAttributeValue(null,"value"));
                             }
+                            if (name.equals("precipitation")) {
+                                current.setPrecipitation(myParser.getAttributeValue(null,"type"));
+                            }
+                            if (name.equals("windSpeed")) {
+                                current.setWindSpeed(myParser.getAttributeValue(null,"name") + ", " +
+                                        myParser.getAttributeValue(null, "mps") + " mps");
+                            }
+                            if (name.equals("windDirection")) {
+                                current.setWindDirection(myParser.getAttributeValue(null,"name"));
+                            }
+                            if (name.equals("symbol")) {
+                                current.setSymbol(myParser.getAttributeValue(null,"name"));
+                            }
+
+
                         }
 
                         break;
@@ -141,6 +181,12 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
         }
     }
 
+    /**
+     * This method is responsible for making the call in order to
+     * retrieve the UV index value
+     * @param s
+     * @return uv
+     */
     public String getUVIndex(String s) {
         Log.d(TAG, s);
         try{
@@ -171,6 +217,11 @@ public class WeatherActivityTask extends AsyncTask<ArrayList<Weather>, Void, Arr
         }
     }
 
+    /**
+     * Private helper method, in order to convert the date
+     * and return the expected format
+     * @return c
+     */
     private Date roundToNextHour() {
         Calendar c = new GregorianCalendar();
         c.setTime(Calendar.getInstance().getTime());

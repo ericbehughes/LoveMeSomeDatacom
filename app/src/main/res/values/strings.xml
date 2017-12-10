@@ -29,14 +29,19 @@
 
 
     <string name="connection_error">connection error</string>
-    <string name="xml_error">Cant parse xml</string>
+    <string name="xml_error">Can not parse xml</string>
     <string name="page_title">Async test</string>
     <string name="updated">UPDATED</string>
 
 
-    <string name="about_message">Change this later, default About Message</string>
-    <string name="course_id">420-518-DW MOBILE SOFTWARE DEVELOPMENT</string>
+    <string name="about_message">The following application is the final project of our
+    Mobile Software Development course.</string>
+    <string name="course_id">420–518-DW MOBILE SOFTWARE DEVELOPMENT</string>
     <string name="member_names"> Rhai Hinds, Eric Hughes, Amin Manai, Sebastien Ramirez </string>
+    <string name="picture_one_blurb">Rhai Hinds, Grad Dawson CS 2018</string>
+    <string name="picture_two_blurb">Eric Hughes, Grad Dawson CS 2018</string>
+    <string name="picture_three_blurb">Amin "Chico" Manai, Grad Dawson CS 2018</string>
+    <string name="picture_four_blurb">Sebastian Ramirez, Grad Dawson CS 2018</string>
     <string name="weatherButton">Generate Weather</string>
 
     <string-array name="iso_array">

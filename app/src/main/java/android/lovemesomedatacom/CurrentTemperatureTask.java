@@ -7,7 +7,6 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -24,11 +23,21 @@ public class CurrentTemperatureTask extends AsyncTask<String, Void, String> {
         super.onPreExecute();
     }
 
+    /**
+     * Two parameter constructor
+     * @param activity
+     * @param url
+     */
     public CurrentTemperatureTask(MainActivity activity, String url){
         this.activity = activity;
         this.url = url;
     }
 
+    /**
+     * This method is responsible for retrieving the current temperature
+     * @param params
+     * @return result
+     */
     @Override
     protected String doInBackground(String... params) {
         try{
@@ -60,6 +69,11 @@ public class CurrentTemperatureTask extends AsyncTask<String, Void, String> {
         }
     }
 
+    /**
+     * This method is responsible for informing the UI about
+     * the updates
+     * @param result
+     */
     @Override
     protected void onPostExecute(String result){
         Log.d(TAG, "OnPostExecute invoked");
