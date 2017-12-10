@@ -3,6 +3,7 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -95,6 +97,8 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
             whosFreeStartTimeTV.setText(savedInstanceState.getString("startTime").toString());
             whosFreeEndTimeTV.setText(savedInstanceState.getString("endTime").toString());
+            ArrayList<Friend> friends = savedInstanceState.getParcelableArrayList("State_List");
+            listOfFriends(friends);
 
         }
         whosFreeFindBtn.setOnClickListener(new View.OnClickListener() {
@@ -108,19 +112,12 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
                     day = transalteDay(day);
                     String startTime = whosFreeStartTimeTV.getText().toString();
                     String endTime = whosFreeEndTimeTV.getText().toString();
-                    //int spliter = startTime.indexOf(':');
-                    //startTime = startTime.substring(0,spliter)+startTime.substring(spliter+1);
-                    //endTime = endTime.substring(0,spliter)+endTime.substring(spliter+1);
+
                     String url = "http://friendfinder08.herokuapp.com/api/api/breakfriends?";
-                    //email=eric@gmail.com&password=password&day=1&start=1000&end=1700
                     String whosFreeQuery = url + "email=" + email + "&" + "password=" + password +
                             "&" + "day=" + day + "&" + "start=" + startTime + "&end=" + endTime;
 
-                    String query = "http://friendfinder08.herokuapp.com/api/api/breakfriends?email=eric@gmail.com&password=password&day=1&start=1000&end=1700";
                     Log.d(TAG,"whosfreequery: "+whosFreeQuery);
-                    //Intent freeList = new Intent(getApplicationContext(),FriendsByCourseListActivity.class);
-                    //freeList.putExtra("query",whosFreeQuery);
-                    //startActivity(freeList);
                     new WhosFreeTask(WhosFreeActivity.this, whosFreeQuery).execute();
                 } else {
                     String checkSettings = "Check user settings" ;
@@ -147,6 +144,9 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "inside save instance state");
+
+        if(this.friendAdapter != null)
+            outState.putParcelableArrayList("State_List",friendAdapter.getList());
 
         outState.putString("startTime", whosFreeStartTimeTV.getText().toString() );
         outState.putString("endTime", whosFreeEndTimeTV.getText().toString() );
@@ -191,11 +191,35 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
     public void listOfFriends(ArrayList<Friend> friends){
         if(friends != null) {
-            friendAdapter = new FriendAdapter(this, friends);
-            this.whosFreeListView.setAdapter(friendAdapter);
-            friendAdapter.addAll(friends);
-            friendAdapter.notifyDataSetChanged();
+            if (friends.get(0).getFirstName().equals("Error")) {
+                showAlert(friends.get(0).getFirstName() + " " + friends.get(0).getLastName(),
+                        friends.get(0).getEmail());
+            }else if(friends.size() == 0) {
+                showAlert(getString(R.string.no_avail),getString(R.string.friend_busy));
+            }else {
+                friendAdapter = new FriendAdapter(this, friends);
+                this.whosFreeListView.setAdapter(friendAdapter);
+                friendAdapter.addAll(friends);
+                friendAdapter.notifyDataSetChanged();
+            }
         }
+    }
+
+    private void showAlert(String title,String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(msg)
+                .setTitle(title);
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
     }
 
     public void findFriendsClick(View view) {

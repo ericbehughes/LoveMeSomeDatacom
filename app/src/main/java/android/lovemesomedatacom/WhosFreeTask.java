@@ -101,7 +101,7 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
 
                 System.out.println("http bad request"+sb.toString());
                 JSONObject error = new JSONObject(sb.toString());
-                Friend error401 = new Friend("Error 401:",error.getString("error"),"");
+                Friend error401 = new Friend(activity.getString(R.string.error),"401",error.getString("error"));
 
                 ArrayList<Friend> errorF= new ArrayList<>();
                 errorF.add(error401);
@@ -119,7 +119,7 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
                 br.close();
 
                 JSONObject error = new JSONObject(sb.toString());
-                Friend error400 = new Friend("Error 400:",error.getString("error"),"");
+                Friend error400 = new Friend(activity.getString(R.string.error),"400",error.getString("error"));
 
                 ArrayList<Friend> errorF= new ArrayList<>();
                 errorF.add(error400);

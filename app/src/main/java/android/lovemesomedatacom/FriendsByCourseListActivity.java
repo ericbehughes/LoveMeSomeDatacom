@@ -1,26 +1,22 @@
 package android.lovemesomedatacom;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.lovemesomedatacom.adapters.FriendAdapter;
 import android.lovemesomedatacom.entities.Friend;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The ChooseTeacherActivity is responsible for displaying a list of more than one teacher, according
- * to how many teachers were found by the FindTeacherActivity. This activity makes use of the custom
- * adapter TeacherAdapter to inflate a series of ListViews for every teacher passed to it through
- * the putExtra method. This activity is also responsible for adding on click listeners to each list
- * view through the fireEmailFriendWhoIsFree method in order to fire the TeacherContact activity
- * for the appropiate teacher whenever a list view is clicked.
  *
- * @author Sebastian Ramirez
  */
 
 public class FriendsByCourseListActivity extends MenuActivity {
@@ -31,7 +27,7 @@ public class FriendsByCourseListActivity extends MenuActivity {
     private List<Teacher> whosFreeList;
 
 
-    private ListView whosFreeListView;
+    private ListView courseFriendsListView;
     private FriendAdapter friendAdapter;
 
     private Intent intent;
@@ -41,18 +37,24 @@ public class FriendsByCourseListActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_friends_by_course_list);
-        this.whosFreeListView = findViewById(R.id.whosFreeList);
-        this.intent = getIntent();
-        String query = this.intent.getStringExtra("query");
+        this.courseFriendsListView = findViewById(R.id.whosFreeList);
+        if(savedInstance != null){
 
-        new FriendsByCourseTask(FriendsByCourseListActivity.this, query).execute();
+            ArrayList<Friend> friends = savedInstance.getParcelableArrayList("State_List");
+            listOfFriends(friends);
+        }else {
+            this.intent = getIntent();
+            String query = this.intent.getStringExtra("query");
+
+            new FriendsByCourseTask(FriendsByCourseListActivity.this, query).execute();
+        }
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        //this.whosFreeListView.setOnItemClickListener(fireEmailFriendWhoIsFree);
+        //this.courseFriendsListView.setOnItemClickListener(fireEmailFriendWhoIsFree);
 
     }
 
@@ -63,12 +65,44 @@ public class FriendsByCourseListActivity extends MenuActivity {
         }
     };
 
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        if(this.friendAdapter != null)
+            outState.putParcelableArrayList("State_List",friendAdapter.getList());
+
+    }
+
+
     public void listOfFriends(ArrayList<Friend> friends){
         if(friends != null) {
-            friendAdapter = new FriendAdapter(this, friends);
-            this.whosFreeListView.setAdapter(friendAdapter);
-            friendAdapter.addAll(friends);
-            friendAdapter.notifyDataSetChanged();
+            if(friends.get(0).getFirstName().equals("Error")){
+                showAlert(friends.get(0).getFirstName() + " " + friends.get(0).getLastName(),
+                        friends.get(0).getEmail());
+            }else if(friends.size() == 0){
+                showAlert(getString(R.string.no_avail),getString(R.string.friend_busy));
+            }else {
+                this.courseFriendsListView.setAdapter(friendAdapter);
+                friendAdapter.addAll(friends);
+                friendAdapter.notifyDataSetChanged();
+            }
         }
+    }
+
+    private void showAlert(String title,String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(msg)
+                .setTitle(title);
+
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+
+        dialog.show();
     }
 }

@@ -115,6 +115,10 @@
 
     <string name="whosFreeFindBtn">Find</string>
     <string name="whos_free_title">Whos Free</string>
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="no_avail">No one available</string>
+    <string name="friend_busy">All friends are in class right now.</string>
 
 
 </resources>

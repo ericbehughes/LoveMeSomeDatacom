@@ -7,6 +7,7 @@ import android.lovemesomedatacom.FindTeacherActivity;
 import android.lovemesomedatacom.R;
 import android.lovemesomedatacom.entities.Course;
 import android.lovemesomedatacom.entities.Friend;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,11 @@ public class FriendAdapter extends BaseAdapter{
     public void addAll(ArrayList<Friend> list){
         this.friends = list;
     }
+
+    public ArrayList<Friend> getList(){
+        return new ArrayList<Friend>(friends);
+    }
+
     public void clear(){
         this.friends.clear();
     }
@@ -74,6 +80,20 @@ public class FriendAdapter extends BaseAdapter{
         holder.tv1 = (TextView) rowView.findViewById(R.id.friend);
 
         holder.tv1.setText(friends.get(position).toString());
+
+        holder.tv1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:"));
+                String[] recipients = {friends.get(position).getEmail()};
+                intent.putExtra(Intent.EXTRA_EMAIL, recipients);
+                intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.from) + context.getString(R.string.app_name));
+                if (intent.resolveActivity(context.getPackageManager()) != null) {
+                    context.startActivity(intent);
+                }
+            }
+        });
 
         return rowView;
     }

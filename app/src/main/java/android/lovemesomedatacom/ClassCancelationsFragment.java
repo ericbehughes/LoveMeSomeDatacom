@@ -33,7 +33,7 @@ public class ClassCancelationsFragment extends Fragment {
 
 
         if (isClassDataDownloaded == false){
-            //new GetCancelledClasses(this,url).execute();
+            new GetCancelledClasses(this,url).execute();
 
         }
 
@@ -53,6 +53,8 @@ public class ClassCancelationsFragment extends Fragment {
         }
 
         coursesListView = (ListView) v.findViewById(R.id.lvItems);
+
+        //Used to test list since there are no more cancelled classes in the rss feed (9-12-17)
 //        ArrayList<Course> l = new ArrayList<>();
 //        Course c = new Course();
 //        c.setTeacherName("Bob m");
