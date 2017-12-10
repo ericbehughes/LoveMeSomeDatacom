@@ -17,27 +17,77 @@
     <string name="menu_item_about">About</string>
 
 
-    <string name="fa_search_icon">&#xf002; Find my Teacher (firebase)</string>
+    <string name="fa_search_icon">&#xf002; Find my Teacher</string>
     <string name="fa_calendar_icon">&#xf073; Calendar Cancellations</string>
     <string name="fa_add_to_calendar_icon">&#xf271; Add To Calendar</string>
-    <string name="fa_notes_icon">&#xf040; Notes (sql lite)</string>
-    <string name="fa_sun_icon">&#xf185; Weather (api)</string>
+    <string name="fa_notes_icon">&#xf040; Notes</string>
+    <string name="fa_sun_icon">&#xf185; Weather</string>
     <string name="fa_grades_icon">&#xf19d; Academic Calendar</string>
     <string name="fa_thermometer_icon">&#xf2c7; Current Temperature</string>
+    <string name="fa_users_icon">&#xf0c0; Find Friends</string>
+    <string name="fa_clock_icon">&#xf017; Who\'s Free</string>
+
 
     <string name="connection_error">connection error</string>
     <string name="xml_error">Cant parse xml</string>
     <string name="page_title">Async test</string>
     <string name="updated">UPDATED</string>
-    <string name="confirm_discard_string">Are you sure you want leave without saving?</string>
+
 
     <string name="about_message">Change this later, default About Message</string>
     <string name="course_id">420-518-DW MOBILE SOFTWARE DEVELOPMENT</string>
     <string name="member_names"> Rhai Hinds, Eric Hughes, Amin Manai, Sebastien Ramirez </string>
+    <string name="weatherButton">Generate Weather</string>
+
+    <string-array name="iso_array">
+        <item>CA</item>
+        <item>US</item>
+    </string-array>
     <string name="note_details_string">sample note title</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirm_discard_string">You sure you want to discard?</string>
+    <string name="discard_pop_up_dialog">All of your settings won\'t be saved</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email_address">Email</string>
+    <string name="password">Password</string>
+    <string name="date_last_updated">Date Last Modified</string>
+    <string name="Fall">Fall</string>
+    <string name="Winter">Winter</string>
+    <string name="Year">Year</string>
+    <string name="submit">Submit</string>
+    <string name="delete_button">Delete</string>
+
+    <!--Teacher module related strings-->
+    <string name="search_first_title">First Name</string>
+    <string name="search_last_title">Last Name</string>
+    <string name="search_teacher">Search</string>
+    <string name="radio_like">Search for similar results</string>
+    <string name="radio_exact">Search for exact results</string>
+    <string name="from">from: </string>
+    <string name="teacher_name">"Name: "</string>
+    <string name="teacher_email">"Email: "</string>
+    <string name="teacher_office">"Office: "</string>
+    <string name="teacher_local">"Local: "</string>
+    <string name="teacher_website">"Website: "</string>
+    <string name="teacher_bio">"Bio: "</string>
+
+    <!--titles for each screen-->
+    <string name="notes_activity_title">Notes</string>
+    <string name="calendar_cancel_activity_title">Calendar Cancelations</string>
+    <string name="find_my_teacher_activity_title">Find My Teacher</string>
+    <string name="add_to_calendar_activity_title">Add To Calendar</string>
+    <string name="weather_activity_title">Weather</string>
+    <string name="academic_calendar_activity_title">Academic Calendar</string>
+    <string name="settings_calendar_activity_title">Settings</string>
+    <string name="about_activity_title">About</string>
+    <string name="pause">pause</string>
+    <string name="resume">resume</string>
+    
+    <string name="permission_toast">Sorry! Permission denied :(</string>
 
 
 </resources>

@@ -7,9 +7,15 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 
     <application
         android:allowBackup="true"
@@ -28,6 +34,10 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
+        <activity android:name=".FindTeacherActivity"></activity>
+        <activity android:name=".ChooseTeacherActivity"></activity>
+        <activity android:name=".TeacherContactActivity"></activity>
+
         <activity android:name=".MenuActivity" />
         <activity android:name=".WeatherActivity" />
         <activity android:name=".AboutActivity" />
@@ -36,7 +46,9 @@
         <activity android:name=".NetworkFactoryActivity" />
         <activity android:name=".NotesActivity" />
         <activity android:name=".NoteDetailsActivity" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".AcademicCalendar" />
+        <activity android:name=".TemperatureLocation"></activity>
     </application>
 
 </manifest>

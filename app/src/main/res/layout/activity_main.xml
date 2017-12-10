@@ -5,30 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="android.lovemesomedatacom.MainActivity">
+    tools:context=".MainActivity">
 
+    <LinearLayout
 
-
-
-    <!--start image view-->
-    <ImageView
-        android:id="@+id/dawsonLogo"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+
         android:background="@drawable/border"
-        android:scaleType="fitCenter"
-        android:src="@drawable/dawson_logo" />
-    <!--end image view-->
 
+        android:orientation="vertical">
+        <!--start image view-->
+        <ImageView
+            android:id="@+id/imgDawsonLogo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:padding="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dawson_logo" />
+    </LinearLayout>
 
-    <!--start team logo view-->
-    <ImageView
-        android:id="@+id/teamLogo"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:background="@drawable/border"
-        android:src="@color/colorRed" />
-    <!--end team logo view-->
+        android:orientation="vertical">
+        <!--start image view-->
+
+        <ImageView
+            android:id="@+id/imgTeamLogo"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:elevation="1dp"
+            android:padding="100dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/lovemesomedatacom_logo" />
+    </LinearLayout>
 
 
     <!--start clickable text views-->
@@ -56,6 +73,7 @@
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"
+            android:onClick="findTeacherClick"
             android:text="@string/fa_search_icon"
             android:textSize="16dp" />
     </LinearLayout>
@@ -72,8 +90,8 @@
             android:layout_height="match_parent"
             android:layout_weight=".5"
             android:gravity="center"
-            android:onClick="showCalendarView"
             android:background="@drawable/border"
+            android:onClick="showCalendarView"
             android:text="@string/fa_add_to_calendar_icon"
             android:textSize="16dp" />
 
@@ -82,10 +100,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
-            android:text="@string/fa_notes_icon"
+            android:gravity="center"
             android:onClick="showNotesClick"
+            android:text="@string/fa_notes_icon"
             android:textSize="16dp" />
     </LinearLayout>
 
@@ -100,10 +118,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
+            android:gravity="center"
+
             android:text="@string/fa_sun_icon"
-            android:onClick="doStuff"
             android:textSize="16dp" />
 
         <TextView
@@ -112,8 +130,37 @@
             android:layout_height="match_parent"
             android:layout_weight=".5"
             android:gravity="center"
+            android:onClick="showAcademicCalendarClick"
             android:background="@drawable/border"
             android:text="@string/fa_grades_icon"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvWhosFree"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:background="@drawable/border"
+            android:gravity="center"
+
+            android:text="@string/fa_clock_icon"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvFindFriends"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:onClick="showAcademicCalendarClick"
+            android:background="@drawable/border"
+            android:text="@string/fa_users_icon"
             android:textSize="16dp" />
     </LinearLayout>
 
@@ -128,12 +175,14 @@
             android:id="@+id/tvCurrentTemperature"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:onClick="getLocationForTemperatureClick"
             android:layout_weight=".5"
-            android:gravity="center"
             android:background="@drawable/border"
+            android:gravity="center"
             android:text="@string/fa_thermometer_icon"
             android:textSize="16dp" />
     </LinearLayout>
+
 
 
 

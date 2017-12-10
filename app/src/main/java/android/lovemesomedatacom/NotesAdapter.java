@@ -38,8 +38,6 @@ public class NotesAdapter extends BaseAdapter {
 
     }
 
-
-
     @Override
     public int getCount() {
         return notes.size();
@@ -57,11 +55,16 @@ public class NotesAdapter extends BaseAdapter {
 
     public void addAll(ArrayList<Note> list){
         this.notes = list;
+        notifyDataSetChanged();
     }
 
     private class ViewHolder {
         TextView tv1;
         TextView tv2;
+    }
+
+    public void clear(){
+        this.notes.clear();
     }
 
     @Override
@@ -73,10 +76,14 @@ public class NotesAdapter extends BaseAdapter {
 
         holder.tv1 = (TextView) rowView.findViewById(R.id.note_title);
         holder.tv2 = (TextView) rowView.findViewById(R.id.note_text);
+        String text = notes.get(position).getText().toString();
+        if (text.length() > 40){
+            text = text.substring(0, 40) + "...";
+        }
 
 
         holder.tv1.setText(notes.get(position).getTitle());
-        holder.tv2.setText(notes.get(position).getText());
+        holder.tv2.setText(text);
 
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override

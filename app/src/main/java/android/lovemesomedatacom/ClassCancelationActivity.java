@@ -9,19 +9,15 @@ import android.widget.Toast;
 
 public class ClassCancelationActivity extends AppCompatActivity  implements ClassCancelationsFragment.OnItemSelectedListener {
 
-    private final static String url = "https://www.dawsoncollege.qc.ca/wp-content/external-includes/cancellations/feed.xml";
     private final String TAG = "ClassCancelActivity";
-    private Course[] courses;
+    private ClassCancelationsFragment firstFragment;
+    private ClassCancelationDetailFragment secondFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_cancellation);
 
-        new GetCancelledClasses(this,url).execute();
-        //new ClassCancelationModel(courses);
-
-        ClassCancelationsFragment firstFragment;
         FragmentTransaction ft =
                 getSupportFragmentManager().beginTransaction();// begin  FragmentTransaction
         firstFragment = new ClassCancelationsFragment();
@@ -34,6 +30,13 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
             ft.add(R.id.flContainer, firstFragment);                                // add    Fragment
             ft.commit();                                                            // commit FragmentTransaction
         } else {
+            if(getSupportFragmentManager().getFragment(savedInstanceState,"classCancelFragment")!= null)
+                firstFragment = (ClassCancelationsFragment) getSupportFragmentManager().getFragment(savedInstanceState,"classCancelFragment");
+
+
+            if(getSupportFragmentManager().getFragment(savedInstanceState,"classCancelDetailFragment") != null)
+                secondFragment = (ClassCancelationDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState,"classCancelDetailFragment");
+
             // if this is not done, the menu fragment ended up duplicate
             //  on rotate back to landscape, only when the menu activity was
             //  last active
@@ -42,12 +45,12 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
         }
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            ClassCancelationsFragment secondFragment = new ClassCancelationsFragment();
+            secondFragment = new ClassCancelationDetailFragment();
             Bundle args = new Bundle();
-            args.putInt("position", 0);
+            //args.putInt("position", 0);
             secondFragment.setArguments(args);          // (1) Communicate with Fragment using Bundle
             FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();// begin  FragmentTransaction
-            ft2.add(R.id.flContainer, secondFragment);                               // add    Fragment
+            ft2.add(R.id.flContainer2, secondFragment);                               // add    Fragment
             ft2.commit();                                                            // commit FragmentTransaction
         }
     }
@@ -65,21 +68,20 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
     }
 
     @Override
-    public void onClassCancellationSelected(int position) {
-        Toast.makeText(this, "Called By Fragment A: position - "+ position, Toast.LENGTH_SHORT).show();
+    public void onClassCancellationSelected(Course courseSelected) {
 
         // Load Pizza Detail Fragment
-        ClassCancelationDetailFragment secondFragment = new ClassCancelationDetailFragment();
+        secondFragment = new ClassCancelationDetailFragment();
 
         Bundle args = new Bundle();
-        args.putInt("position", position);
+        args.putString("course_name", courseSelected.getCourseName());
+        args.putString("course_description",courseSelected.getDescription().toString());
         secondFragment.setArguments(args);          // (1) Communicate with Fragment using Bundle
-
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.flContainer, secondFragment) // replace flContainer
+                    .replace(R.id.flContainer2, secondFragment) // replace flContainer
                     //.addToBackStack(null)
                     .commit();
         }else{
@@ -94,14 +96,14 @@ public class ClassCancelationActivity extends AppCompatActivity  implements Clas
 
     }
 
-    public void callBackData(Course[] result){
-        if(result != null){
-            courses = result;
-            for(Course r:result){
-                if(r!=null){
-                    Log.d(TAG,"callBackData Method: "+r.toString());
-                }
-            }
-        }
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+
+        if(firstFragment !=null)
+            getSupportFragmentManager().putFragment(outState, "classCancelFragment",firstFragment);
+        if(secondFragment != null)
+            getSupportFragmentManager().putFragment(outState,"classCancelDetailFragment",secondFragment);
     }
+
 }

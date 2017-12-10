@@ -116,14 +116,19 @@ public class NetworkFactoryActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... urls) {
             try {
-                if(android.os.Debug.isDebuggerConnected())
+                if(android.os.Debug.isDebuggerConnected()){
                     android.os.Debug.waitForDebugger();
-                return loadXmlFromNetwork(urls[0]);
+                    return loadXmlFromNetwork(urls[0]);
+                }
+
+
             } catch (IOException e) {
                 return getResources().getString(R.string.connection_error);
             } catch (XmlPullParserException e) {
                 return getResources().getString(R.string.xml_error);
             }
+
+            return null;
         }
 
         @Override
