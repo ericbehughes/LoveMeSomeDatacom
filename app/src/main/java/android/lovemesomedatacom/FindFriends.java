@@ -41,8 +41,9 @@ public class FindFriends extends AppCompatActivity {
         super.onCreate(instanceBundle);
         setContentView(R.layout.activity_find_friends);
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        this.email = preferences.getString("EMAIL_ADDRESS", "");
-        this.password = preferences.getString("PASSWORD", "");
+        //could not retrieve the shared prefs, had to hardcode an email and a password
+        this.email = preferences.getString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), "seb@example.com");
+        this.password = preferences.getString(SharedPreferencesKey.PASSWORD.toString(), "123lol123");
         if (this.email != null && this.password != null) {
             this.URL = "https://friendfinder08.herokuapp.com/api/api/allfriends?email=" + email + "&password=" + password;
         }
