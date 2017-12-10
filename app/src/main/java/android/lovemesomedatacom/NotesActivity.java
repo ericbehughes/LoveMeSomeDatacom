@@ -30,17 +30,68 @@ public class NotesActivity extends MenuActivity {
     private ListView mNoteListView;
     private NotesAdapter mAdapter;
     private  ArrayList<Note> notesList = new ArrayList<>();
+    private boolean dialog_showing = false;
+    private EditText noteEditTextTitle;
+    private EditText noteEditTextMessage;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        noteEditTextTitle = new EditText(this);
+        noteEditTextMessage = new EditText(this);
+        if (savedInstanceState != null){
 
+            if (savedInstanceState.getBoolean("dialog_showing", false)){
+                noteEditTextTitle.setText(savedInstanceState.getString(getResources().getString(R.string.new_note_str),
+                        String.valueOf(noteEditTextTitle.getText().toString())));
+                noteEditTextMessage.setText(savedInstanceState.getString(getResources().getString(R.string.new_note_body),
+                        String.valueOf(noteEditTextTitle.getText().toString())));
+                showAddNoteDialog();
+            }
+        }
         setContentView(R.layout.activity_notes);
         mNoteListView = (ListView) findViewById(R.id.list_notes);
         mAdapter = new NotesAdapter(this, notesList);
         mNoteListView.setAdapter(mAdapter);
         this.setTitle(R.string.notes_activity_title);
+    }
+
+    private void showAddNoteDialog() {
+        dialog_showing = true;
+        Log.d(TAG, "action_add_task");
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        noteEditTextMessage.setScroller(new Scroller(getApplicationContext()));
+        noteEditTextMessage.setVerticalScrollBarEnabled(true);
+        layout.addView(noteEditTextTitle);
+        layout.addView(noteEditTextMessage);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.new_note_str))
+                .setMessage(getResources().getString(R.string.new_note_body))
+                .setView(layout)
+                // on click listener for little dialog and save text to db
+                .setPositiveButton(R.string.add_str, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String note_title = String.valueOf(noteEditTextTitle.getText());
+                        String note_text = String.valueOf(noteEditTextMessage.getText());
+                        SQLiteDatabase db = mHelper.getWritableDatabase();
+                        ContentValues values = new ContentValues();
+                        values.put(NotesTable.NotesEntry.COL_NOTES_TITLE, note_title);
+                        values.put(NotesTable.NotesEntry.COL_NOTES_TEXT, note_text);
+                        db.insertWithOnConflict(NotesTable.NotesEntry.TABLE,
+                                null,
+                                values,
+                                SQLiteDatabase.CONFLICT_REPLACE);
+                        db.close();
+                        updateUI();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
     }
 
     @Override
@@ -81,45 +132,24 @@ public class NotesActivity extends MenuActivity {
         Log.d(TAG, "onOptionsItemSelected");
         switch (item.getItemId()) {
             case R.id.action_add_task:
-                Log.d(TAG, "action_add_task");
-                LinearLayout layout = new LinearLayout(this);
-                layout.setOrientation(LinearLayout.VERTICAL);
-                final EditText noteEditTextTitle = new EditText(this);
-                final EditText noteEditTextMessage =new EditText(this);
-                noteEditTextMessage.setScroller(new Scroller(getApplicationContext()));
-                noteEditTextMessage.setVerticalScrollBarEnabled(true);
-                layout.addView(noteEditTextTitle);
-                layout.addView(noteEditTextMessage);
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle("New Note")
-                        .setMessage("Please add a note here")
-                        .setView(layout)
-                        // on click listener for little dialog and save text to db
-                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String note_title = String.valueOf(noteEditTextTitle.getText());
-                                String note_text = String.valueOf(noteEditTextMessage.getText());
-                                SQLiteDatabase db = mHelper.getWritableDatabase();
-                                ContentValues values = new ContentValues();
-                                values.put(NotesTable.NotesEntry.COL_NOTES_TITLE, note_title);
-                                values.put(NotesTable.NotesEntry.COL_NOTES_TEXT, note_text);
-                                db.insertWithOnConflict(NotesTable.NotesEntry.TABLE,
-                                        null,
-                                        values,
-                                        SQLiteDatabase.CONFLICT_REPLACE);
-                                db.close();
-                                updateUI();
-                            }
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .create();
-                dialog.show();
+                showAddNoteDialog();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+
+        // Save the state so that it can be restored in onCreate or onRestoreInstanceState
+        state.putBoolean("dialog_showing", dialog_showing);
+        state.putString(getResources().getString(R.string.new_note_str),
+                String.valueOf(noteEditTextTitle.getText().toString()));
+        state.putString(getResources().getString(R.string.new_note_body),
+                String.valueOf(noteEditTextTitle.getText().toString()));
     }
 
     /**

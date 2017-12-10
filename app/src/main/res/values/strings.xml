@@ -123,5 +123,8 @@
     <string name="section">section: </string>
     <string name="right_now">right now.</string>
     <string name="no_friends">No friend location available at this time</string>
+    <string name="new_note_str">New note</string>
+    <string name="new_note_body">Please add a note here</string>
+    <string name="add_str">Add</string>
 
 </resources>
