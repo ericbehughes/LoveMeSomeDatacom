@@ -118,7 +118,7 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
                     String query = "http://friendfinder08.herokuapp.com/api/api/breakfriends?email=eric@gmail.com&password=password&day=1&start=1000&end=1700";
                     Log.d(TAG,"whosfreequery: "+whosFreeQuery);
-                    //Intent freeList = new Intent(getApplicationContext(),WhosFreeListActivity.class);
+                    //Intent freeList = new Intent(getApplicationContext(),FriendsByCourseListActivity.class);
                     //freeList.putExtra("query",whosFreeQuery);
                     //startActivity(freeList);
                     new WhosFreeTask(WhosFreeActivity.this, whosFreeQuery).execute();

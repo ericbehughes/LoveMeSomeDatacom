@@ -1,15 +1,10 @@
 package android.lovemesomedatacom;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.lovemesomedatacom.adapters.CoursesAdapter;
 import android.lovemesomedatacom.adapters.FriendAdapter;
-import android.lovemesomedatacom.adapters.TeacherAdapter;
 import android.lovemesomedatacom.entities.Friend;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -28,9 +23,9 @@ import java.util.List;
  * @author Sebastian Ramirez
  */
 
-public class WhosFreeListActivity extends MenuActivity {
+public class FriendsByCourseListActivity extends MenuActivity {
 
-    private static final String TAG = "WhosFreeListActivity";
+    private static final String TAG = "FriendsByCourseListActivity";
 
     
     private List<Teacher> whosFreeList;
@@ -45,12 +40,12 @@ public class WhosFreeListActivity extends MenuActivity {
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        setContentView(R.layout.activity_whos_free_list);
+        setContentView(R.layout.activity_friends_by_course_list);
         this.whosFreeListView = findViewById(R.id.whosFreeList);
         this.intent = getIntent();
         String query = this.intent.getStringExtra("query");
 
-        //new WhosFreeTask(WhosFreeListActivity.this, query).execute();
+        new FriendsByCourseTask(FriendsByCourseListActivity.this, query).execute();
     }
 
 

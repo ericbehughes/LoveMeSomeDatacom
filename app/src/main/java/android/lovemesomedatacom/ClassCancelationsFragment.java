@@ -31,8 +31,9 @@ public class ClassCancelationsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Toast.makeText(getContext(),"oncreate call",Toast.LENGTH_SHORT).show();
 
+
         if (isClassDataDownloaded == false){
-            new GetCancelledClasses(this,url).execute();
+            //new GetCancelledClasses(this,url).execute();
 
         }
 
@@ -43,6 +44,7 @@ public class ClassCancelationsFragment extends Fragment {
         // Inflate the xml file for the fragment
         View v = inflater.inflate(R.layout.fragment_class_cancelations, parent, false);
         mProgressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
+
         if (isClassDataDownloaded){
             mProgressBar.setVisibility(View.GONE);
         }
@@ -51,6 +53,13 @@ public class ClassCancelationsFragment extends Fragment {
         }
 
         coursesListView = (ListView) v.findViewById(R.id.lvItems);
+//        ArrayList<Course> l = new ArrayList<>();
+//        Course c = new Course();
+//        c.setTeacherName("Bob m");
+//        c.setTitle("101-916-DW 1");
+//        c.setCourseName("Painting");
+//        l.add(c);
+//        populateCanceletedCourses(l);
         return v;
     }
 

@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.lovemesomedatacom.FindTeacherActivity;
 import android.lovemesomedatacom.SharedPreferencesKey;
-import android.lovemesomedatacom.WhosFreeListActivity;
+import android.lovemesomedatacom.FriendsByCourseListActivity;
 import android.lovemesomedatacom.entities.Course;
 import android.lovemesomedatacom.R;
 import android.util.Log;
@@ -87,7 +87,7 @@ public class CoursesAdapter extends BaseAdapter {
                 if(prefs != null) {
                     String email = prefs.getString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), "");
                     String password = prefs.getString(SharedPreferencesKey.PASSWORD.toString(), "");
-                    String url = "http://friendfinder08.herokuapp.com/api/api/breakfriends?";
+                    String url = "http://friendfinder08.herokuapp.com/api/api/coursefriends?";
 
                     //course title from the rss contains both the course and section number
                     String title = courses.get(position).getTitle().trim();
@@ -96,7 +96,7 @@ public class CoursesAdapter extends BaseAdapter {
 
                     String friendsForCourseQuery = url + "email=" + email + "&" + "password=" + password +
                             "&coursename=" + courseNum + "&section=" + section;
-                    Intent courseFriends = new Intent(context, WhosFreeListActivity.class);
+                    Intent courseFriends = new Intent(context, FriendsByCourseListActivity.class);
                     courseFriends.putExtra("query", friendsForCourseQuery);
                     context.startActivity(courseFriends);
                     return true;

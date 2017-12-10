@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -74,7 +75,6 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
             int response = connection.getResponseCode();
             if(response == HttpURLConnection.HTTP_OK) {
                 InputStream stream = connection.getInputStream();
-//            url.openStream()
                 BufferedReader br = new BufferedReader(new InputStreamReader(stream));
                 StringBuilder sb = new StringBuilder();
 
@@ -91,7 +91,6 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
                 return friends;
             } else if(response == HttpURLConnection.HTTP_UNAUTHORIZED){
                 InputStream stream = connection.getErrorStream();
-//            url.openStream()
                 BufferedReader br = new BufferedReader(new InputStreamReader(stream));
                 StringBuilder sb = new StringBuilder();
                 String line;
@@ -101,7 +100,12 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
                 br.close();
 
                 System.out.println("http bad request"+sb.toString());
-                JSONArray arrayFriends = new JSONArray(sb.toString());
+                JSONObject error = new JSONObject(sb.toString());
+                Friend error401 = new Friend("Error 401:",error.getString("error"),"");
+
+                ArrayList<Friend> errorF= new ArrayList<>();
+                errorF.add(error401);
+                return errorF;
 
             } else if(response == HttpURLConnection.HTTP_BAD_REQUEST){
                 InputStream stream = connection.getErrorStream();
@@ -114,8 +118,12 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
                 }
                 br.close();
 
-                System.out.println("http bad request"+sb.toString());
-                JSONObject arrayFriends = new JSONObject(sb.toString());
+                JSONObject error = new JSONObject(sb.toString());
+                Friend error400 = new Friend("Error 400:",error.getString("error"),"");
+
+                ArrayList<Friend> errorF= new ArrayList<>();
+                errorF.add(error400);
+                return errorF;
             }
             return null;
         }

@@ -24,10 +24,10 @@ import java.util.ArrayList;
 public class FriendsByCourseTask extends AsyncTask<String, Void, ArrayList<Friend>> {
 
     private static final String TAG = "FriendsByCourseTask";
-    private WhosFreeActivity activity;
+    private FriendsByCourseListActivity activity;
     private String url;
 
-    public FriendsByCourseTask(WhosFreeActivity activity, String url){
+    public FriendsByCourseTask(FriendsByCourseListActivity activity, String url){
         this.activity = activity;
         this.url = url;
     }
@@ -64,7 +64,7 @@ public class FriendsByCourseTask extends AsyncTask<String, Void, ArrayList<Frien
 
 
     public ArrayList<Friend> getFriendsWhoAreFree(URL url) {
-        try{
+        try {
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(10000);
@@ -74,28 +74,64 @@ public class FriendsByCourseTask extends AsyncTask<String, Void, ArrayList<Frien
             connection.setDoInput(true);
             connection.connect();
 
-            InputStream stream = connection.getInputStream();
-//            url.openStream()
-            BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-            StringBuilder sb = new StringBuilder();
+            int response = connection.getResponseCode();
+            if (response == HttpURLConnection.HTTP_OK) {
+                InputStream stream = connection.getInputStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+                StringBuilder sb = new StringBuilder();
 
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line + "\n");
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+
+                JSONArray arrayFriends = new JSONArray(sb.toString());
+                ArrayList<Friend> friends = makeFriendsList(arrayFriends);
+
+                Log.d(TAG, arrayFriends.toString());
+                return friends;
+            } else if (response == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                InputStream stream = connection.getErrorStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+
+                JSONObject error = new JSONObject(sb.toString());
+                Friend error401 = new Friend("Error 401:", error.getString("error"), "");
+
+                ArrayList<Friend> errorF = new ArrayList<>();
+                errorF.add(error401);
+                return errorF;
+            } else if(response == HttpURLConnection.HTTP_BAD_REQUEST){
+                InputStream stream = connection.getErrorStream();
+                BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                br.close();
+
+                JSONObject error = new JSONObject(sb.toString());
+                Friend error400 = new Friend("Error 400:",error.getString("error"),"");
+
+                ArrayList<Friend> errorF= new ArrayList<>();
+                errorF.add(error400);
+                return errorF;
             }
-            br.close();
-
-            JSONArray arrayFriends = new JSONArray(sb.toString());
-            ArrayList<Friend> friends = makeFriendsList(arrayFriends);
-
-            Log.d(TAG, arrayFriends.toString());
-            return friends;
         }
         catch(Exception e){
             e.printStackTrace();
             System.out.println("Method for task threw exception: "+e.getMessage());
             return null;
         }
+
+        return null;
     }
 
     private ArrayList<Friend> makeFriendsList(JSONArray friends){
