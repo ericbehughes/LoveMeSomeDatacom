@@ -31,25 +31,25 @@ public class NotesActivity extends MenuActivity {
     private NotesAdapter mAdapter;
     private  ArrayList<Note> notesList = new ArrayList<>();
     private boolean dialog_showing = false;
-    private EditText noteEditTextTitle;
-    private EditText noteEditTextMessage;
+    private String note_title;
+    private String note_message;
+    private  EditText noteEditTextTitle;
+    private  EditText noteEditTextMessage;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        noteEditTextTitle = new EditText(this);
-        noteEditTextMessage = new EditText(this);
+
         if (savedInstanceState != null){
 
             if (savedInstanceState.getBoolean("dialog_showing", false)){
-                noteEditTextTitle.setText(savedInstanceState.getString(getResources().getString(R.string.new_note_str),
-                        String.valueOf(noteEditTextTitle.getText().toString())));
-                noteEditTextMessage.setText(savedInstanceState.getString(getResources().getString(R.string.new_note_body),
-                        String.valueOf(noteEditTextTitle.getText().toString())));
+                note_title = savedInstanceState.getString(getResources().getString(R.string.new_note_str), "");
+                note_message = savedInstanceState.getString(getResources().getString(R.string.new_note_body),"" );
                 showAddNoteDialog();
             }
         }
+
         setContentView(R.layout.activity_notes);
         mNoteListView = (ListView) findViewById(R.id.list_notes);
         mAdapter = new NotesAdapter(this, notesList);
@@ -57,11 +57,31 @@ public class NotesActivity extends MenuActivity {
         this.setTitle(R.string.notes_activity_title);
     }
 
+    /**
+     * custom button in the menu bar and creates a small dialog for the user
+     * to enter a note.
+     *
+     * inserts into the DB and calls updateUI once again
+     *
+     * this code snippet was taken from the tutorial
+     * https://www.sitepoint.com/starting-android-development-creating-todo-app/
+     * however I did have to make changes since in this tutorial there is only 1
+     * line for them to enter text while mine is multi line if you increase the length of the
+     * string
+     */
     private void showAddNoteDialog() {
         dialog_showing = true;
         Log.d(TAG, "action_add_task");
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
+        noteEditTextTitle = new EditText(this);
+        noteEditTextMessage = new EditText(this);
+
+        if (note_title != null && note_title.length() > 0)
+            noteEditTextTitle.setText(note_title);
+
+        if (note_message != null && note_message.length() >0)
+            noteEditTextMessage.setText(note_message);
 
         noteEditTextMessage.setScroller(new Scroller(getApplicationContext()));
         noteEditTextMessage.setVerticalScrollBarEnabled(true);
@@ -87,11 +107,13 @@ public class NotesActivity extends MenuActivity {
                                 SQLiteDatabase.CONFLICT_REPLACE);
                         db.close();
                         updateUI();
+                        dialog_showing = false;
                     }
                 })
                 .setNegativeButton("Cancel", null)
                 .create();
         dialog.show();
+
     }
 
     @Override
@@ -113,27 +135,14 @@ public class NotesActivity extends MenuActivity {
     }
 
 
-    /**
-     * custom button in the menu bar and creates a small dialog for the user
-     * to enter a note.
-     *
-     * inserts into the DB and calls updateUI once again
-     *
-     * this code snippet was taken from the tutorial
-     * https://www.sitepoint.com/starting-android-development-creating-todo-app/
-     * however I did have to make changes since in this tutorial there is only 1
-     * line for them to enter text while mine is multi line if you increase the length of the
-     * string
-     * @param item
-     * @return
-     */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.d(TAG, "onOptionsItemSelected");
         switch (item.getItemId()) {
             case R.id.action_add_task:
                 showAddNoteDialog();
-                return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -149,7 +158,7 @@ public class NotesActivity extends MenuActivity {
         state.putString(getResources().getString(R.string.new_note_str),
                 String.valueOf(noteEditTextTitle.getText().toString()));
         state.putString(getResources().getString(R.string.new_note_body),
-                String.valueOf(noteEditTextTitle.getText().toString()));
+                String.valueOf(noteEditTextMessage.getText().toString()));
     }
 
     /**
@@ -201,8 +210,6 @@ public class NotesActivity extends MenuActivity {
             notesList.add(n);
         }
 
-        //
-        //mAdapter = new NotesAdapter(this, notesList);
 
         mAdapter.addAll(notesList);
         mAdapter.notifyDataSetChanged();
@@ -210,19 +217,6 @@ public class NotesActivity extends MenuActivity {
 
         mNoteListView.invalidateViews();
 
-
-        //mAdapter.notifyDataSetChanged();
-
-//        if (mAdapter == null) {
-//            mAdapter = new NotesAdapter(this, notesList);
-//            mNoteListView.setAdapter(mAdapter);
-//
-//
-//        } else {
-//            mAdapter.clear();
-//            mAdapter.addAll(notesList);
-//            mAdapter.notifyDataSetChanged();
-//        }
         cursor.close();
         db.close();
     }
