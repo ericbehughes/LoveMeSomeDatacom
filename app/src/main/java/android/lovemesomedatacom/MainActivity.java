@@ -15,15 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class MainActivity extends MenuActivity {
 
@@ -214,9 +206,18 @@ public class MainActivity extends MenuActivity {
         startActivity(i);
     }
 
+
     public void showFindFriends(View view){
         Intent intent = new Intent(this, FindFriends.class);
         startActivity(intent);
+    }
+
+
+    public void showWhosFree(View view) {
+        Intent i = new Intent(this, WhosFreeActivity.class);
+
+        Log.d(TAG, "WhosFreeActivity");
+        startActivity(i);
     }
 
     public void getLocationForTemperatureClick() {
@@ -242,7 +243,6 @@ public class MainActivity extends MenuActivity {
 
                 URL = "http://api.openweathermap.org/data/2.5/weather?appid=080b8de151ba3865a7b5e255f448f10f&units=metric&lat="+latitude+"&lon="+longitude;
 
-
             }else{
                 // can't get location
                 // GPS or Network is not enabled
@@ -254,6 +254,11 @@ public class MainActivity extends MenuActivity {
         }
     }
 
+    /**
+     * Responsible for updating the UI with the response
+     * from the CurrentTemperature async Task
+     * @param result
+     */
     public void updateCurrentTemperature(String result) {
         tvCurrentTemperature.setText(tvCurrentTemperature.getText() + " " + result);
     }

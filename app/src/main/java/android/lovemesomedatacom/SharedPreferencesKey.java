@@ -2,7 +2,7 @@ package android.lovemesomedatacom;
 import android.content.SharedPreferences;
 
 
-enum SharedPreferencesKey {
+public enum SharedPreferencesKey {
 
     FIRST_NAME("FIRST_NAME"),
     LAST_NAME("LAST_NAME"),

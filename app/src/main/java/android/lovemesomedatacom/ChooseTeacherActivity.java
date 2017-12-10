@@ -20,7 +20,7 @@ import java.util.Set;
  * to how many teachers were found by the FindTeacherActivity. This activity makes use of the custom
  * adapter TeacherAdapter to inflate a series of ListViews for every teacher passed to it through
  * the putExtra method. This activity is also responsible for adding on click listeners to each list
- * view through the fireTeacherContactActivity method in order to fire the TeacherContact activity
+ * view through the fireEmailFriendWhoIsFree method in order to fire the TeacherContact activity
  * for the appropiate teacher whenever a list view is clicked.
  *
  * @author Sebastian Ramirez
