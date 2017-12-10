@@ -44,7 +44,8 @@
         <activity android:name=".CalendarActivity" />
         <activity android:name=".AcademicCalendar" />
         <activity android:name=".TemperatureLocation" />
-        <activity android:name=".WhosFreeActivity"></activity>
+        <activity android:name=".WhosFreeActivity" />
+        <activity android:name=".WhosFreeListActivity"></activity>
     </application>
 
 </manifest>

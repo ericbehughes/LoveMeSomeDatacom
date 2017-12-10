@@ -3,17 +3,12 @@ package android.lovemesomedatacom;
 import android.content.Intent;
 import android.lovemesomedatacom.adapters.TeacherAdapter;
 import android.lovemesomedatacom.entities.Teacher;
-import android.lovemesomedatacom.entities.TeacherNameComparator;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * The ChooseTeacherActivity is responsible for displaying a list of more than one teacher, according
@@ -26,16 +21,15 @@ import java.util.Set;
  * @author Sebastian Ramirez
  */
 
-public class ChooseTeacherActivity extends MenuActivity {
+public class WhosFreeListActivity extends MenuActivity {
 
-    private static final String TAG = "CHOOSE_TEACHER_ACTIVITY";
+    private static final String TAG = "WhosFreeListActivity";
 
     //List required by the TeacherAdapter, coming from the FindTeacherActivity
-    private List<Teacher> teacherList;
-    //List that references teacherList, made unique and sorted.
-    private List<Teacher> uniqueTeachers;
+    private List<Teacher> whosFreeList;
+
     //ListView in activity_choose_teacher.xml
-    private ListView teachersListView;
+    private ListView whosFreeListView;
     //Intent from FindTeacherActivity
     private Intent intent;
 
@@ -49,10 +43,10 @@ public class ChooseTeacherActivity extends MenuActivity {
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        setContentView(R.layout.activity_choose_teacher);
-        this.teachersListView = findViewById(R.id.teacherList);
+        setContentView(R.layout.activity_whos_free_list);
+        this.whosFreeListView = findViewById(R.id.whosFreeList);
         this.intent = getIntent();
-        this.teacherList = this.intent.getParcelableArrayListExtra("TEACHERS");
+        this.whosFreeList = this.intent.getParcelableArrayListExtra("FRIENDS");
     }
 
     /**
@@ -64,41 +58,22 @@ public class ChooseTeacherActivity extends MenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        uniqueList();
-        TeacherAdapter teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list, this.uniqueTeachers);
-        this.teachersListView.setAdapter(teacherAdapter);
-        this.teachersListView.setOnItemClickListener(fireTeacherContactActivity);
+        TeacherAdapter teacherAdapter = new TeacherAdapter(this, R.layout.teacher_list, this.whosFreeList);
+        this.whosFreeListView.setAdapter(teacherAdapter);
+        this.whosFreeListView.setOnItemClickListener(fireEmailFriendWhoIsFree);
 
     }
 
-    /**
-     * The uniqueList method makes sure the list of teachers recieved from the intent is unique and
-     * ordered. It creates a Set object from the teachers list, this makes sure there are no duplicates.
-     * Then it creates a List back from the set, this is necessary because the super method of the
-     * adapter does not accept Set objects. Finally, it sorts the teachers list using the custom
-     * TeacherNameComparator, which compares two Teacher objects according to their full name fields.
-     */
-    private void uniqueList() {
-        Set<Teacher> teacherSet = new HashSet<>(this.teacherList);
-        this.uniqueTeachers = new ArrayList<>(teacherSet);
-        Collections.sort(this.uniqueTeachers, new TeacherNameComparator());
-    }
 
     /**
      * The fireEmailFriendWhoIsFree method makes sure to create an appropriate intent to each
      * inflated ListView according to the appropiate teacher. When a ListView is clicked in the UI
      * it will retrive the specific teacher and fire the TeacherContactActivity.
      */
-    public AdapterView.OnItemClickListener fireTeacherContactActivity = new AdapterView.OnItemClickListener() {
+    public AdapterView.OnItemClickListener fireEmailFriendWhoIsFree = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            Intent intent = new Intent(ChooseTeacherActivity.this, TeacherContactActivity.class);
-            for (int i = 0; i < uniqueTeachers.size(); i++) {
-                if (position == i) {
-                    intent.putExtra("TEACHER", uniqueTeachers.get(i));
-                    startActivity(intent);
-                }
-            }
+
         }
     };
 }

@@ -107,22 +107,22 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
     }
 
-    public void openEmailForFriend(View view) {
-        if (ContextCompat.checkSelfPermission(this,
-                CALENDAR_PERMISSION)
-                == PackageManager.PERMISSION_GRANTED) {
-            ContentResolver contentResolver = getContentResolver();
-            long calID = 3;
-            ContentValues values = new ContentValues();
-            values.put(CalendarContract.Events.DTSTART, pickedDateMilis);
-            values.put(CalendarContract.Events.DTEND, pickedDateMilis + 60000);
-            values.put(CalendarContract.Events.CALENDAR_ID, calID);
-            TimeZone tz = TimeZone.getDefault();
-            values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
-            Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
-        } else {
-            Toast.makeText(this, R.string.permission_toast, Toast.LENGTH_LONG).show();
-        }
+    public void openEmailForFriend() {
+//        if (ContextCompat.checkSelfPermission(this,
+//                CALENDAR_PERMISSION)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            ContentResolver contentResolver = getContentResolver();
+//            long calID = 3;
+//            ContentValues values = new ContentValues();
+//            values.put(CalendarContract.Events.DTSTART, pickedDateMilis);
+//            values.put(CalendarContract.Events.DTEND, pickedDateMilis + 60000);
+//            values.put(CalendarContract.Events.CALENDAR_ID, calID);
+//            TimeZone tz = TimeZone.getDefault();
+//            values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
+//            Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
+//        } else {
+//            Toast.makeText(this, R.string.permission_toast, Toast.LENGTH_LONG).show();
+//        }
 
     }
 
@@ -140,5 +140,10 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
                 break;
 
         }
+    }
+
+    public void findFriendsClick(View view) {
+
+        
     }
 }

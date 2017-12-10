@@ -47,13 +47,12 @@
 
 
     <string-array name="whos_free_day_array">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
     </string-array>
-
 
 
     <!-- TODO: Remove or change this placeholder text -->

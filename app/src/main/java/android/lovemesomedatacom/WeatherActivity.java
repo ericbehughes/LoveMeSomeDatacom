@@ -41,9 +41,9 @@ public class WeatherActivity extends MenuActivity {
         image = (ImageView)findViewById(R.id.weatherIcon);
         temperature = (TextView)findViewById(R.id.temperature);
         spinner = (Spinner)findViewById(R.id.spinner);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.iso_array, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.iso_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         weatherBtn = (Button)findViewById(R.id.weatherBtn);
         weatherBtn.setOnClickListener(new View.OnClickListener() {
