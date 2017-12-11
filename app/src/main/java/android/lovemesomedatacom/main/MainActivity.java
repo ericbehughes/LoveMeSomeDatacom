@@ -5,22 +5,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.lovemesomedatacom.R;
+import android.lovemesomedatacom.about.AboutActivity;
 import android.lovemesomedatacom.academiccalendar.AcademicCalendar;
-import android.lovemesomedatacom.classcancelation.ClassCancelationActivity;
-import android.lovemesomedatacom.weather.CurrentTemperatureTask;
 import android.lovemesomedatacom.business.GPSManager;
 import android.lovemesomedatacom.business.MenuActivity;
-import android.lovemesomedatacom.business.NetworkFactoryActivity;
-import android.lovemesomedatacom.notes.NotesActivity;
-import android.lovemesomedatacom.R;
-import android.lovemesomedatacom.settings.SettingsActivity;
 import android.lovemesomedatacom.business.SharedPreferencesKey;
-import android.lovemesomedatacom.weather.WeatherActivity;
-import android.lovemesomedatacom.about.AboutActivity;
 import android.lovemesomedatacom.calendar.CalendarActivity;
+import android.lovemesomedatacom.classcancelation.ClassCancellationActivity;
 import android.lovemesomedatacom.findfriend.FindFriendsActivity;
 import android.lovemesomedatacom.findfriend.WhosFreeActivity;
 import android.lovemesomedatacom.findteacher.FindTeacherActivity;
+import android.lovemesomedatacom.notes.NotesActivity;
+import android.lovemesomedatacom.settings.SettingsActivity;
+import android.lovemesomedatacom.weather.CurrentTemperatureTask;
+import android.lovemesomedatacom.weather.WeatherActivity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -188,18 +187,12 @@ public class MainActivity extends MenuActivity {
 
     public void classCancellationClick(View view) {
 
-        Intent aboutIntent = new Intent(this, ClassCancelationActivity.class);
+        Intent aboutIntent = new Intent(this, ClassCancellationActivity.class);
 
         Log.d(TAG, "classCancellationClick");
         startActivity(aboutIntent);
     }
 
-    public void doStuff(View view) {
-        Intent i = new Intent(this, NetworkFactoryActivity.class);
-
-        Log.d(TAG, "NetworkFactoryActivity");
-        startActivity(i);
-    }
 
     public void showNotesClick(View view) {
         Intent i = new Intent(this, NotesActivity.class);
