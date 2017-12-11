@@ -7,7 +7,8 @@ import android.os.Parcelable;
  * @author Sebastian Ramirez
  */
 
-public class Friend implements Parcelable{
+public class Friend implements Parcelable {
+
 
     private String firstName;
     private String lastName;
@@ -24,10 +25,14 @@ public class Friend implements Parcelable{
         this.email = email;
     }
 
+
     protected Friend(Parcel in) {
-        firstName = in.readString();
-        lastName = in.readString();
-        email = in.readString();
+        String[] data = new String[3];
+
+        in.readStringArray(data);
+        this.firstName = data[0];
+        this.lastName = data[1];
+        this.email = data[2];
     }
 
     public static final Creator<Friend> CREATOR = new Creator<Friend>() {
@@ -103,8 +108,8 @@ public class Friend implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(firstName);
-        parcel.writeString(lastName);
-        parcel.writeString(email);
+        parcel.writeStringArray(new String[]{this.firstName,this.lastName,this.email});
     }
+
+
 }

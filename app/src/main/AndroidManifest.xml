@@ -29,7 +29,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".classcancelation.ClassCancelationActivity" />
+        <activity android:name=".classcancelation.ClassCancellationActivity" />
+
         <activity android:name=".findteacher.FindTeacherActivity" />
         <activity android:name=".findteacher.ChooseTeacherActivity" />
         <activity android:name=".findteacher.TeacherContactActivity" />
