@@ -56,14 +56,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/amin" />
+                app:srcCompat="@drawable/rhai" />
 
             <ImageView
                 android:id="@+id/pictureTwo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/rhai" />
+                app:srcCompat="@drawable/eric" />
 
         </LinearLayout>
 
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/eric" />
+                app:srcCompat="@drawable/amin" />
 
             <ImageView
                 android:id="@+id/pictureFour"

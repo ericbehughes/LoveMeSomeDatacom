@@ -126,5 +126,6 @@
     <string name="new_note_str">New note</string>
     <string name="new_note_body">Please add a note here</string>
     <string name="add_str">Add</string>
+    <string name="event_created_successfully">Event saved to Calendar Success</string>
 
 </resources>
