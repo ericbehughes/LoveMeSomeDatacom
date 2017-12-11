@@ -61,9 +61,10 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
         String myFormat2 = "HHmm";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
         SimpleDateFormat sdf2 = new SimpleDateFormat(myFormat2);
-        tvStartTimeValue.setText(sdf2.format(myCalendar.getTime()));
-        tvEndTimeValue.setText(sdf2.format(myCalendar.getTime()));
+        tvStartTimeValue.setText("1000");
+        tvEndTimeValue.setText("1700");
         tvDateValue.setText(sdf.format(myCalendar.getTime()));
+        pickedDateMilis = myCalendar.getTimeInMillis();
 
 
     }
@@ -192,6 +193,7 @@ public class CalendarActivity extends MenuActivity implements TimePickerFragment
             values.put(CalendarContract.Events.CALENDAR_ID, calID);
             TimeZone tz = TimeZone.getDefault();
             values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
+            Toast.makeText(this, getResources().getString(R.string.event_created_successfully) , Toast.LENGTH_SHORT).show();
             Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
         } else {
             Toast.makeText(this, R.string.permission_toast, Toast.LENGTH_LONG).show();

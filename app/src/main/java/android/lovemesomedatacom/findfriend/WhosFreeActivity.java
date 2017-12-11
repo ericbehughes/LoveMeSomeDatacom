@@ -63,10 +63,9 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
         whosFreeFindBtn = findViewById(R.id.whosFreeFindBtn);
         whosFreeListView = findViewById(R.id.whosFreeList);
         final Calendar myCalendar = Calendar.getInstance();
-        String myFormat = "hh:mm";
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-        whosFreeStartTimeTV.setText(sdf.format(myCalendar.getTime()));
-        whosFreeEndTimeTV.setText(sdf.format(myCalendar.getTime()));
+
+        whosFreeStartTimeTV.setText("1000");
+        whosFreeEndTimeTV.setText("1700");
 
 
 
