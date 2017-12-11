@@ -66,8 +66,9 @@ public class Course implements Parcelable {
         this.dateCancelled = dateCancelled;
     }
 
-    public Spanned getDescription() {
-        return Html.fromHtml(description);
+    public String getDescription() {
+        this.description = Html.fromHtml(description).toString();
+        return this.description;
     }
 
     public void setDescription(String description) {

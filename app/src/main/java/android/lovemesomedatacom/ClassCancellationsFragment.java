@@ -1,5 +1,6 @@
 package android.lovemesomedatacom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.lovemesomedatacom.adapters.CoursesAdapter;
 import android.lovemesomedatacom.entities.Course;
@@ -28,6 +29,7 @@ public class ClassCancellationsFragment extends Fragment {
     ArrayList<Course> courseList = new ArrayList<>();
     private ListView coursesListView;
     private ProgressBar mProgressBar;
+    private Activity hostActivity;
     // url used to get cancelled courses
     private final static String url = "https://www.dawsoncollege.qc.ca/wp-content/external-includes/cancellations/feed.xml";
 
@@ -38,7 +40,6 @@ public class ClassCancellationsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toast.makeText(getContext(),"oncreate call",Toast.LENGTH_SHORT).show();
-
         //Only makes the task call the first time the fragment is launched.
         if (isClassDataDownloaded == false){
             new GetCancelledClasses(this,url).execute();
@@ -67,6 +68,7 @@ public class ClassCancellationsFragment extends Fragment {
 //        c.setTeacherName("Bob m");
 //        c.setTitle("101-916-DW 1");
 //        c.setCourseName("Painting");
+//        c.setDescription("dfdf");
 //        l.add(c);
 //        populateCancelledCourses(l);
         return v;
@@ -90,15 +92,16 @@ public class ClassCancellationsFragment extends Fragment {
     private OnItemSelectedListener listener;
 
     public void populateCancelledCourses(ArrayList<Course> list){
+        hideProgressBar();
         if(list.size() == 0){
             showAlert(getString(R.string.no_cancell),getString(R.string.no_cancell_msg));
         }else {
-            coursesAdapter = new CoursesAdapter(getActivity(), list);
+            coursesAdapter = new CoursesAdapter(hostActivity, list);
             coursesListView.setAdapter(coursesAdapter);
             coursesAdapter.addAll(list);
             coursesAdapter.notifyDataSetChanged();
         }
-        hideProgressBar();
+
     }
 
 
@@ -116,6 +119,7 @@ public class ClassCancellationsFragment extends Fragment {
             throw new ClassCastException(context.toString()
                     + " must implement ClassCancellationsFragment.OnItemSelectedListener");
         }
+        this.hostActivity = getActivity();
     }
 
     /**
@@ -175,7 +179,7 @@ public class ClassCancellationsFragment extends Fragment {
      * @param msg
      */
     private void showAlert(String title,String msg){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(hostActivity);
 
         builder.setMessage(msg)
                 .setTitle(title);

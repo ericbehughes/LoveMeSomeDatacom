@@ -39,6 +39,10 @@ public class ClassCancellationActivity extends AppCompatActivity  implements Cla
         if (savedInstanceState == null) {
             // Instance of first fragment
             // Add Fragment to FrameLayout (flContainer), using FragmentManager
+            if(firstFragment.isAdded())
+            {
+                return; //or return false/true, based on where you are calling from
+            }
             ft.add(R.id.flContainer, firstFragment);                                // add    Fragment
             ft.commit();                                                            // commit FragmentTransaction
         } else {
@@ -50,6 +54,10 @@ public class ClassCancellationActivity extends AppCompatActivity  implements Cla
             if(getSupportFragmentManager().getFragment(savedInstanceState,"classCancelDetailFragment") != null)
                 secondFragment = (ClassCancellationDetailFragment) getSupportFragmentManager().getFragment(savedInstanceState,"classCancelDetailFragment");
 
+            if(firstFragment.isAdded())
+            {
+                return; //or return false/true, based on where you are calling from
+            }
             Log.d(TAG,"swapping fragments");
             ft.replace(R.id.flContainer, firstFragment);                                // add    Fragment
             ft.commit();                                                            // commit FragmentTransaction
@@ -61,6 +69,10 @@ public class ClassCancellationActivity extends AppCompatActivity  implements Cla
             //args.putInt("position", 0);
             secondFragment.setArguments(args);          // (1) Communicate with Fragment using Bundle
             FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();// begin  FragmentTransaction
+            if(secondFragment.isAdded())
+            {
+                return; //or return false/true, based on where you are calling from
+            }
             ft2.add(R.id.flContainer2, secondFragment);                               // add    Fragment
             ft2.commit();                                                            // commit FragmentTransaction
         }
@@ -80,7 +92,7 @@ public class ClassCancellationActivity extends AppCompatActivity  implements Cla
 
         Bundle args = new Bundle();
         args.putString("course_name", courseSelected.getCourseName());
-        args.putString("course_description",courseSelected.getDescription().toString());
+        args.putString("course_description",courseSelected.getDescription());
         secondFragment.setArguments(args);          // (1) Communicate with Fragment using Bundle
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
