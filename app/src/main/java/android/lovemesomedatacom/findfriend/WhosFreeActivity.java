@@ -1,25 +1,16 @@
 package android.lovemesomedatacom.findfriend;
-import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
-<<<<<<< HEAD:app/src/main/java/android/lovemesomedatacom/WhosFreeActivity.java
-=======
-import android.lovemesomedatacom.business.MenuActivity;
 import android.lovemesomedatacom.R;
-import android.lovemesomedatacom.business.SharedPreferencesKey;
-import android.lovemesomedatacom.calendar.TimePickerFragment;
-import android.lovemesomedatacom.calendar.CalendarActivity;
-import android.content.pm.PackageManager;
-import android.icu.util.TimeZone;
->>>>>>> 19eafd42b3ada0bde40d7aa75b4d76fefcc5bbc1:app/src/main/java/android/lovemesomedatacom/findfriend/WhosFreeActivity.java
 import android.lovemesomedatacom.adapters.FriendAdapter;
+import android.lovemesomedatacom.business.MenuActivity;
+import android.lovemesomedatacom.business.SharedPreferencesKey;
+import android.lovemesomedatacom.calendar.CalendarActivity;
+import android.lovemesomedatacom.calendar.TimePickerFragment;
 import android.lovemesomedatacom.entities.Friend;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-<<<<<<< HEAD:app/src/main/java/android/lovemesomedatacom/WhosFreeActivity.java
 import android.support.v7.app.AlertDialog;
-=======
->>>>>>> 19eafd42b3ada0bde40d7aa75b4d76fefcc5bbc1:app/src/main/java/android/lovemesomedatacom/findfriend/WhosFreeActivity.java
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -43,12 +34,7 @@ import java.util.Locale;
 
 public class WhosFreeActivity extends MenuActivity implements TimePickerFragment.OnCompleteListener {
 
-<<<<<<< HEAD:app/src/main/java/android/lovemesomedatacom/WhosFreeActivity.java
-    private static final String TAG = android.lovemesomedatacom.CalendarActivity.class.getSimpleName();
-=======
-    private static final String TAG = CalendarActivity.class.getSimpleName();
-    Calendar beginTime = Calendar.getInstance();
->>>>>>> 19eafd42b3ada0bde40d7aa75b4d76fefcc5bbc1:app/src/main/java/android/lovemesomedatacom/findfriend/WhosFreeActivity.java
+   private static final String TAG = CalendarActivity.class.getSimpleName();
 
     private Spinner spinnerDay;
     private SharedPreferences prefs;

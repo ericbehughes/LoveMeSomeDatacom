@@ -7,11 +7,8 @@ import android.os.Parcelable;
  * @author Sebastian Ramirez
  */
 
-<<<<<<< HEAD
 public class Friend implements Parcelable {
-=======
-public class Friend implements Parcelable{
->>>>>>> 19eafd42b3ada0bde40d7aa75b4d76fefcc5bbc1
+
 
     private String firstName;
     private String lastName;
@@ -28,23 +25,14 @@ public class Friend implements Parcelable{
         this.email = email;
     }
 
-<<<<<<< HEAD
 
-    public Friend(Parcel in){
+    protected Friend(Parcel in) {
         String[] data = new String[3];
 
         in.readStringArray(data);
         this.firstName = data[0];
         this.lastName = data[1];
         this.email = data[2];
-    }
-
-
-=======
-    protected Friend(Parcel in) {
-        firstName = in.readString();
-        lastName = in.readString();
-        email = in.readString();
     }
 
     public static final Creator<Friend> CREATOR = new Creator<Friend>() {
@@ -58,7 +46,6 @@ public class Friend implements Parcelable{
             return new Friend[size];
         }
     };
->>>>>>> 19eafd42b3ada0bde40d7aa75b4d76fefcc5bbc1
 
     public String getFirstName() {
         return firstName;
@@ -121,23 +108,8 @@ public class Friend implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-<<<<<<< HEAD
         parcel.writeStringArray(new String[]{this.firstName,this.lastName,this.email});
     }
 
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator(){
-        public Friend createFromParcel(Parcel in){
-            return new Friend(in);
-        }
 
-        public Friend[] newArray(int size){
-            return new Friend[size];
-        }
-    };
-=======
-        parcel.writeString(firstName);
-        parcel.writeString(lastName);
-        parcel.writeString(email);
-    }
->>>>>>> 19eafd42b3ada0bde40d7aa75b4d76fefcc5bbc1
 }

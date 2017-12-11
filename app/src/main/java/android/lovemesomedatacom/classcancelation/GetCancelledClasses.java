@@ -1,11 +1,5 @@
 package android.lovemesomedatacom.classcancelation;
 
-<<<<<<< HEAD:app/src/main/java/android/lovemesomedatacom/GetCancelledClasses.java
-=======
-import android.app.ProgressDialog;
-import android.lovemesomedatacom.adapters.CoursesAdapter;
-import android.lovemesomedatacom.classcancelation.ClassCancelationsFragment;
->>>>>>> 19eafd42b3ada0bde40d7aa75b4d76fefcc5bbc1:app/src/main/java/android/lovemesomedatacom/classcancelation/GetCancelledClasses.java
 import android.lovemesomedatacom.entities.Course;
 import android.os.AsyncTask;
 import android.util.Log;

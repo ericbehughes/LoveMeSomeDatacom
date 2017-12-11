@@ -1,5 +1,6 @@
 package android.lovemesomedatacom.findfriend;
 
+import android.lovemesomedatacom.R;
 import android.lovemesomedatacom.entities.Friend;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,7 +15,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-<<<<<<< HEAD:app/src/main/java/android/lovemesomedatacom/WhosFreeTask.java
 
 /**
  * AsyncTask used by WhosFreeActivity that retrieves all of
@@ -25,8 +25,6 @@ import java.util.ArrayList;
  *
  * @authoer Rhai
  */
-=======
->>>>>>> 19eafd42b3ada0bde40d7aa75b4d76fefcc5bbc1:app/src/main/java/android/lovemesomedatacom/findfriend/WhosFreeTask.java
 
 public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
 

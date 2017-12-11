@@ -1,5 +1,6 @@
 package android.lovemesomedatacom.findfriend;
 
+import android.lovemesomedatacom.R;
 import android.lovemesomedatacom.entities.Friend;
 import android.os.AsyncTask;
 import android.util.Log;

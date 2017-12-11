@@ -2,6 +2,7 @@ package android.lovemesomedatacom.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.lovemesomedatacom.R;
 import android.lovemesomedatacom.entities.Friend;
 import android.net.Uri;
