@@ -40,7 +40,6 @@ public class ClassCancellationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toast.makeText(getContext(),"oncreate call",Toast.LENGTH_SHORT).show();
         //Only makes the task call the first time the fragment is launched.
         if (isClassDataDownloaded == false){
             new GetCancelledClasses(this,url).execute();
