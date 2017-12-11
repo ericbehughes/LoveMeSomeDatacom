@@ -119,6 +119,8 @@
     <string name="error">Error</string>
     <string name="no_avail">No one available</string>
     <string name="friend_busy">All friends are in class right now.</string>
+    <string name="no_cancell">No Cancellations</string>
+    <string name="no_cancell_msg">There are no cancelled classes</string>
 
 
 </resources>

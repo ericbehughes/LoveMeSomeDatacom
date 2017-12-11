@@ -1,31 +1,28 @@
 package android.lovemesomedatacom;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.lovemesomedatacom.adapters.FriendAdapter;
 import android.lovemesomedatacom.entities.Friend;
 import android.lovemesomedatacom.entities.Teacher;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
-import android.widget.AdapterView;
+import android.util.Log;
 import android.widget.ListView;
-import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * FriendsByCourseListActivity is used to display users friends on take a particular
+ * course. Activity uses an async task that gets list friends through an api call to
+ * friendfinder.
  *
+ * @author Rhai
  */
 
 public class FriendsByCourseListActivity extends MenuActivity {
 
-    private static final String TAG = "FriendsByCourseListActivity";
-
-    
-    private List<Teacher> whosFreeList;
-
+    private static final String TAG = "FriendsByCourseList";
 
     private ListView courseFriendsListView;
     private FriendAdapter friendAdapter;
@@ -38,10 +35,13 @@ public class FriendsByCourseListActivity extends MenuActivity {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_friends_by_course_list);
         this.courseFriendsListView = findViewById(R.id.whosFreeList);
+
+        // checks if activity state is saved
+        // If it is repopulat list with instance saved. If not make call to async task
         if(savedInstance != null){
 
             ArrayList<Friend> friends = savedInstance.getParcelableArrayList("State_List");
-            listOfFriends(friends);
+            listFriends(friends);
         }else {
             this.intent = getIntent();
             String query = this.intent.getStringExtra("query");
@@ -50,32 +50,31 @@ public class FriendsByCourseListActivity extends MenuActivity {
         }
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //this.courseFriendsListView.setOnItemClickListener(fireEmailFriendWhoIsFree);
-
-    }
-
-    public AdapterView.OnItemClickListener fireEmailFriendWhoIsFree = new AdapterView.OnItemClickListener() {
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-        }
-    };
-
+    /**
+     * Overriden onSaveInstanceState saves the state of the listview
+      * @param outState
+     */
     @Override
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
-        if(this.friendAdapter != null)
-            outState.putParcelableArrayList("State_List",friendAdapter.getList());
+
+        if(this.friendAdapter != null) {
+            Log.d(TAG, "Saving list state");
+            outState.putParcelableArrayList("State_List", friendAdapter.getList());
+        }
 
     }
 
-
-    public void listOfFriends(ArrayList<Friend> friends){
+    /**
+     * listFriends is used by the async task to call back to the main thread
+     * and set ListView.
+     *
+     * @param friends list of friends
+     */
+    public void listFriends(ArrayList<Friend> friends){
         if(friends != null) {
+            //since response errors are returned as a Friend object
+            // check so that alert with message can be shown
             if(friends.get(0).getFirstName().equals("Error")){
                 showAlert(friends.get(0).getFirstName() + " " + friends.get(0).getLastName(),
                         friends.get(0).getEmail());
@@ -89,7 +88,14 @@ public class FriendsByCourseListActivity extends MenuActivity {
         }
     }
 
+    /**
+     * showAlert displays an alert with the appropriate message and title
+     *
+     * @param title
+     * @param msg
+     */
     private void showAlert(String title,String msg){
+        Log.d(TAG,"Displaying alert");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage(msg)

@@ -1,10 +1,7 @@
 package android.lovemesomedatacom;
 
-import android.app.ProgressDialog;
-import android.lovemesomedatacom.adapters.CoursesAdapter;
 import android.lovemesomedatacom.entities.Course;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -16,23 +13,29 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by Rhai on 26/11/2017.
+ * Asynctask used to get cancelled classes from
+ * https://www.dawsoncollege.qc.ca/registrar/online-services/class-cancellations/
+ * and update the calling activity's list ui.
+ *
+ * @author Rhai
  */
 
 public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Course>>  {
 
-    private ClassCancelationsFragment activity;
+    private ClassCancellationsFragment activity;
     private String url;
     private XmlPullParserFactory xmlFactoryObject;
-    private ProgressDialog pDialog;
 
-    private ArrayList<Course> coursesList;
-    private CoursesAdapter coursesAdapter;
-
-    public GetCancelledClasses(ClassCancelationsFragment activity, String url){
+    /**
+     * Construct that takes the calling activity and url used to
+     * make a connection
+     * @param activity calling activity later used to make changes its
+     *                 ui
+     * @param url location where data is retrieved from
+     */
+    public GetCancelledClasses(ClassCancellationsFragment activity, String url){
         this.activity = activity;
         this.url = url;
     }
@@ -40,17 +43,16 @@ public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Cou
     @Override
     protected void onPreExecute(){
         super.onPreExecute();
-//            pDialog = new ProgressDialog(activity);
-//            pDialog.setTitle("Get from xml");
-//            pDialog.setMessage("Loading");
-//            pDialog.show();
     }
 
-    @Override
-    protected void onProgressUpdate(Integer... progress){
-
-    }
-
+    /**
+     * Overriden doInBackground makes a connection to the given url.
+     * Parses the xml repsonse from the site and returns a list of
+     * courses.
+     *
+     * @param strings
+     * @return ArrayList<cCourse> list of courses
+     */
     @Override
     protected ArrayList<Course> doInBackground(String... strings) {
         try {
@@ -64,6 +66,7 @@ public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Cou
             connection.connect();
             InputStream stream = connection.getInputStream();
 
+            //XML parser object used to parse the xml retrieved from the site
             xmlFactoryObject = XmlPullParserFactory.newInstance();
             XmlPullParser myParser = xmlFactoryObject.newPullParser();
 
@@ -81,10 +84,15 @@ public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Cou
         }
     }
 
+    /**
+     * parseXML parses the xml retrieved from the site and returns
+     * a list of course objects.
+     *
+     * @param myParser
+     * @return
+     */
     public ArrayList<Course> parseXML(XmlPullParser myParser) {
 
-        //int event;
-        //String text = null;
         ArrayList<Course> result = new ArrayList<>();
 
         try {
@@ -93,11 +101,16 @@ public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Cou
                 //start of entire xml file
                 String name = myParser.getName();
 
+                //checks tag name
                 if(name != null) {
+                    //if the tag is an item it goes into the tag
                     if(name.equals("item") && eventType == XmlPullParser.START_TAG){
                         Boolean inItem = true;
                         Course course = new Course();
                         System.out.println("Start tag " + name);
+
+                        // Loop used to create a single course object from each item tag
+                        // inItem true means that the parse is still within the current item tag
                         while(inItem) {
                             name = myParser.getName();
                             if (name != null) {
@@ -119,11 +132,15 @@ public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Cou
                                     course.setDateCancelled(text);
                                 }
                             }
+
+                            // checks if parser is at end tag
                             if(eventType == XmlPullParser.END_TAG){
+                                // changes to an empty string
                                 if(name == null){
                                     name = "";
                                 }
 
+                                // checks if the end tag is for item
                                 if(name.equals("item"))
                                     inItem=false;
                             }
@@ -152,6 +169,14 @@ public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Cou
         return result;
     }
 
+    /**
+     * tagText used to retrieve the text from an xml tag
+     *
+     * @param parser
+     * @return String text with the current tag
+     * @throws XmlPullParserException
+     * @throws IOException
+     */
     private String tagText(XmlPullParser parser) throws XmlPullParserException, IOException {
         int event = parser.getEventType();
         String text = "";
@@ -171,14 +196,16 @@ public class GetCancelledClasses extends AsyncTask<String, Integer,ArrayList<Cou
         return text;
     }
 
+    /**
+     * Override onPostExecute updates the calling activity's
+     * ui with the resulting list. This is done through the
+     * activity's populateCancelledCourses.
+     * @param result
+     */
     @Override
     protected void onPostExecute(ArrayList<Course> result){
         System.out.println("Course result size: "+result.size());
-        //call back data to main thread
-        //pDialog.dismiss();
-
-
-        //new ClassCancelationModel(result);
-        activity.populateCanceletedCourses(result);
+        //call back data to main thread to update its ui
+        activity.populateCancelledCourses(result);
     }
 }

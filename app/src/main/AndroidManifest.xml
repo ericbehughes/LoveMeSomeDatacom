@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ClassCancelationActivity" />
+        <activity android:name=".ClassCancellationActivity" />
         <activity android:name=".FindTeacherActivity" />
         <activity android:name=".ChooseTeacherActivity" />
         <activity android:name=".TeacherContactActivity" />

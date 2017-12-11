@@ -172,7 +172,7 @@ public class MainActivity extends MenuActivity {
 
     public void classCancellationClick(View view) {
 
-        Intent aboutIntent = new Intent(this, ClassCancelationActivity.class);
+        Intent aboutIntent = new Intent(this, ClassCancellationActivity.class);
 
         Log.d(TAG, "classCancellationClick");
         startActivity(aboutIntent);

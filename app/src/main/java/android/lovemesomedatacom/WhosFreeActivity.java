@@ -1,20 +1,11 @@
 package android.lovemesomedatacom;
 import android.Manifest;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.icu.util.TimeZone;
 import android.lovemesomedatacom.adapters.FriendAdapter;
 import android.lovemesomedatacom.entities.Friend;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -25,22 +16,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
+
+/**
+ * WhosFreeActivity gives user's friends who are on break
+ * at the given time. The activity uses an async task that
+ * retrieves the friends by making an api call to friendfinder
+ * and populates a list view.
+ */
 
 public class WhosFreeActivity extends MenuActivity implements TimePickerFragment.OnCompleteListener {
 
     private static final String TAG = android.lovemesomedatacom.CalendarActivity.class.getSimpleName();
-    Calendar beginTime = Calendar.getInstance();
 
-    private TextView tvDay;
     private Spinner spinnerDay;
     private SharedPreferences prefs;
 
@@ -51,12 +42,11 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
     private TextView whosFreeEndTimeTV;
     private Button whosFreeFindBtn;
     private int currentTimeElement;
-    private long pickedDateMilis;
-    private final String CALENDAR_PERMISSION = Manifest.permission.WRITE_CALENDAR;
-    private final int PERMISSION_CODE = 1;
-    private boolean isPermissionGranted;
 
 
+    /**
+     * findViews gets all necessary views from the layout
+     */
     private void findViews() {
 
         spinnerDay = (Spinner) findViewById(R.id.whosFreeDaySpinner);
@@ -97,19 +87,24 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
             whosFreeStartTimeTV.setText(savedInstanceState.getString("startTime").toString());
             whosFreeEndTimeTV.setText(savedInstanceState.getString("endTime").toString());
+
+            //If list was saved in instancem it repopulates listview with instance saved
             ArrayList<Friend> friends = savedInstanceState.getParcelableArrayList("State_List");
-            listOfFriends(friends);
+            listFriends(friends);
 
         }
+
+        // find button listener that starts task to get friends
         whosFreeFindBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG,"Getting Friends");
                 prefs = getSharedPreferences(SharedPreferencesKey.MAIN_APP.toString(), Context.MODE_PRIVATE);
                 if(prefs != null) {
                     String email = prefs.getString(SharedPreferencesKey.EMAIL_ADDRESS.toString(), "");
                     String password = prefs.getString(SharedPreferencesKey.PASSWORD.toString(), "");
                     String day = spinnerDay.getSelectedItem().toString();
-                    day = transalteDay(day);
+                    day = translateDay(day);
                     String startTime = whosFreeStartTimeTV.getText().toString();
                     String endTime = whosFreeEndTimeTV.getText().toString();
 
@@ -140,6 +135,10 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
     }
 
+    /**
+     * Overriden onSaveInstanceState saves the state of the listview and time fields
+     * @param outState
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -154,27 +153,9 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
 
     }
 
-    public void openEmailForFriend() {
-//        if (ContextCompat.checkSelfPermission(this,
-//                CALENDAR_PERMISSION)
-//                == PackageManager.PERMISSION_GRANTED) {
-//            ContentResolver contentResolver = getContentResolver();
-//            long calID = 3;
-//            ContentValues values = new ContentValues();
-//            values.put(CalendarContract.Events.DTSTART, pickedDateMilis);
-//            values.put(CalendarContract.Events.DTEND, pickedDateMilis + 60000);
-//            values.put(CalendarContract.Events.CALENDAR_ID, calID);
-//            TimeZone tz = TimeZone.getDefault();
-//            values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().toString());
-//            Uri uri = contentResolver.insert(CalendarContract.Events.CONTENT_URI, values);
-//        } else {
-//            Toast.makeText(this, R.string.permission_toast, Toast.LENGTH_LONG).show();
-//        }
-
-    }
-
     @Override
     public void onComplete(String time) {
+        // logs currently selected time TextView
         switch (currentTimeElement) {
 
             case R.id.whosFreeStartTimeTV:
@@ -189,7 +170,13 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
         }
     }
 
-    public void listOfFriends(ArrayList<Friend> friends){
+    /**
+     * listFriends is used by the async task to call back to the main thread
+     * and set ListView.
+     *
+     * @param friends list of friends
+     */
+    public void listFriends(ArrayList<Friend> friends){
         if(friends != null) {
             if (friends.get(0).getFirstName().equals("Error")) {
                 showAlert(friends.get(0).getFirstName() + " " + friends.get(0).getLastName(),
@@ -205,6 +192,12 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
         }
     }
 
+    /**
+     * showAlert displays an alert with the appropriate message and title
+     *
+     * @param title
+     * @param msg
+     */
     private void showAlert(String title,String msg){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -218,13 +211,13 @@ public class WhosFreeActivity extends MenuActivity implements TimePickerFragment
         dialog.show();
     }
 
-    public void findFriendsClick(View view) {
-
-
-
-    }
-
-    private String transalteDay(String day){
+    /**
+     * translateDay takes in the name of the day and returns
+     * its numeric representation
+     * @param day
+     * @return
+     */
+    private String translateDay(String day){
 
         switch(day){
             case "Monday":

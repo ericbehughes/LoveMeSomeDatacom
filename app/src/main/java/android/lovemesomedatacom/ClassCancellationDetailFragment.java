@@ -1,8 +1,5 @@
 package android.lovemesomedatacom;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,9 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-
-public class ClassCancelationDetailFragment extends Fragment {
+/**
+ * ClassCancellationDetailFragment displays the details
+ * of a course selected from the list in ClassCancellationsFragment
+ *
+ * @author Rhai
+ */
+public class ClassCancellationDetailFragment extends Fragment {
     String title = "";
     String details = "";
     TextView tvTitle;
@@ -46,12 +47,6 @@ public class ClassCancelationDetailFragment extends Fragment {
         tvDetails = (TextView) view.findViewById(R.id.tvDetails);
 
         // update view
-        tvTitle.setText(title);
-        tvDetails.setText(details);
-    }
-
-    // Activity is calling this to update view on Fragment
-    public void updateView(int position){
         tvTitle.setText(title);
         tvDetails.setText(details);
     }

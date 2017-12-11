@@ -1,6 +1,5 @@
 package android.lovemesomedatacom;
 
-import android.content.Intent;
 import android.lovemesomedatacom.entities.Friend;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -8,16 +7,23 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
+
+/**
+ * AsyncTask used by WhosFreeActivity that retrieves all of
+ * the current users friend on break. The task makes a http get
+ * reqyest to the friendfinder api and is responsed with a JSON array
+ * of friend objects. The task parses this and returns a list of friends
+ * to the ui.
+ *
+ * @authoer Rhai
+ */
 
 public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
 
@@ -25,6 +31,13 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
     private WhosFreeActivity activity;
     private String url;
 
+    /**
+     * Construct that takes the calling activity and url used to
+     * make a connection
+     * @param activity calling activity later used to make changes its
+     *                 ui
+     * @param url location where data is retrieved from
+     */
     public WhosFreeTask(WhosFreeActivity activity, String url){
         this.activity = activity;
         this.url = url;
@@ -37,6 +50,13 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
 
     }
 
+    /**
+     * Overriden doInBackground returns a list of friends after
+     * retrieved from the api.
+     *
+     * @param params
+     * @return
+     */
     @Override
     protected ArrayList<Friend> doInBackground(String... params) {
         try {
@@ -52,18 +72,35 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
         }
     }
 
+    /**
+     * Overruden onPostExecute is used to set
+     * the calling activity's list ui using its
+     * public listFriends method
+     *
+     * @param list arraylist of friend objects
+     */
     @Override
     protected void onPostExecute(ArrayList<Friend> list){
         Log.d(TAG, "OnPostExecute invoked");
 
-        activity.listOfFriends(list);
+        activity.listFriends(list);
 
     }
 
-
-    public ArrayList<Friend> getFriendsWhoAreFree(URL url) {
+    /**
+     * getFriendsWhoAreFree method is used to make the http request to
+     * the friendfinder api. After the api responds it parse the JSON
+     * objects and returns a list of friends. The list returned also
+     * depends on the response code, where an ok response returns a
+     * regular of friends. The bad request and unauthorized responses
+     * return a list with a friend object that represents the error.
+     *
+     * @param url
+     * @return list of friends
+     */
+    private ArrayList<Friend> getFriendsWhoAreFree(URL url) {
         try{
-
+            // Makes the get request to the api
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(10000);
             connection.setDoInput(true);
@@ -73,17 +110,21 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
             connection.connect();
 
             int response = connection.getResponseCode();
+
+            // Depending on the response code an appropriate list is returned
             if(response == HttpURLConnection.HTTP_OK) {
                 InputStream stream = connection.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(stream));
                 StringBuilder sb = new StringBuilder();
 
+                // gets the return friends from the api
                 String line;
                 while ((line = br.readLine()) != null) {
                     sb.append(line + "\n");
                 }
                 br.close();
 
+                // JSONArray used to hold the JSON objects returned from the api
                 JSONArray arrayFriends = new JSONArray(sb.toString());
                 ArrayList<Friend> friends = makeFriendsList(arrayFriends);
 
@@ -99,8 +140,12 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
                 }
                 br.close();
 
-                System.out.println("http bad request"+sb.toString());
+                // creates a single JSON object since only the error object
+                // is returned
                 JSONObject error = new JSONObject(sb.toString());
+
+                // Uses a friend object to represent the error so that it can easily be passed
+                // back to the calling activity to be represented appropriately
                 Friend error401 = new Friend(activity.getString(R.string.error),"401",error.getString("error"));
 
                 ArrayList<Friend> errorF= new ArrayList<>();
@@ -134,6 +179,12 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
         }
     }
 
+    /**
+     * makeFriendsList parses the JSONArray of friends into an
+     * ArrayList of friends
+     * @param friends
+     * @return ArrayList<Friend> list of friends
+     */
     private ArrayList<Friend> makeFriendsList(JSONArray friends){
         ArrayList<Friend> friendsList = new ArrayList<>();
         for(int i=0; i< friends.length();i++){
@@ -152,23 +203,6 @@ public class WhosFreeTask extends AsyncTask<String, Void, ArrayList<Friend>> {
     }
 
 
-    private String encodeURIComponent(String s) {
-        String result;
-
-        try {
-            result = URLEncoder.encode(s, "UTF-8")
-                    .replaceAll("\\+", "%20")
-                    .replaceAll("\\%21", "!")
-                    .replaceAll("\\%27", "'")
-                    .replaceAll("\\%28", "(")
-                    .replaceAll("\\%29", ")")
-                    .replaceAll("\\%7E", "~");
-        } catch (UnsupportedEncodingException e) {
-            result = s;
-        }
-
-        return result;
-    }
 
 }
 
