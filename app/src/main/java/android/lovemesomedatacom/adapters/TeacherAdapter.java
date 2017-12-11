@@ -2,7 +2,6 @@ package android.lovemesomedatacom.adapters;
 
 import android.app.Activity;
 import android.lovemesomedatacom.entities.Teacher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

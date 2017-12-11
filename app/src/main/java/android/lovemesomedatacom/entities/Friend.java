@@ -1,10 +1,14 @@
 package android.lovemesomedatacom.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author Sebastian Ramirez
  */
 
-public class Friend {
+public class Friend implements Parcelable {
+
 
     private String firstName;
     private String lastName;
@@ -14,14 +18,34 @@ public class Friend {
         this("", "", "");
     }
 
-
-
     public Friend(String firstName, String lastName, String email) {
 
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
+
+
+    protected Friend(Parcel in) {
+        String[] data = new String[3];
+
+        in.readStringArray(data);
+        this.firstName = data[0];
+        this.lastName = data[1];
+        this.email = data[2];
+    }
+
+    public static final Creator<Friend> CREATOR = new Creator<Friend>() {
+        @Override
+        public Friend createFromParcel(Parcel in) {
+            return new Friend(in);
+        }
+
+        @Override
+        public Friend[] newArray(int size) {
+            return new Friend[size];
+        }
+    };
 
     public String getFirstName() {
         return firstName;
@@ -76,5 +100,16 @@ public class Friend {
         result = 31 * result + getEmail().hashCode();
         return result;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeStringArray(new String[]{this.firstName,this.lastName,this.email});
+    }
+
 
 }
