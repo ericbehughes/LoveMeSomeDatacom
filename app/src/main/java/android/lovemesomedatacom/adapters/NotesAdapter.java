@@ -8,7 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.lovemesomedatacom.entities.Note;
-import android.lovemesomedatacom.NoteDetailsActivity;
+import android.lovemesomedatacom.notes.NoteDetailsActivity;
 import android.lovemesomedatacom.R;
 import android.util.Log;
 import android.view.LayoutInflater;

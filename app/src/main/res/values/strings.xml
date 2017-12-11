@@ -122,5 +122,15 @@
     <string name="no_cancell">No Cancellations</string>
     <string name="no_cancell_msg">There are no cancelled classes</string>
 
+    <string name="where_friend">Where is</string>
+    <string name="ok_button">Ok</string>
+    <string name="unknown">Unknown Whereabouts</string>
+    <string name="is_in">is in class: </string>
+    <string name="section">section: </string>
+    <string name="right_now">right now.</string>
+    <string name="no_friends">No friend location available at this time</string>
+    <string name="new_note_str">New note</string>
+    <string name="new_note_body">Please add a note here</string>
+    <string name="add_str">Add</string>
 
 </resources>

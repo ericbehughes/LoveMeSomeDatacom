@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
     <LinearLayout
 
@@ -175,7 +175,6 @@
             android:id="@+id/tvCurrentTemperature"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:onClick="getLocationForTemperatureClick"
             android:layout_weight=".5"
             android:background="@drawable/border"
             android:gravity="center"

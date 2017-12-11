@@ -22,32 +22,33 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ClassCancellationActivity" />
-        <activity android:name=".FindTeacherActivity" />
-        <activity android:name=".ChooseTeacherActivity" />
-        <activity android:name=".TeacherContactActivity" />
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".WeatherActivity" />
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".NotesActivity" />
-        <activity android:name=".NoteDetailsActivity" />
-        <activity android:name=".CalendarActivity" />
-        <activity android:name=".AcademicCalendar" />
+        <activity android:name=".classcancelation.ClassCancellationActivity" />
 
-        <activity android:name=".FindFriends" />
-        <activity android:name=".TemperatureLocation"></activity>
-        <activity android:name=".WhosFreeActivity" />
+        <activity android:name=".findteacher.FindTeacherActivity" />
+        <activity android:name=".findteacher.ChooseTeacherActivity" />
+        <activity android:name=".findteacher.TeacherContactActivity" />
+        <activity android:name=".business.MenuActivity" />
+        <activity android:name=".weather.WeatherActivity" />
+        <activity android:name=".about.AboutActivity" />
+        <activity android:name=".settings.SettingsActivity" />
+        <activity android:name=".business.NetworkActivity" />
+        <activity android:name=".business.NetworkFactoryActivity" />
+        <activity android:name=".notes.NotesActivity" />
+        <activity android:name=".notes.NoteDetailsActivity" />
+        <activity android:name=".calendar.CalendarActivity" />
+        <activity android:name=".academiccalendar.AcademicCalendar" />
 
-        <activity android:name=".FriendsByCourseListActivity"></activity>
-
+        <activity android:name=".findfriend.FindFriendsActivity" />
+        <activity android:name=".weather.TemperatureLocation"></activity>
+        <activity android:name=".findfriend.WhosFreeActivity" />
+        <activity android:name=".findfriend.FriendsByCourseListActivity"></activity>
     </application>
 
 </manifest>
